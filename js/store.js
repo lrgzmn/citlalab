@@ -32,8 +32,9 @@ function nuevoMat(id, g) {
 function normalizar(s) {
   if (!s || typeof s !== 'object' || s.v !== 1) s = { v: 1, genero: null, activa: 'fisica', racha: 0, ultimo: '', dias: [], cfg: {}, m: {} };
   var reduce = false; try { reduce = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches); } catch (e) {}
-  s.cfg = Object.assign({ snd: true, vib: true, mov: reduce, grande: false, conf: true, contraste: false, fuente: 'normal', voz: false, lento: false, elegir: false, dib: true }, s.cfg || {});
-  if (['normal', 'facil', 'dislexia'].indexOf(s.cfg.fuente) < 0) s.cfg.fuente = 'normal';   /* si el dispositivo pide menos movimiento, se respeta desde el inicio */
+  s.cfg = Object.assign({ snd: true, vib: true, mov: reduce, grande: false, conf: true, contraste: false, fuente: 'normal', tema: 'auto', voz: false, lento: false, elegir: false, dib: true }, s.cfg || {});
+  if (['normal', 'facil', 'dislexia'].indexOf(s.cfg.fuente) < 0) s.cfg.fuente = 'normal';
+  if (['auto', 'neutro', 'claro', 'noche'].indexOf(s.cfg.tema) < 0) s.cfg.tema = 'auto';   /* si el dispositivo pide menos movimiento, se respeta desde el inicio */
   s.dias = s.dias || []; s.m = s.m || {}; s.alumno = typeof s.alumno === 'string' ? s.alumno : '';
   ORDEN.forEach(function (id) {
     if (!s.m[id]) return;

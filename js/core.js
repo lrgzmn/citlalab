@@ -32,10 +32,10 @@ function O(id, t, q, o, e, r) { return { id: id, t: t, k: 'opcion', q: q, o: o, 
 function VF(id, t, q, v, e, r) { return { id: id, t: t, k: 'vf', q: q, v: v, e: e, r: r }; }
 function ORD(id, t, q, items, e, r) { return { id: id, t: t, k: 'orden', q: q, items: items, e: e, r: r }; }
 
-/* Formas de escribir las preguntas de una LECTURA CIENTÍFICA. «ev» = números de las oraciones del texto que prueban la respuesta
+/* Formas de escribir las preguntas de una LECTURA CIENTÍFICA. "ev" = números de las oraciones del texto que prueban la respuesta
    (la primera oración es la 0). La app las resalta al corregir.
      LO(habilidad, pregunta, [opciones], ev, explicación)       -> la PRIMERA opción es la correcta (la app las mezcla)
-     LV(habilidad, afirmación, 'v'|'f'|'n', ev, explicación)    -> verdadero, falso o «el texto no lo dice»
+     LV(habilidad, afirmación, 'v'|'f'|'n', ev, explicación)    -> verdadero, falso o "el texto no lo dice"
      LE(instrucción, ev, explicación)                           -> el alumno toca la oración que prueba algo
      LS(instrucción, [pasos en orden], explicación)             -> ordenar un proceso o secuencia
    Habilidades: 'literal', 'inferencia', 'vocabulario' (evidencia y secuencia las ponen LE y LS solas). */
@@ -46,7 +46,15 @@ function LS(q, items, e) { return { k: 'orden', hab: 'secuencia', q: q, items: i
 
 /* CORRIGE A TU MASCOTA: la mascota dice algo (con un error típico) y el alumno la corrige. Sirven en el repaso y en el juego.
      CM(id, tema, lo que dice la mascota, [corrección correcta, otras opciones incorrectas], explicación, página)
-     CMOK(id, tema, lo que dice la mascota (esta vez está bien), explicación, página)   -> el alumno debe decir «Tienes razón»
+     CMOK(id, tema, lo que dice la mascota (esta vez está bien), explicación, página)   -> el alumno debe decir "Tienes razón"
    Para que no siempre se equivoque, mezcla algunas CMOK. */
-function CM(id, t, claim, o, e, r) { return { id: id, t: t, k: 'opcion', m: 1, q: '{m} dice: «' + claim + '». ¿Cómo la corriges?', o: o, e: e, r: r }; }
-function CMOK(id, t, claim, e, r) { return { id: id, t: t, k: 'opcion', m: 1, q: '{m} dice: «' + claim + '». ¿Qué le respondes?', o: ['Tienes razón', 'Te equivocas'], e: e, r: r }; }
+function CM(id, t, claim, o, e, r) { return { id: id, t: t, k: 'opcion', m: 1, q: '{m} dice: "' + claim + '". ¿Cómo la corriges?', o: o, e: e, r: r }; }
+function CMOK(id, t, claim, e, r) { return { id: id, t: t, k: 'opcion', m: 1, q: '{m} dice: "' + claim + '". ¿Qué le respondes?', o: ['Tienes razón', 'Te equivocas'], e: e, r: r }; }
+
+/* ===== Tema (neutro, claro, noche): ayudas de color ===== */
+function mezclaHex(a, b, p) {   /* p = cuánto de b (0 a 1) */
+  function n(h) { h = h.replace('#', ''); return [parseInt(h.substr(0, 2), 16), parseInt(h.substr(2, 2), 16), parseInt(h.substr(4, 2), 16)]; }
+  var x = n(a), y = n(b), r = [0, 1, 2].map(function (i) { return Math.round(x[i] + (y[i] - x[i]) * p); });
+  return '#' + r.map(function (v) { return ('0' + v.toString(16)).slice(-2); }).join('');
+}
+function temaNoche() { return document.documentElement.getAttribute('data-tema') === 'noche'; }

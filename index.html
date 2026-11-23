@@ -3,12 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Citlalab · Cuida a tu mascota repasando ciencias</title>
+<title>Citlalab · Cuida, Aprende, Crece</title>
 <meta name="author" content="Uriel Lara Guzmán, docente de Ciencias">
 <meta name="description" content="Repasa Biología, Física y Química cuidando a tu mascota. Sin cuentas, sin anuncios y sin compras.">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; manifest-src 'self'; worker-src 'self'; connect-src 'none'; form-action 'none'; base-uri 'none'; frame-src 'none'; object-src 'none'; media-src 'none'">
 <meta name="referrer" content="no-referrer">
-<meta name="theme-color" content="#4a67ee">
+<meta name="theme-color" content="#faf8f3">
+<script>
+/* tema antes de pintar: evita un destello claro cuando el tema guardado es noche */
+(function () { try { var t = localStorage.getItem('repaso.tema') || 'auto', d = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches; document.documentElement.setAttribute('data-tema', t === 'auto' ? (d ? 'noche' : 'neutro') : t); } catch (e) {} })();
+</script>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
@@ -20,7 +24,7 @@
 
 <div class="phone" id="phone" data-view="home" data-size="l">
   <header class="top">
-    <div class="brand">Citlalab</div>
+    <button class="brand" id="brand" type="button" aria-label="Citlalab, ir al inicio">Citlalab</button>
     <div class="rt" id="rt">
       <span class="chip" id="c-racha"></span><span class="chip b" id="c-dom"></span>
       <button class="gear" id="b-set" aria-label="Ajustes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
@@ -28,7 +32,7 @@
   </header>
   <main id="main">
   <h1 class="sr">Citlalab: cuida a tu mascota repasando ciencias</h1>
-  <div class="pills" id="pills" role="group" aria-label="Materia"></div>
+  <div class="pills" id="pills" role="group" aria-label="Mascotas, una por materia: toca una para verla"></div>
 
   <!-- El cuarto de la mascota: siempre visible -->
   <div class="stage" id="stage">
@@ -169,7 +173,9 @@
 
   <!-- Personalizar -->
   <section class="view" id="v-custom" aria-label="Personalizar">
-    <div class="seg" role="radiogroup" aria-label="Personaje" id="seg2"></div>
+    <div class="seglbl" id="seg2-lbl">Versión de tu mascota</div>
+    <div class="seg" role="radiogroup" aria-labelledby="seg2-lbl" id="seg2"></div>
+    <button class="link" id="seg2-todas" type="button" hidden>Usar esta versión en las tres mascotas</button>
     <div class="tabs" role="tablist" id="tabs">
       <button class="tab" role="tab" data-t="color" aria-selected="true">Color</button>
       <button class="tab" role="tab" data-t="ojos" aria-selected="false">Ojos</button>
@@ -203,15 +209,19 @@
     <div class="row2"><span>Preguntar cuánta seguridad tengo<small>Antes de ver si acertaste: lo sé, dudo o adiviné</small></span><button class="tog" id="t-conf" role="switch" aria-checked="true" aria-label="Preguntar cuánta seguridad tengo"></button></div>
     <div class="row2"><span>Letra grande<small>Textos un poco más grandes</small></span><button class="tog" id="t-big" role="switch" aria-checked="false" aria-label="Letra grande"></button></div>
 
+    <div class="seglbl" id="th-lbl">Tema</div>
+    <div class="seg" role="radiogroup" aria-labelledby="th-lbl"><button id="th-auto" role="radio" aria-checked="true">Automático</button><button id="th-neutro" role="radio" aria-checked="false">Neutro (crema)</button><button id="th-claro" role="radio" aria-checked="false">Claro</button><button id="th-noche" role="radio" aria-checked="false">Noche</button></div>
+    <p class="hint" id="th-hint" style="margin:2px 18px 10px;text-align:left"></p>
+
     <div class="sub" style="margin-top:14px">Accesibilidad</div>
     <div class="row2"><span>Alto contraste<small>Colores más fuertes y bordes marcados</small></span><button class="tog" id="t-contraste" role="switch" aria-checked="false" aria-label="Alto contraste"></button></div>
     <div class="seglbl" id="f-lbl">Tipo de letra</div>
     <div class="seg seg3" role="radiogroup" aria-labelledby="f-lbl"><button id="f-normal" role="radio" aria-checked="true">Normal</button><button id="f-facil" role="radio" aria-checked="false">Fácil de leer</button><button id="f-dis" role="radio" aria-checked="false">Dislexia</button></div>
-    <p class="hint" id="f-hint" style="margin:8px 6px 12px;text-align:left"><b>Fácil de leer:</b> letras muy distintas entre sí (ayuda a cansarse menos al leer). <b>Dislexia:</b> letras con base más pesada para que no «bailen». Prueba las dos y quédate con la que te resulte más cómoda.</p>
+    <p class="hint" id="f-hint" style="margin:8px 6px 12px;text-align:left"><b>Fácil de leer:</b> letras muy distintas entre sí (ayuda a cansarse menos al leer). <b>Dislexia:</b> letras con base más pesada para que no "bailen". Prueba las dos y quédate con la que te resulte más cómoda.</p>
     <div class="row2"><span>Leer preguntas en voz alta<small>Las lee solas al aparecer; también hay un botón para escucharlas</small></span><button class="tog" id="t-voz" role="switch" aria-checked="false" aria-label="Leer preguntas en voz alta"></button></div>
     <p class="hint" id="voz-nota" hidden style="margin:-2px 18px 4px;text-align:left">Este dispositivo no tiene una voz en español instalada, así que la lectura en voz alta no está disponible.</p>
     <div class="row2"><span>Juegos tranquilos<small>Lluvia y vasos van más lento y se juegan tocando</small></span><button class="tog" id="t-lento" role="switch" aria-checked="false" aria-label="Juegos tranquilos"></button></div>
-    <div class="row2"><span>Elegir en vez de escribir<small>En «Explícalo con tus palabras» eliges ideas en lugar de teclear</small></span><button class="tog" id="t-elegir" role="switch" aria-checked="false" aria-label="Elegir en vez de escribir"></button></div>
+    <div class="row2"><span>Elegir en vez de escribir<small>En "Explícalo con tus palabras" eliges ideas en lugar de teclear</small></span><button class="tog" id="t-elegir" role="switch" aria-checked="false" aria-label="Elegir en vez de escribir"></button></div>
     <div class="row2"><span>Dibujos en las preguntas<small>Pequeñas ilustraciones que ayudan a entender</small></span><button class="tog" id="t-dib" role="switch" aria-checked="false" aria-label="Dibujos en las preguntas"></button></div>
     <p class="aviso" id="set-aviso" hidden>Este navegador no deja guardar tu avance (¿modo privado?). Ábrelo en una ventana normal para no perderlo.</p>
     <div class="sub">¿Quién está usando la app?</div>
@@ -220,8 +230,8 @@
     <button class="cta sec" id="pf-nuevo">Agregar otro perfil</button>
     <label class="lbl" for="al-nombre">Mi nombre (opcional)</label>
     <input id="al-nombre" class="inp" maxlength="40" autocomplete="off" placeholder="Nombre y grupo, por ejemplo: Ana 2.º B">
-    <p class="aviso" id="and-aviso" hidden>Para no perder tu avance: abre la app en una pestaña normal (no de incógnito ni privada) y, en Chrome, toca el menú ⋮ y elige «Instalar app» o «Agregar a pantalla principal». También puedes guardar un archivo de respaldo.</p>
-    <p class="aviso" id="ios-aviso" hidden>En iPhone o iPad, Safari puede borrar el avance si no usas la app por varios días. Para evitarlo, toca el botón Compartir y elige «Agregar a pantalla de inicio». También puedes guardar tu código de respaldo.</p>
+    <p class="aviso" id="and-aviso" hidden>Para no perder tu avance: abre la app en una pestaña normal (no de incógnito ni privada) y, en Chrome, toca el menú ⋮ y elige "Instalar app" o "Agregar a pantalla principal". También puedes guardar un archivo de respaldo.</p>
+    <p class="aviso" id="ios-aviso" hidden>En iPhone o iPad, Safari puede borrar el avance si no usas la app por varios días. Para evitarlo, toca el botón Compartir y elige "Agregar a pantalla de inicio". También puedes guardar tu código de respaldo.</p>
     <div class="sub">Reporte para mi familia</div>
     <p class="p" style="text-align:left;margin-top:2px">Copia este reporte y pásaselo a tu familia o tutores. Si tu docente lo solicita, ellos se lo mandan por WhatsApp. Solo incluye tu avance, nada más.</p>
     <button class="cta sec" id="rs-copiar">Copiar mi reporte</button>
@@ -243,7 +253,7 @@
       <p class="p" style="text-align:left"><b>Qué no hace:</b> no pide cuentas, correo, teléfono, ubicación, cámara ni micrófono, y no accede a tus fotos, videos ni archivos (solo guarda o lee el respaldo cuando tú lo pides y eliges el archivo); no tiene anuncios, compras, chats ni enlaces a otros sitios; no usa rastreadores y no envía tu información a ningún servidor. La página la aloja GitHub, que, como cualquier sitio web, puede registrar visitas técnicas (por ejemplo, la dirección IP), pero no ve nombres, avance ni mascotas.</p>
       <p class="p" style="text-align:left"><b>Qué se comparte y con quién:</b> nada se envía solo. El reporte de la familia solo se copia si la persona que usa la app lo pide, y es su familia quien decide si se lo manda al docente.</p>
       <p class="p" style="text-align:left" id="quien"><b>Quién la hizo:</b> <span id="quien-t"></span></p>
-      <p class="p" style="text-align:left"><b>Cómo borrar todo:</b> con el botón «Borrar mi progreso», o borrando los datos del sitio en el navegador.</p>
+      <p class="p" style="text-align:left"><b>Cómo borrar todo:</b> con el botón "Borrar mi progreso", o borrando los datos del sitio en el navegador.</p>
     </details>
     <button class="cta danger" id="bk-borrar">Borrar mi progreso</button>
     <p class="safe">Esta app no tiene cuentas, anuncios ni compras. Tu mascota nunca se enferma ni muere: si pasan días, solo te espera.</p>

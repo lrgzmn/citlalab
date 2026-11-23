@@ -9,12 +9,13 @@ var tab = 'color', quiz = null, bloqueo = false;
 function colorDe(s) { return COLORES.filter(function (c) { return c.id === s.color; })[0] || COLORES[0]; }
 var petKey = '';
 function renderEscena() {
-  var s = cur(), w = paredDe(s.pared);
+  var s = cur(), w = cuartoCol(paredDe(s.pared));
   $('stage').style.background = 'linear-gradient(180deg,' + w.a + ',' + w.b + ')';
   $('roomG').innerHTML = roomMk(s);
 }
 function renderPet() {
   var s = cur(), m = MAT[ST.activa], col = colorDe(s), svg = $('pet'), vis = s.vis;
+  if ($('nm') && document.activeElement !== $('nm')) $('nm').value = s.name;   /* el nombre siempre es el de la mascota que se está viendo */
   svg.style.setProperty('--bc', col.c === 'galaxia' ? '#8b4fd8' : col.c);
   renderEscena();
   if (vis === 0) {
@@ -156,7 +157,7 @@ function go(v) {
   window.scrollTo(0, 0);
   histGo(v);
 }
-/* Botón «atrás» del celular: desde cualquier pantalla interna regresa al inicio de la app (no la cierra);
+/* Botón "atrás" del celular: desde cualquier pantalla interna regresa al inicio de la app (no la cierra);
    desde el inicio sí sale, como siempre. Solo se agrega una entrada al historial cuando se sale del inicio. */
 var navPop = false;
 function esRaiz(v) { return v === 'home' || v === 'ob0'; }
@@ -177,8 +178,35 @@ window.addEventListener('popstate', function (e) {
 });
 function aplicarTema() {
   var m = MAT[ST.activa], ph = $('phone');
-  ph.style.setProperty('--brand', m.brand); ph.style.setProperty('--brand-d', m.dk); ph.style.setProperty('--brand-soft', m.soft); ph.style.setProperty('--brand-line', m.line);
+  if (temaNoche()) {   /* de noche, el color de la materia se aclara para el texto y se oscurece para los fondos */
+    var base = '#1e2447';
+    ph.style.setProperty('--brand', m.brand); ph.style.setProperty('--brand-d', mezclaHex(m.brand, '#ffffff', .55));
+    ph.style.setProperty('--brand-soft', mezclaHex(m.brand, base, .78)); ph.style.setProperty('--brand-line', mezclaHex(m.brand, base, .5));
+  } else {
+    ph.style.setProperty('--brand', m.brand); ph.style.setProperty('--brand-d', m.dk); ph.style.setProperty('--brand-soft', m.soft); ph.style.setProperty('--brand-line', m.line);
+  }
 }
+/* Tema: automático (sigue al celular), neutro (crema), claro o noche. Con alto contraste siempre se usa fondo blanco. */
+var mqNoche = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+function temaResuelto() {
+  if (ST && ST.cfg && ST.cfg.contraste) return 'claro';
+  var t = (ST && ST.cfg && ST.cfg.tema) || 'auto';
+  if (t === 'auto') return mqNoche && mqNoche.matches ? 'noche' : 'neutro';
+  return t;
+}
+function hintTema() {
+  var h = $('th-hint'); if (!h || !ST) return;
+  h.textContent = ST.cfg.contraste ? 'Con alto contraste siempre se ve con fondo blanco.' : 'Automático sigue el modo de tu celular (claro o noche). Neutro es un fondo crema, más suave para la vista.';
+}
+var TEMA_COLOR = { neutro: '#faf8f3', claro: '#ffffff', noche: '#141831' };
+function aplicarModo() {
+  var t = temaResuelto(), h = document.documentElement, antes = h.getAttribute('data-tema');
+  h.setAttribute('data-tema', t);
+  var mt = document.querySelector('meta[name=theme-color]'); if (mt) mt.setAttribute('content', TEMA_COLOR[t]);
+  try { localStorage.setItem('repaso.tema', ST.cfg.tema || 'auto'); } catch (x) {}
+  if (antes !== t && ST && ST.activa) { aplicarTema(); petKey = ''; if (typeof renderEscena === 'function' && cur()) { renderEscena(); } }
+}
+if (mqNoche) { var cambioMq = function () { if (ST && ST.cfg && ST.cfg.tema === 'auto') { aplicarModo(); if (vistaActual === 'room' || vistaActual === 'home') todo(); } }; if (mqNoche.addEventListener) mqNoche.addEventListener('change', cambioMq); else if (mqNoche.addListener) mqNoche.addListener(cambioMq); }
 function renderTop() {
   var s = cur(); $('c-racha').textContent = 'Racha ' + rachaVisible(); $('c-dom').textContent = dominados(s, ST.activa) + ' temas';
   var pills = $('pills'); pills.innerHTML = '';
@@ -257,7 +285,7 @@ function renderHome() {
   var msg, sem = REPASO.semanas[mat], semN = sem ? temaNombre(sem) : '';
   if (!hay) msg = 'Tu docente agregará las fichas de ' + m.n + ' muy pronto. Mientras tanto, ¡arregla mi cuarto!';
   else if (vis === 0) msg = origenNivel(s.xp / XP_ETAPA[1]) >= 2 ? m.orig.mid.replace('{f}', Math.max(0, XP_ETAPA[1] - s.xp)) : m.orig.ini;
-  else if (semN) msg = '¿Repasamos «' + semN + '»? Esta semana vale doble.';
+  else if (semN) msg = '¿Repasamos "' + semN + '"? Esta semana vale doble.';
   else if (s.hamb < 55) msg = 'Tengo ganas de repasar contigo.';
   else msg = pick(['Me gusta cuando vienes a repasar.', '¿Qué repasamos hoy?', 'Cada repaso me hace crecer.']);
   say(s.name + ': ' + msg);
@@ -277,7 +305,7 @@ function esSemana(q) { return REPASO.semanas[q.materia] === q.tema; }
 function enfocar(id) { var e = $(id); if (e) { e.tabIndex = -1; try { e.focus({ preventScroll: true }); } catch (x) {} } }
 function correcta(q) { return q.ok != null ? q.o[q.ok] : q.o[0]; }
 function respuestaTexto(q) { return q.k === 'vf' ? (q.v ? 'Verdadero' : 'Falso') : q.k === 'orden' ? q.items.join(' → ') : correcta(q); }
-/* Pregunta «¿qué tan seguro estás?» ANTES de mostrar si la respuesta fue correcta. Es lo que permite distinguir saber de adivinar. */
+/* Pregunta "¿qué tan seguro estás?" ANTES de mostrar si la respuesta fue correcta. Es lo que permite distinguir saber de adivinar. */
 function pedirSeguridad(host, fn) {
   var d = el('div', 'conf'); d.setAttribute('role', 'group'); d.setAttribute('aria-label', '¿Cuánta seguridad tienes en tu respuesta?');
   var t = el('div', 'conf-t', '¿Cuánta seguridad tienes en tu respuesta?'); t.id = 'conf-t'; d.appendChild(t);
@@ -362,7 +390,7 @@ function pintarPregunta(q, ids, cb, op) {
 function feedback(fb, q, bien, extra, elegido) {
   fb.hidden = false; fb.className = 'fb ' + (bien ? 'good' : 'nope'); fb.innerHTML = '';
   fb.appendChild(el('strong', '', bien ? '¡Correcto!' : 'Casi. La respuesta es: ' + respuestaTexto(q)));
-  if (!bien && elegido && q.d && q.d[elegido]) { var pq = el('div', 'porque'); pq.innerHTML = '<b>Sobre «' + esc(elegido) + '»:</b> ' + esc(q.d[elegido]); fb.appendChild(pq); }
+  if (!bien && elegido && q.d && q.d[elegido]) { var pq = el('div', 'porque'); pq.innerHTML = '<b>Sobre "' + esc(elegido) + '":</b> ' + esc(q.d[elegido]); fb.appendChild(pq); }
   fb.appendChild(document.createTextNode(q.e || '')); fb.appendChild(el('div', 'ref', q.r || ''));
   if (extra) fb.appendChild(el('div', 'ref', extra));
   if (TTS) {
@@ -499,6 +527,11 @@ function renderGames() {
   });
 }
 $('a-play').onclick = function () { go('games'); };
+$('seg2-todas').onclick = function () {
+  var g = cur().gender;
+  ORDEN.forEach(function (id) { var s = ST.m[id], m = MAT[id]; if (!s) return; var esDef = Object.keys(m.names).some(function (k) { return m.names[k] === s.name; }); s.gender = g; if (esDef) s.name = m.names[g]; });
+  guardar(); petKey = ''; renderPet(); renderCustom(); say(cur().name + ': ¡Listo, las tres mascotas tienen esta versión!');
+};
 $('g-back').onclick = function () { go('home'); };
 
 /* ---- Tarjetas verdadero o falso ---- */
@@ -644,7 +677,7 @@ function iniciarLluvia() {
 }
 function preparaLluvia() {
   pararLluvia();
-  var q = ll.qs[ll.i], s = cur(), area = $('ll-area'), w = paredDe(s.pared);
+  var q = ll.qs[ll.i], s = cur(), area = $('ll-area'), w = cuartoCol(paredDe(s.pared));
   area.innerHTML = ''; area.style.background = 'linear-gradient(180deg,' + w.a + ',' + w.b + ')';
   $('ll-cnt').textContent = (ll.i + 1) + '/' + ll.qs.length; $('ll-pr').style.width = (ll.i / ll.qs.length * 100) + '%';
   $('ll-tag').textContent = temaNombre(q.tema); $('ll-q').textContent = q.q; $('ll-hint').textContent = ST.cfg.lento ? 'Toca la burbuja con la respuesta correcta. Se mueven despacio.' : 'Arrastra a tu mascota (o toca una burbuja) para atrapar la respuesta correcta.';
@@ -852,7 +885,7 @@ function renderRoom() {
     b.onclick = function () {
       var h = $('roomhint');
       if (!ok) { h.textContent = falta(s, it); return; }
-      delete s.nuevos['pared|' + it.id]; s.pared = it.id; h.textContent = 'Pared «' + it.n + '» puesta.'; SFX.pop(); vibra(10); guardar(); renderEscena(); renderRoom();
+      delete s.nuevos['pared|' + it.id]; s.pared = it.id; h.textContent = 'Pared "' + it.n + '" puesta.'; SFX.pop(); vibra(10); guardar(); renderEscena(); renderRoom();
     };
     gp.appendChild(b);
   });
@@ -910,6 +943,7 @@ function dibujaGrid() {
 }
 function renderCustom() {
   segHTML('seg2', function () { petKey = ''; renderPet(); renderCustom(); });
+  var dif = ORDEN.some(function (id) { return ST.m[id] && ST.m[id].gender !== cur().gender; }); $('seg2-todas').hidden = !dif;
   document.querySelectorAll('#tabs .tab').forEach(function (t) { t.setAttribute('aria-selected', t.dataset.t === tab ? 'true' : 'false'); });
   $('hint').className = 'hint'; dibujaGrid();
 }
@@ -1001,6 +1035,8 @@ function renderSet() {
   $('al-nombre').value = ST.alumno || ''; $('rs').hidden = true; $('rs-msg').textContent = '';
   [['t-snd', 'snd'], ['t-vib', 'vib'], ['t-mov', 'mov'], ['t-big', 'grande'], ['t-conf', 'conf'], ['t-contraste', 'contraste'], ['t-voz', 'voz'], ['t-lento', 'lento'], ['t-elegir', 'elegir'], ['t-dib', 'dib']].forEach(function (p) { $(p[0]).setAttribute('aria-checked', ST.cfg[p[1]] ? 'true' : 'false'); });
   [['f-normal', 'normal'], ['f-facil', 'facil'], ['f-dis', 'dislexia']].forEach(function (p) { $(p[0]).setAttribute('aria-checked', ST.cfg.fuente === p[1] ? 'true' : 'false'); });
+  [['th-auto', 'auto'], ['th-neutro', 'neutro'], ['th-claro', 'claro'], ['th-noche', 'noche']].forEach(function (p) { $(p[0]).setAttribute('aria-checked', ST.cfg.tema === p[1] ? 'true' : 'false'); });
+  hintTema();
   var vz = hayVozEs(); $('t-voz').disabled = !vz; $('voz-nota').hidden = vz;
   $('set-aviso').hidden = guardadoOK; $('bk-msg').textContent = ''; $('bk-conf').hidden = true; if (window.ultimoRespaldo) window.ultimoRespaldo(); $('bk-borrar').textContent = 'Borrar mi progreso'; $('bk-borrar').dataset.seguro = '';
 }
@@ -1008,6 +1044,7 @@ function aplicarCfg() {
   var h = document.documentElement.classList;
   h.toggle('grande', !!ST.cfg.grande); h.toggle('contraste', !!ST.cfg.contraste);
   h.toggle('f-facil', ST.cfg.fuente === 'facil'); h.toggle('f-dis', ST.cfg.fuente === 'dislexia');
+  aplicarModo(); hintTema();
   $('phone').classList.toggle('noanim', !!ST.cfg.mov);
 }
 function tog(id, key) {
@@ -1018,6 +1055,9 @@ function iniciaAjustes() {
   tog('t-contraste', 'contraste'); tog('t-voz', 'voz'); tog('t-lento', 'lento'); tog('t-elegir', 'elegir'); tog('t-dib', 'dib');
   [['f-normal', 'normal'], ['f-facil', 'facil'], ['f-dis', 'dislexia']].forEach(function (p) {
     $(p[0]).onclick = function () { ST.cfg.fuente = p[1]; aplicarCfg(); guardar(); renderSet(); };
+  });
+  [['th-auto', 'auto'], ['th-neutro', 'neutro'], ['th-claro', 'claro'], ['th-noche', 'noche']].forEach(function (p) {
+    $(p[0]).onclick = function () { ST.cfg.tema = p[1]; aplicarCfg(); guardar(); renderSet(); };
   });
   $('b-set').onclick = function () { go('set'); }; $('set-back').onclick = function () { go('home'); };
   /* Respaldo: archivo descargable (lo normal) o código de texto (otra forma). Nada se envía a ningún lado. */
@@ -1034,7 +1074,7 @@ function iniciaAjustes() {
       a.href = u; a.download = 'citlalab-respaldo-' + fechaHoy() + '.json'; document.body.appendChild(a); a.click(); a.remove();
       setTimeout(function () { URL.revokeObjectURL(u); }, 4000); ok = true;
     } catch (e) {}
-    if (ok) { ST.respaldo = fechaHoy(); guardar(); ultimoRespaldo(); $('bk-msg').textContent = 'Listo: se descargó un archivo. Guárdalo en un lugar seguro (en tu celular lo encuentras en «Archivos» o «Descargas»). Para recuperarlo, usa «Restaurar desde archivo».'; }
+    if (ok) { ST.respaldo = fechaHoy(); guardar(); ultimoRespaldo(); $('bk-msg').textContent = 'Listo: se descargó un archivo. Guárdalo en un lugar seguro (en tu celular lo encuentras en "Archivos" o "Descargas"). Para recuperarlo, usa "Restaurar desde archivo".'; }
     else { var t = $('bk'); t.value = btoa(unescape(encodeURIComponent(txt))); $('bk-det').open = true; $('bk-msg').textContent = 'Este navegador no deja descargar archivos. Copia el código del recuadro y guárdalo en un lugar seguro.'; }
   };
   $('bk-abrir').onclick = function () { $('bk-arch').value = ''; $('bk-arch').click(); };
@@ -1107,6 +1147,7 @@ $('ob-go').onclick = function () {
 
 /* ============ ARRANQUE ============ */
 function eventosBase() {
+  $('brand').onclick = function () { if (!tieneMascotas()) return; if (vistaActual === 'home') window.scrollTo(0, 0); else go('home'); };
   document.querySelectorAll('.nav button').forEach(function (b) { b.onclick = function () { go(b.dataset.v); }; });
   document.querySelectorAll('#tabs .tab').forEach(function (t) { t.onclick = function () { tab = t.dataset.t; renderCustom(); }; });
   $('nm').oninput = function () { cur().name = this.value.slice(0, 14); guardar(); };

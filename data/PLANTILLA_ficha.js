@@ -18,10 +18,10 @@
          La app los revuelve y el estudiante los ordena tocándolos.
 
      CM(id, tema, lo que dice la mascota, [corrección correcta, otras opciones], explicación, página)
-         «Corrige a tu mascota»: la mascota dice algo con un error típico y el estudiante la corrige. Escribe la afirmación errónea
-         sin comillas (la app agrega «Atomina dice: ...»). Aparece en el repaso y en el juego del mismo nombre.
+         "Corrige a tu mascota": la mascota dice algo con un error típico y el estudiante la corrige. Escribe la afirmación errónea
+         sin comillas (la app agrega "Atomina dice: ..."). Aparece en el repaso y en el juego del mismo nombre.
      CMOK(id, tema, lo que dice la mascota, explicación, página)
-         Igual, pero esta vez la mascota tiene razón y el estudiante debe decir «Tienes razón». Mezcla algunas para que no
+         Igual, pero esta vez la mascota tiene razón y el estudiante debe decir "Tienes razón". Mezcla algunas para que no
          adivinen que siempre se equivoca.
 
    POR QUÉ NO (opcional): en un archivo aparte, por ejemplo data/biologia/ficha3_porque.js, agrega:
@@ -38,7 +38,7 @@
    El id de cada pregunta debe ser único en toda la app (por ejemplo b3-01, b3-02...).
    El tema es el id de uno de los temas de la lista de arriba (t1, t2...).
    Procura al menos 4 preguntas por tema, y varias de verdadero o falso para el juego de tarjetas.
-   Mezcla preguntas de recordar con otras de aplicar, explicar o corregir un error («¿qué está mal en esta frase?», «¿qué pasaría si…?»);
+   Mezcla preguntas de recordar con otras de aplicar, explicar o corregir un error ("¿qué está mal en esta frase?", "¿qué pasaría si…?");
    para esas, los distractores funcionan mejor si son errores típicos de los estudiantes.
    Para practicar comprensión lectora, puedes agregar lecturas con data/PLANTILLA_lectura.js.
    Antes de agregar una ficha, verifica los datos contra la fe de erratas del libro. */

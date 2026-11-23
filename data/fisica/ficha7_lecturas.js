@@ -3,7 +3,7 @@
    Cada lectura se escribe así:
      texto: [ 'Oración 0.', 'Oración 1.', ... ]      (cada oración es un elemento; la primera es la número 0)
      items: preguntas con LO, LV, LE y LS (las instrucciones están en data/PLANTILLA_lectura.js)
-   «ev» = números de las oraciones que prueban la respuesta; la app las resalta al corregir. */
+   "ev" = números de las oraciones que prueban la respuesta; la app las resalta al corregir. */
 
 REPASO.lectura({
   materia: 'fisica', ficha: 'f7', id: 'f7-l1', tema: 't3',
@@ -28,7 +28,7 @@ REPASO.lectura({
   },
   items: [
     LO('literal', '¿Contra qué lanzó Rutherford las partículas alfa?', ['Una hoja de oro muy delgada', 'Un tubo de rayos catódicos', 'Una lámina de berilio', 'Un imán'], [1], 'Fue una hoja de oro. La lámina de berilio es del experimento de Chadwick.'),
-    LO('vocabulario', 'En el texto, «rebotaron» significa que las partículas…', ['Regresaron al chocar', 'Se detuvieron para siempre', 'Atravesaron la hoja', 'Se hicieron más pequeñas'], [3], 'Rebotar es regresar después de chocar, como una pelota contra la pared.'),
+    LO('vocabulario', 'En el texto, "rebotaron" significa que las partículas…', ['Regresaron al chocar', 'Se detuvieron para siempre', 'Atravesaron la hoja', 'Se hicieron más pequeñas'], [3], 'Rebotar es regresar después de chocar, como una pelota contra la pared.'),
     LV('literal', 'Casi todas las partículas atravesaron la hoja de oro.', 'v', [2], 'Así lo dice el texto: casi todas pasaron derecho.'),
     LO('inferencia', '¿Por qué casi todas las partículas pasaron derecho?', ['Porque casi todo el átomo es espacio vacío', 'Porque la hoja de oro era muy gruesa', 'Porque el núcleo es enorme', 'Porque las partículas eran neutras'], [2, 4], 'El texto no lo dice con esas palabras, pero se deduce: si casi nada las detuvo, es porque casi no había nada en su camino.'),
     LV('literal', 'Rutherford tardó diez años en terminar su experimento.', 'n', [], 'El texto no menciona cuánto tardó. Aunque suene razonable, solo cuenta lo que el texto dice.'),
@@ -41,7 +41,7 @@ REPASO.lectura({
   materia: 'fisica', ficha: 'f7', id: 'f7-l2', tema: 't8',
   titulo: 'Un átomo, muchas ideas',
   texto: [
-    'Hace más de dos mil años, Demócrito pensó que todo estaba hecho de átomos, palabra que significa «indivisible».',
+    'Hace más de dos mil años, Demócrito pensó que todo estaba hecho de átomos, palabra que significa "indivisible".',
     'No pudo comprobarlo, porque no se hacían experimentos como los de hoy.',
     'En 1803, Dalton retomó la idea y en 1897 Thomson descubrió el electrón.',
     'Después, Rutherford encontró el núcleo y, en 1913, Bohr propuso las órbitas.',
@@ -58,7 +58,7 @@ REPASO.lectura({
     ]
   },
   items: [
-    LO('vocabulario', 'En el texto, «indivisible» significa que algo…', ['No se puede dividir', 'Es muy pesado', 'Tiene carga eléctrica', 'No existe'], [0], 'La propia oración lo explica: átomo significa «indivisible», la parte que ya no se puede dividir.'),
+    LO('vocabulario', 'En el texto, "indivisible" significa que algo…', ['No se puede dividir', 'Es muy pesado', 'Tiene carga eléctrica', 'No existe'], [0], 'La propia oración lo explica: átomo significa "indivisible", la parte que ya no se puede dividir.'),
     LV('literal', 'Demócrito comprobó su idea con experimentos.', 'f', [1], 'El texto dice que no pudo comprobarla.'),
     LO('literal', '¿Quién descubrió el electrón en 1897?', ['Thomson', 'Dalton', 'Rutherford', 'Bohr'], [2], 'Fue Thomson. Dalton retomó la idea del átomo en 1803.'),
     LO('inferencia', '¿Por qué crees que Demócrito no pudo comprobar su idea?', ['Porque en su época no se hacían experimentos como los actuales', 'Porque su idea estaba equivocada', 'Porque Dalton se lo impidió', 'Porque no conocía la palabra átomo'], [1], 'El texto da la razón: no se hacían experimentos como los de hoy.'),
@@ -91,7 +91,7 @@ REPASO.lectura({
   },
   items: [
     LO('literal', '¿Contra qué material lanzó Chadwick las partículas alfa?', ['Una lámina de berilio', 'Una hoja de oro', 'Un tubo de rayos catódicos', 'Una pantalla fluorescente'], [0], 'Fue una lámina de berilio. La hoja de oro es del experimento de Rutherford.'),
-    LO('vocabulario', 'En el texto, «neutras» quiere decir que las partículas…', ['No tienen carga eléctrica', 'Son muy pequeñas', 'Tienen carga positiva', 'Giran en órbitas'], [1, 2], 'Neutra es la que no tiene carga: ni positiva ni negativa.'),
+    LO('vocabulario', 'En el texto, "neutras" quiere decir que las partículas…', ['No tienen carga eléctrica', 'Son muy pequeñas', 'Tienen carga positiva', 'Giran en órbitas'], [1, 2], 'Neutra es la que no tiene carga: ni positiva ni negativa.'),
     LV('literal', 'Los neutrones se encuentran en el núcleo.', 'v', [3], 'Están en el núcleo, junto a los protones.'),
     LV('inferencia', 'Todos los átomos tienen al menos un neutrón.', 'f', [4], 'El texto da un contraejemplo: el hidrógeno más común solo tiene un protón y un electrón.'),
     LV('literal', 'Chadwick recibió un premio por su descubrimiento.', 'n', [], 'El texto no habla de premios. No se puede saber a partir de lo que dice.'),

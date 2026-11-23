@@ -1,4 +1,4 @@
-/* Juego «Armar el átomo» de Física.
+/* Juego "Armar el átomo" de Física.
    Cada elemento: nombre, símbolo, Z = número atómico (protones), A = masa atómica.
    Para agregar otro, copia una línea y cambia los números. */
 REPASO.juego({

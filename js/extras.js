@@ -6,15 +6,15 @@ function validar() {
   var avisos = (typeof ERRORES_ARCHIVO !== 'undefined' ? ERRORES_ARCHIVO.slice() : []), resumen = [], ids = {};
   REPASO.fichas.forEach(function (f) {
     var etq = f.ficha && f.ficha.id ? f.ficha.id : '(sin id)', r = { id: etq, titulo: f.ficha ? f.ficha.titulo : '', mat: f.materia, op: 0, vf: 0, ord: 0, temas: {} };
-    if (!MAT[f.materia]) avisos.push('Ficha ' + etq + ': la materia «' + f.materia + '» no existe (usa fisica, biologia o quimica).');
+    if (!MAT[f.materia]) avisos.push('Ficha ' + etq + ': la materia "' + f.materia + '" no existe (usa fisica, biologia o quimica).');
     if (!f.ficha || !f.ficha.id || !f.ficha.titulo) avisos.push('Ficha ' + etq + ': falta id o título.');
-    (f.temas || []).forEach(function (tm) { if (tm.icono && typeof ICONOS !== 'undefined' && !ICONOS[tm.icono]) avisos.push('Ficha ' + etq + ', tema ' + tm.id + ': el dibujo «' + tm.icono + '» no existe (revisa los nombres en la plantilla).'); });
+    (f.temas || []).forEach(function (tm) { if (tm.icono && typeof ICONOS !== 'undefined' && !ICONOS[tm.icono]) avisos.push('Ficha ' + etq + ', tema ' + tm.id + ': el dibujo "' + tm.icono + '" no existe (revisa los nombres en la plantilla).'); });
     (typeof REPASO !== 'undefined' ? REPASO.lecturas : []).forEach(function () {});
     var tk = {}; f.temas.forEach(function (t) { tk[t.id] = 1; r.temas[t.id] = 0; });
     f.preguntas.forEach(function (q) {
       var w = function (m) { avisos.push(q.id + ': ' + m); };
       if (!q.id) w('falta el id.'); else if (ids[q.id]) w('el id está repetido.'); ids[q.id] = 1;
-      if (!tk[q.t]) w('el tema «' + q.t + '» no está en la lista de temas de la ficha.'); else r.temas[q.t]++;
+      if (!tk[q.t]) w('el tema "' + q.t + '" no está en la lista de temas de la ficha.'); else r.temas[q.t]++;
       if (!q.q) w('falta el texto de la pregunta.');
       if (!q.e) w('falta la explicación.'); if (!q.r) w('falta la página del libro.');
       if (q.k === 'opcion') { r.op++; if (q.m) r.cm = (r.cm || 0) + 1; if (!q.o || q.o.length < 2) w('necesita al menos 2 opciones.'); else if (q.o.length > 5) w('tiene demasiadas opciones.'); else if (new Set(q.o).size !== q.o.length) w('tiene opciones repetidas.'); }
@@ -26,18 +26,18 @@ function validar() {
   });
   Object.keys(REPASO.porques).forEach(function (id) {
     var q = null; REPASO.fichas.forEach(function (f) { f.preguntas.forEach(function (x) { if (x.id === id) q = x; }); });
-    if (!q) { avisos.push('Por qué no «' + id + '»: esa pregunta no existe.'); return; }
-    if (q.k !== 'opcion') { avisos.push('Por qué no «' + id + '»: solo sirve en preguntas de opción múltiple.'); return; }
-    Object.keys(REPASO.porques[id]).forEach(function (op) { if (q.o.indexOf(op) < 1) avisos.push('Por qué no «' + id + '»: «' + op + '» no coincide con ninguna opción incorrecta (debe estar escrita exactamente igual).'); });
+    if (!q) { avisos.push('Por qué no "' + id + '": esa pregunta no existe.'); return; }
+    if (q.k !== 'opcion') { avisos.push('Por qué no "' + id + '": solo sirve en preguntas de opción múltiple.'); return; }
+    Object.keys(REPASO.porques[id]).forEach(function (op) { if (q.o.indexOf(op) < 1) avisos.push('Por qué no "' + id + '": "' + op + '" no coincide con ninguna opción incorrecta (debe estar escrita exactamente igual).'); });
   });
   var lects = [], lids = {};
   REPASO.lecturas.forEach(function (L) {
     var w = function (m) { avisos.push('Lectura ' + (L.id || '(sin id)') + ': ' + m); }, ficha = null;
     REPASO.fichas.forEach(function (f) { if (f.ficha.id === L.ficha && f.materia === L.materia) ficha = f; });
     if (!L.id) w('falta el id.'); else if (lids[L.id]) w('el id está repetido.'); lids[L.id] = 1;
-    if (!MAT[L.materia]) w('la materia «' + L.materia + '» no existe.');
-    if (!ficha) w('la ficha «' + L.ficha + '» no existe (la lectura debe ir ligada a una ficha cargada).');
-    else if (!ficha.temas.some(function (x) { return x.id === L.tema; })) w('el tema «' + L.tema + '» no está en la ficha.');
+    if (!MAT[L.materia]) w('la materia "' + L.materia + '" no existe.');
+    if (!ficha) w('la ficha "' + L.ficha + '" no existe (la lectura debe ir ligada a una ficha cargada).');
+    else if (!ficha.temas.some(function (x) { return x.id === L.tema; })) w('el tema "' + L.tema + '" no está en la ficha.');
     if (!L.titulo) w('falta el título.');
     if (!L.texto || !L.texto.length) { w('falta el texto.'); return; }
     var pal = L.texto.join(' ').split(/\s+/).length;
@@ -46,7 +46,7 @@ function validar() {
     L.items.forEach(function (it, i) {
       var q = 'pregunta ' + (i + 1);
       if (!it.q) w(q + ': falta el enunciado.'); if (!it.e) w(q + ': falta la explicación.');
-      if (!HAB[it.hab]) w(q + ': la habilidad «' + it.hab + '» no existe (literal, inferencia, vocabulario, evidencia o secuencia).'); hab[it.hab] = (hab[it.hab] || 0) + 1;
+      if (!HAB[it.hab]) w(q + ': la habilidad "' + it.hab + '" no existe (literal, inferencia, vocabulario, evidencia o secuencia).'); hab[it.hab] = (hab[it.hab] || 0) + 1;
       (it.ev || []).forEach(function (n) { if (typeof n !== 'number' || n < 0 || n >= L.texto.length) w(q + ': la oración ' + n + ' no existe en el texto (van de 0 a ' + (L.texto.length - 1) + ').'); });
       if (it.k === 'opcion') {
         if (!it.o || it.o.length < 2) w(q + ': necesita al menos 2 opciones.'); else if (new Set(it.o).size !== it.o.length) w(q + ': tiene opciones repetidas.');
@@ -57,8 +57,8 @@ function validar() {
     });
     if (L.explica) {
       var E = L.explica;
-      if (!E.q || !E.modelo) w('«explica» necesita q (la pregunta) y modelo (la respuesta modelo).');
-      if (!E.claves || E.claves.length < 2) w('«explica» necesita al menos 2 ideas clave.');
+      if (!E.q || !E.modelo) w('"explica" necesita q (la pregunta) y modelo (la respuesta modelo).');
+      if (!E.claves || E.claves.length < 2) w('"explica" necesita al menos 2 ideas clave.');
       else E.claves.forEach(function (cl, i) { if (!cl.t || !cl.k || !cl.k.length) w('idea clave ' + (i + 1) + ': necesita t (texto) y k (lista de palabras clave).'); });
     }
     if (L.items.length < 5) w('conviene tener al menos 5 preguntas (tiene ' + L.items.length + ').');
@@ -73,7 +73,7 @@ function revisar() {
   h += '<h3>Fichas cargadas</h3>';
   if (!v.resumen.length) h += '<p>No se cargó ninguna ficha. Revisa data/lista.js.</p>';
   v.resumen.forEach(function (r) {
-    h += '<p><b>' + esc(r.titulo) + '</b> (' + r.mat + ')<br>' + (r.op + r.vf + r.ord) + ' preguntas: ' + r.op + ' de opción, ' + r.vf + ' de verdadero o falso, ' + r.ord + ' de ordenar' + (r.cm ? ' (incluye ' + r.cm + ' de «Corrige a tu mascota»)' : '') + '.<br>Por tema: ' +
+    h += '<p><b>' + esc(r.titulo) + '</b> (' + r.mat + ')<br>' + (r.op + r.vf + r.ord) + ' preguntas: ' + r.op + ' de opción, ' + r.vf + ' de verdadero o falso, ' + r.ord + ' de ordenar' + (r.cm ? ' (incluye ' + r.cm + ' de "Corrige a tu mascota")' : '') + '.<br>Por tema: ' +
       Object.keys(r.temas).map(function (t) { return t + ' = ' + r.temas[t]; }).join(' · ') + '</p>';
     Object.keys(r.temas).forEach(function (t) { if (r.temas[t] < 4) h += '<p class="rvbad">El tema ' + t + ' tiene solo ' + r.temas[t] + (r.temas[t] === 1 ? ' pregunta' : ' preguntas') + '; conviene tener al menos 4.</p>'; });
   });
@@ -133,11 +133,11 @@ function resumenMaestro() {
     }
     var cs = s.cal.s[0] + s.cal.s[1], cd = s.cal.d[0] + s.cal.d[1], ca = s.cal.a[0] + s.cal.a[1];
     if (cs + cd + ca >= 5) {
-      var cc = 'Al responder marcó «Lo sé» ' + cs + ' veces (acertó ' + s.cal.s[0] + '), marcó «Dudo» ' + cd + ' y «Adiviné» ' + ca + (s.cal.a[0] ? ' (acertó ' + s.cal.a[0] + ' por suerte)' : '') + '.';
+      var cc = 'Al responder marcó "Lo sé" ' + cs + ' veces (acertó ' + s.cal.s[0] + '), marcó "Dudo" ' + cd + ' y "Adiviné" ' + ca + (s.cal.a[0] ? ' (acertó ' + s.cal.a[0] + ' por suerte)' : '') + '.';
       L.push('- ' + cc);
       var Tsf = {}; Object.keys(s.sf).forEach(function (id) { if (PORID[id]) Tsf[PORID[id].tema] = (Tsf[PORID[id].tema] || 0) + s.sf[id]; });
       var tt = Object.keys(Tsf).sort(function (a, b) { return Tsf[b] - Tsf[a]; }).slice(0, 2).map(temaNombre).filter(Boolean);
-      if (tt.length) { L.push('- Ideas que marcó «Lo sé» pero eran incorrectas (las mejores para conversar en casa): ' + tt.join('; ') + '.'); if (!ideas.length) ideas.push(tt[0]); }
+      if (tt.length) { L.push('- Ideas que marcó "Lo sé" pero eran incorrectas (las mejores para conversar en casa): ' + tt.join('; ') + '.'); if (!ideas.length) ideas.push(tt[0]); }
     }
     if (fichasDe(mat).length) L.push('- Sellos de ficha ganados: ' + sellosDe(s) + ' de ' + fichasDe(mat).length + ' (título actual: ' + tituloDe(s).n + ').');
     if (s.ruta.veces) L.push('- Rutas diarias de repaso completadas: ' + s.ruta.veces + '.');
@@ -145,12 +145,12 @@ function resumenMaestro() {
     if (ls.length) L.push('- Lecturas científicas completadas: ' + ls.filter(function (x) { return s.lect[x.id] && s.lect[x.id].veces; }).length + ' de ' + ls.length + '.');
     if (hayHab) {
       var hs = HAB_ORDEN.filter(function (h) { return s.hab[h] && s.hab[h].n >= 2; }).sort(function (a, b) { return habPct(s, b) - habPct(s, a); });
-      if (hs.length >= 2 && habPct(s, hs[0]) !== habPct(s, hs[hs.length - 1])) L.push('- Comprensión de lectura: le va mejor en «' + HAB_CORTO[hs[0]].toLowerCase() + '» (' + habPct(s, hs[0]) + ' %) y puede reforzar «' + HAB_CORTO[hs[hs.length - 1]].toLowerCase() + '» (' + habPct(s, hs[hs.length - 1]) + ' %).');
-      else if (hs.length) L.push('- Comprensión de lectura: ' + habPct(s, hs[0]) + ' % de aciertos en «' + HAB_CORTO[hs[0]].toLowerCase() + '».');
+      if (hs.length >= 2 && habPct(s, hs[0]) !== habPct(s, hs[hs.length - 1])) L.push('- Comprensión de lectura: le va mejor en "' + HAB_CORTO[hs[0]].toLowerCase() + '" (' + habPct(s, hs[0]) + ' %) y puede reforzar "' + HAB_CORTO[hs[hs.length - 1]].toLowerCase() + '" (' + habPct(s, hs[hs.length - 1]) + ' %).');
+      else if (hs.length) L.push('- Comprensión de lectura: ' + habPct(s, hs[0]) + ' % de aciertos en "' + HAB_CORTO[hs[0]].toLowerCase() + '".');
     }
   });
   if (!alguna) { L.push(''); L.push('Todavía no hay actividad de repaso registrada.'); }
-  if (ideas.length) { L.push(''); L.push('Para conversar en casa: pídale que les explique con sus palabras «' + ideas[0] + '». Explicar es una de las mejores formas de aprender.'); }
+  if (ideas.length) { L.push(''); L.push('Para conversar en casa: pídale que les explique con sus palabras "' + ideas[0] + '". Explicar es una de las mejores formas de aprender.'); }
   L.push(''); L.push('Este reporte lo genera la app Citlalab con datos guardados solo en el dispositivo de quien lo usa. Se comparte con docentes únicamente cuando lo solicitan.');
   if (alguna) { L.push(''); L.push('Código para docentes (por favor no lo borre; sirve para sumar el reporte al análisis del grupo):'); L.push(codigoMaestro()); }
   return L.join('\n');

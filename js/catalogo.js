@@ -20,7 +20,7 @@ var ETAPAS = ['Origen', 'Brote', 'Joven', 'Sabiduría'];   // la etapa 0 de cada
    XP_ETAPA = puntos para transformarse de su forma inicial en Brote (15), ser Joven (300) y llegar a Sabiduría (1200).
    La primera transformación es rápida a propósito (3 aciertos, en el primer minuto) para llamar la atención; después cuesta más.
    Una ruta de hoy completa da unos 50 a 60 puntos, así que Joven llega en aproximadamente una semana de uso diario y Sabiduría en cerca de un mes.
-   XP_DIA_MAX = tope de puntos por materia y por día (evita que se «cultive» puntos repitiendo preguntas). */
+   XP_DIA_MAX = tope de puntos por materia y por día (evita que se "cultive" puntos repitiendo preguntas). */
 var XP_ETAPA = [0, 15, 300, 1200];
 var XP_DIA_MAX = 150;
 var PTS = { acierto: 5, carta: 3, atomo: 10, jefe: 30, cofre: 8, lluvia: 4, lectura: 3, ruta: 10 };   // puntos por tipo de actividad
@@ -73,12 +73,12 @@ var COFRE_POOL = [['ropa', 'audifonos'], ['pared', 'bosque'], ['decor', 'planta'
      rol     = lo que hizo (se muestra tal cual)
      nombre  = cómo quiere aparecer (el nombre que ella o él elija)
      icono   = 'idea' | 'codigo' | 'estrella'
-     familias = texto más completo que sale en «Información para familias» (opcional)
+     familias = texto más completo que sale en "Información para familias" (opcional)
    Si un renglón no tiene nombre, no se muestra. */
 var CREDITOS = {
   titulo: 'Hecho en el laboratorio por…',
   equipo: [
-    { rol: 'Idea y concepto', nombre: 'Soff Escalante', icono: 'idea' },
+    { rol: 'Idea y concepto', nombre: 'Soff Escalante', icono: 'idea', familias: 'Soff Escalante, biotecnóloga' },
     { rol: 'Desarrollo', nombre: 'Uriel Lara', icono: 'codigo', familias: 'Uriel Lara Guzmán, docente de Ciencias' }
   ]
 };

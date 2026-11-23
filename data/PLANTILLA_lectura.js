@@ -14,7 +14,7 @@
      LO(habilidad, pregunta, [opciones], [oraciones-prueba], explicación)
          Opción múltiple. La PRIMERA opción es la correcta; la app las mezcla sola.
      LV(habilidad, afirmación, 'v' | 'f' | 'n', [oraciones-prueba], explicación)
-         Verdadero, falso o «el texto no lo dice». 'v' verdadero, 'f' falso, 'n' el texto no lo dice.
+         Verdadero, falso o "el texto no lo dice". 'v' verdadero, 'f' falso, 'n' el texto no lo dice.
          Para 'n' deja las oraciones-prueba vacías: [].
          Buen uso de 'n': una idea que es cierta en la materia pero que ESTE texto no menciona.
      LE(instrucción, [oraciones-prueba], explicación)
@@ -24,20 +24,20 @@
 
    HABILIDADES para LO y LV:  'literal' (lo que dice el texto) · 'inferencia' (lo que se deduce)
                               · 'vocabulario' (una palabra según el contexto)
-   LE cuenta como «evidencia» y LS como «secuencia» automáticamente.
+   LE cuenta como "evidencia" y LS como "secuencia" automáticamente.
    Procura mezclar al menos 3 habilidades distintas en cada lectura.
 
    Las oraciones-prueba se resaltan en el texto cuando el estudiante responde.
 
    EXPLÍCALO CON TUS PALABRAS (opcional, al final de la lectura)
    Agrega  explica: { q, modelo, claves }  junto a texto e items. El alumno escribe su explicación, ve la respuesta modelo y se
-   autoevalúa con tu lista de ideas clave. La app sugiere qué ideas detectó buscando las palabras de «k» (sin importar acentos
-   ni mayúsculas) y el estudiante decide. No da puntos, el estudiante tiene que escribirla él mismo (no se escucha ni se puede saltar) y lo que escribe no se guarda. «min» = cuántas palabras de «k» deben aparecer
+   autoevalúa con tu lista de ideas clave. La app sugiere qué ideas detectó buscando las palabras de "k" (sin importar acentos
+   ni mayúsculas) y el estudiante decide. No da puntos, el estudiante tiene que escribirla él mismo (no se escucha ni se puede saltar) y lo que escribe no se guarda. "min" = cuántas palabras de "k" deben aparecer
    para marcar la idea como detectada (si lo omites, con una basta).
 
    ALTERNATIVA A ESCRIBIR (recomendada): agrega  falsas: ['idea que NO es cierta', 'otra idea falsa']  dentro de explica. Así el estudiante que lo prefiera
-   (o que active «Elegir en vez de escribir» en Ajustes) toca las ideas que sí explican la respuesta, entre las de «claves» y estas falsas.
-   Escribe 2 falsas que sean errores típicos de los estudiantes, redactadas como las ideas de «claves». Si no las pones, solo se puede escribir. */
+   (o que active "Elegir en vez de escribir" en Ajustes) toca las ideas que sí explican la respuesta, entre las de "claves" y estas falsas.
+   Escribe 2 falsas que sean errores típicos de los estudiantes, redactadas como las ideas de "claves". Si no las pones, solo se puede escribir. */
 REPASO.lectura({
   materia: 'biologia', ficha: 'b3', id: 'b3-l1', tema: 't1',
   titulo: 'Título de la lectura',
@@ -58,7 +58,7 @@ REPASO.lectura({
   },
   items: [
     LO('literal', '¿Pregunta sobre algo que dice el texto?', ['Respuesta correcta', 'Distractor 1', 'Distractor 2', 'Distractor 3'], [1], 'Por qué es correcta.'),
-    LO('vocabulario', 'En el texto, «palabra» significa…', ['Significado correcto', 'Otro significado', 'Otro más'], [2], 'La oración lo explica.'),
+    LO('vocabulario', 'En el texto, "palabra" significa…', ['Significado correcto', 'Otro significado', 'Otro más'], [2], 'La oración lo explica.'),
     LV('inferencia', 'Afirmación que se deduce del texto.', 'v', [0, 3], 'Por qué es verdadera.'),
     LV('literal', 'Afirmación que el texto no menciona.', 'n', [], 'El texto no lo dice, aunque sea cierto en la materia.'),
     LE('Toca la oración que prueba que…', [3], 'Esa oración lo dice.'),

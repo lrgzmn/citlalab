@@ -110,12 +110,12 @@ function mostrarL() {
     var q = Object.assign({}, it, { tema: 'lectura' });
     pintarPregunta(q, { tag: 'l-tag', text: 'l-text', opts: 'l-opts' }, function (bien) { responderL(it, bien); });
     $('l-tag').textContent = tag;
-    if (it.vfn) $('l-text').textContent = '«' + it.q + '»';
+    if (it.vfn) $('l-text').textContent = '"' + it.q + '"';
   }
   window.scrollTo(0, 0); enfocar('l-text');
 }
 function respL(it) {
-  if (it.k === 'evid') return '«' + lc.L.texto[it.ev[0]] + '»';
+  if (it.k === 'evid') return '"' + lc.L.texto[it.ev[0]] + '"';
   if (it.k === 'orden') return it.items.join(' → ');
   return correcta(it);
 }
@@ -151,7 +151,7 @@ $('l-next').onclick = function () {
 };
 function terminarLectura() {
   var s = cur(), L = lc.L, rec = s.lect[L.id], tot = L.items.length, ex = null;
-  if (lc.checks) {   /* autoevaluación de «explícalo con tus palabras»: no da puntos, solo registra cómo le fue */
+  if (lc.checks) {   /* autoevaluación de "explícalo con tus palabras": no da puntos, solo registra cómo le fue */
     var c = lc.checks.filter(function (k) { return k.checked; }).length, n = lc.checks.length;
     var h = s.hab.explicar = s.hab.explicar || { n: 0, c: 0 }; h.n += n; h.c += c; ex = [c, n];
   }

@@ -185,12 +185,18 @@ function bossMk(est){
 /* ================= CUARTO ================= */
 var SLOTS = {A:[-14,58],B:[-12,146],C:[214,58],D:[212,146]};
 function paredDe(id){ return PAREDES.filter(function(x){return x.id===id;})[0]||PAREDES[0]; }
+/* colores del cuarto: de noche se oscurecen las paredes, el piso y la alfombra */
+function cuartoCol(w){
+  if(!temaNoche()) return {a:w.a,b:w.b,d:w.d,zoc:'#c9d6f3',piso:'#e4d6c0',linea:'#d3c3aa',al1:'#ff9fb8',al2:'#ffc0d2',alop:.75};
+  var N='#0f1330';
+  return {a:mezclaHex(w.a,N,.8),b:mezclaHex(w.b,N,.74),d:mezclaHex(w.d,N,.55),zoc:'#2d3566',piso:'#2a2440',linea:'#38304f',al1:'#b04b72',al2:'#c8668c',alop:.6};
+}
 function roomMk(s){
-  var w=paredDe(s.pared), h='<defs><linearGradient id="gWall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="'+w.a+'"/><stop offset="1" stop-color="'+w.b+'"/></linearGradient></defs>'+
+  var w=paredDe(s.pared), K=cuartoCol(w); w={a:K.a,b:K.b,d:K.d}; var h='<defs><linearGradient id="gWall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="'+w.a+'"/><stop offset="1" stop-color="'+w.b+'"/></linearGradient></defs>'+
     '<rect x="-300" y="-40" width="800" height="202" fill="url(#gWall)"/><g fill="'+w.d+'" opacity=".7">';
   for(var i=0;i<14;i++) for(var j=0;j<6;j++) h+='<circle cx="'+(-100+i*32+(j%2)*16)+'" cy="'+(6+j*28)+'" r="2.4"/>';
-  h+='</g><rect x="-300" y="150" width="800" height="12" fill="#c9d6f3"/><rect x="-300" y="162" width="800" height="120" fill="#e4d6c0"/>'+
-     '<path d="M-300 178 H500 M-300 190 H500" stroke="#d3c3aa" stroke-width="1.5"/><ellipse cx="100" cy="182" rx="78" ry="12" fill="#ff9fb8" opacity=".75"/><ellipse cx="100" cy="182" rx="62" ry="8" fill="#ffc0d2" opacity=".8"/>';
+  h+='</g><rect x="-300" y="150" width="800" height="12" fill="'+K.zoc+'"/><rect x="-300" y="162" width="800" height="120" fill="'+K.piso+'"/>'+
+     '<path d="M-300 178 H500 M-300 190 H500" stroke="'+K.linea+'" stroke-width="1.5"/><ellipse cx="100" cy="182" rx="78" ry="12" fill="'+K.al1+'" opacity="'+K.alop+'"/><ellipse cx="100" cy="182" rx="62" ry="8" fill="'+K.al2+'" opacity=".8"/>';
   ['A','B','C','D'].forEach(function(k){
     var id=s.decor[k]; if(!id) return;
     var it=DECOR.filter(function(d){return d.id===id;})[0];

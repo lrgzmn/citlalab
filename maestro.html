@@ -55,7 +55,7 @@
   <div class="kpis" id="kpis"></div>
 
   <h2>Mapa de dominio por tema</h2>
-  <p>Cada celda es el porcentaje de respuestas correctas de cada estudiante en ese tema (y entre paréntesis, cuántas contestó). Las celdas con «—» son temas que aún no practica. El color ayuda, pero el número y la marca ⚠ (menos de 50 %) dicen lo mismo.</p>
+  <p>Cada celda es el porcentaje de respuestas correctas de cada estudiante en ese tema (y entre paréntesis, cuántas contestó). Las celdas con "—" son temas que aún no practica. El color ayuda, pero el número y la marca ⚠ (menos de 50 %) dicen lo mismo.</p>
   <div class="leg" aria-hidden="true"><span class="c0">menos de 50 %</span><span class="c1">50 a 69 %</span><span class="c2">70 a 84 %</span><span class="c3">85 % o más</span></div>
   <div class="tw" tabindex="0" role="region" aria-label="Mapa de dominio por tema (se puede desplazar)"><table id="mapa"></table></div>
   <p id="leyTemas" style="font-size:.85rem"></p>
@@ -65,9 +65,9 @@
   <ol class="q" id="dificiles"></ol>
 
   <h2>Seguridad al responder</h2>
-  <p>Antes de ver si acertaron, cada estudiante marca «Lo sé», «Dudo» o «Adiviné». Lo más valioso son las respuestas marcadas «Lo sé» que resultaron incorrectas: son ideas equivocadas que conviene aclarar en clase.</p>
+  <p>Antes de ver si acertaron, cada estudiante marca "Lo sé", "Dudo" o "Adiviné". Lo más valioso son las respuestas marcadas "Lo sé" que resultaron incorrectas: son ideas equivocadas que conviene aclarar en clase.</p>
   <div class="kpis" id="cal"></div>
-  <h3>Preguntas donde más estudiantes marcaron «Lo sé» y se equivocaron</h3>
+  <h3>Preguntas donde más estudiantes marcaron "Lo sé" y se equivocaron</h3>
   <ol class="q" id="confundidas"></ol>
 
   <h2>Comprensión lectora (promedio del grupo)</h2>
@@ -160,7 +160,7 @@ window.addEventListener('load', function () {
     var K = [0, 0, 0, 0, 0, 0], Z = {}, rutas = 0, sellos = 0;
     estudiantes.forEach(function (r) { var x = r.m[mat]; (x.k || []).forEach(function (v, i) { K[i] += v; }); rutas += x.u || 0; sellos += x.s || 0; Object.keys(x.z || {}).forEach(function (id) { var z = Z[id] = Z[id] || [0, 0]; z[0] += x.z[id]; z[1]++; }); });
     var totK = K.reduce(function (a, b) { return a + b; }, 0), ns = K[0] + K[1];
-    $('cal').innerHTML = totK ? '<div class="kpi"><b>' + (ns ? pct(ns, K[0]) + ' %' : '—') + '</b><span>aciertos cuando marcaron «Lo sé»</span></div><div class="kpi"><b>' + K[1] + '</b><span>veces «Lo sé» con respuesta incorrecta</span></div><div class="kpi"><b>' + K[4] + '</b><span>aciertos que fueron adivinados</span></div><div class="kpi"><b>' + rutas + '</b><span>rutas diarias completadas</span></div><div class="kpi"><b>' + sellos + '</b><span>sellos de ficha ganados en total</span></div>' : '<p>Todavía no hay datos de seguridad (los reportes son de una versión anterior o la persona la desactivó).</p>';
+    $('cal').innerHTML = totK ? '<div class="kpi"><b>' + (ns ? pct(ns, K[0]) + ' %' : '—') + '</b><span>aciertos cuando marcaron "Lo sé"</span></div><div class="kpi"><b>' + K[1] + '</b><span>veces "Lo sé" con respuesta incorrecta</span></div><div class="kpi"><b>' + K[4] + '</b><span>aciertos que fueron adivinados</span></div><div class="kpi"><b>' + rutas + '</b><span>rutas diarias completadas</span></div><div class="kpi"><b>' + sellos + '</b><span>sellos de ficha ganados en total</span></div>' : '<p>Todavía no hay datos de seguridad (los reportes son de una versión anterior o la persona la desactivó).</p>';
     var zc = Object.keys(Z).filter(function (id) { return PORID[id]; }).sort(function (a, b) { return Z[b][1] - Z[a][1] || Z[b][0] - Z[a][0]; }).slice(0, 6);
     $('confundidas').innerHTML = zc.length ? zc.map(function (id) { return '<li><b>' + Z[id][1] + (Z[id][1] === 1 ? ' estudiante' : ' estudiantes') + '</b> (' + Z[id][0] + ' veces) <span class="tag">' + id + '</span><br>' + esc(PORID[id].q.replace('{m}', 'La mascota')) + '</li>'; }).join('') : '<li>Sin casos todavía.</li>';
 
@@ -178,7 +178,7 @@ window.addEventListener('load', function () {
       if (r.d <= 1) rs.push('repasó ' + r.d + ' día(s) de los últimos 7');
       if (n >= 5 && pct(n, c) < 60) rs.push('acierta ' + pct(n, c) + ' %');
       if (flojos.length) rs.push('tema(s) por debajo de 50 %: ' + flojos.slice(0, 3).join(', '));
-      if (x.k && x.k[1] >= 3) rs.push('marcó «Lo sé» y se equivocó ' + x.k[1] + ' veces (ideas por aclarar)');
+      if (x.k && x.k[1] >= 3) rs.push('marcó "Lo sé" y se equivocó ' + x.k[1] + ' veces (ideas por aclarar)');
       if (rs.length) s.push('<li><b>' + esc(r.a || 'Sin nombre') + '</b>: ' + esc(rs.join('; ')) + '. <span class="tag">reporte del ' + fechaTxt(r.f) + '</span></li>');
     });
     $('seguir').innerHTML = s.length ? s.join('') : '<li>Nadie cumple los criterios de seguimiento con los reportes actuales.</li>';
