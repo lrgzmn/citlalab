@@ -6,10 +6,10 @@ No tiene cuentas, anuncios, compras ni rastreadores. Funciona sin internet despu
 
 ## Cómo se publica en GitHub Pages (todo desde el navegador)
 
-1. Entra a github.com, crea un repositorio nuevo (por ejemplo `repaso`) y márcalo como **Public**.
+1. Entra a github.com, crea un repositorio nuevo (por ejemplo `citlalab`) y márcalo como **Public**.
 2. En el repositorio pulsa **Add file → Upload files**. Descomprime este zip y arrastra **todo su contenido** (las carpetas `css`, `js`, `data`, `icons` y los archivos sueltos, incluido `.nojekyll`). Pulsa **Commit changes**.
 3. Ve a **Settings → Pages**. En *Source* elige **Deploy from a branch**, rama **main**, carpeta **/ (root)** y guarda.
-4. En uno o dos minutos la app queda en `https://TU-USUARIO.github.io/repaso/`. Comparte esa dirección con los estudiantes.
+4. En uno o dos minutos la app queda en `https://TU-USUARIO.github.io/citlalab/`. Comparte esa dirección con los estudiantes.
 
 ## Cómo agregar una ficha (pasada o futura)
 
@@ -67,7 +67,7 @@ La app se revisó con la herramienta automática axe-core en todas sus pantallas
 ## Accesibilidad y apoyos para todos (Ajustes → Accesibilidad)
 
 - **Alto contraste**: texto negro sobre blanco, bordes marcados y un azul fuerte para todas las materias (cumple el contraste reforzado 7:1 en las pantallas principales).
-- **Tipo de letra**: Normal, «Fácil de leer» (Atkinson Hyperlegible, con más espacio entre letras y palabras) y «Dislexia» (OpenDyslexic, con más espacio). La evidencia sobre las letras especiales es mixta; lo que más ayuda es el espacio, y por eso las dos opciones lo aumentan. Las fuentes van dentro de la app (`fonts/`, licencia SIL Open Font) y funcionan sin internet.
+- **Tipo de letra**: Normal, «Fácil de leer» (Atkinson Hyperlegible, pensada para que cada letra se distinga de las demás, útil para baja visión o lectura cansada, con más espacio entre letras y palabras) y «Dislexia» (OpenDyslexic, con más espacio). La evidencia sobre las letras especiales es mixta; lo que más ayuda es el espacio, y por eso las dos opciones lo aumentan. Las fuentes van dentro de la app (`fonts/`, licencia SIL Open Font) y funcionan sin internet.
 - **Leer preguntas en voz alta**: botón «Escuchar la pregunta» y «Escuchar la explicación», y un ajuste para que se lean solas. Solo se usan voces en español que ya viven en el dispositivo (nada se manda a ningún servidor); si no hay una, los botones no aparecen.
 - **Juegos tranquilos**: en «Lluvia de respuestas» todo va más lento y se elige tocando; en «Dónde está la mascota» hay menos cambios y más despacio. La voz también habla más lento.
 - **Elegir en vez de escribir**: en «Explícalo con tus palabras» el estudiante puede tocar las ideas correctas (entre ideas falsas) en lugar de teclear. Siempre hay un enlace para cambiar de modo. Requiere agregar `falsas` en cada lectura (ver `data/PLANTILLA_lectura.js`).

@@ -491,3 +491,5 @@ html.contraste .combo{color:#7a3a00}
 html.contraste .equipo{background:#fff;border:2px solid #000}
 html.contraste .eq-p{border:2px solid #000}
 html.contraste .equipo h3,html.contraste .eq-tx small{color:#1f1f1f}
+/* evita que un deslizamiento hacia abajo recargue la página (y reinicie la pantalla) en el navegador del celular */
+html,body{overscroll-behavior:none}

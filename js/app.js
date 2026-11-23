@@ -154,7 +154,27 @@ function go(v) {
   if (v === 'home') { actualizarTiempo(cur()); renderHome(); }
   if (v === 'room') renderRoom(); if (v === 'custom') renderCustom(); if (v === 'prog') renderProg(); if (v === 'games') renderGames(); if (v === 'lecturas') renderLecturas(); if (v === 'set') renderSet();
   window.scrollTo(0, 0);
+  histGo(v);
 }
+/* Botón «atrás» del celular: desde cualquier pantalla interna regresa al inicio de la app (no la cierra);
+   desde el inicio sí sale, como siempre. Solo se agrega una entrada al historial cuando se sale del inicio. */
+var navPop = false;
+function esRaiz(v) { return v === 'home' || v === 'ob0'; }
+function histGo(v) {
+  if (navPop) return;
+  try {
+    var st = history.state;
+    if (st && st.s) history.replaceState({ s: 1 }, '');
+    else if (!esRaiz(v)) history.pushState({ s: 1 }, '');
+  } catch (e) {}
+}
+window.addEventListener('popstate', function (e) {
+  try {
+    if (e.state && e.state.s) return;
+    if (esRaiz(vistaActual)) { history.back(); return; }
+    navPop = true; go('home'); navPop = false;
+  } catch (x) { navPop = false; }
+});
 function aplicarTema() {
   var m = MAT[ST.activa], ph = $('phone');
   ph.style.setProperty('--brand', m.brand); ph.style.setProperty('--brand-d', m.dk); ph.style.setProperty('--brand-soft', m.soft); ph.style.setProperty('--brand-line', m.line);
@@ -966,6 +986,8 @@ function renderPerfiles() {
   });
   var ios = /iP(hone|ad|od)/.test(navigator.userAgent) && !navigator.standalone && !(window.matchMedia && matchMedia('(display-mode: standalone)').matches);
   $('ios-aviso').hidden = !ios;
+  var instalada = !!navigator.standalone || !!(window.matchMedia && matchMedia('(display-mode: standalone)').matches);
+  $('and-aviso').hidden = instalada || /iP(hone|ad|od)/.test(navigator.userAgent);
 }
 function activarPerfil(id) {
   guardar(); elegirPerfil(id); petKey = ''; aplicarCfg();
@@ -1117,7 +1139,7 @@ function pintarCreditos() {
     box.hidden = !eq.length; t.textContent = C.titulo || ''; fila.innerHTML = '';
     eq.forEach(function (p) {
       var r = el('div', 'eq-p'), ic = el('span', 'eq-ic'); ic.innerHTML = ICO_CRED[p.icono] || ICO_CRED.estrella;
-      var tx = el('span', 'eq-tx'); tx.appendChild(el('small', '', p.rol || '')); tx.appendChild(el('b', '', p.nombre));
+      var tx = el('span', 'eq-tx'); tx.appendChild(el('small', '', p.rol ? p.rol + ':' : '')); tx.appendChild(el('b', '', p.nombre));
       r.appendChild(ic); r.appendChild(tx); fila.appendChild(r);
     });
   }
