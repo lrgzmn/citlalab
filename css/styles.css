@@ -413,3 +413,5 @@ details.otra .frow{margin:8px 0 0}
 .sello-svg{width:72px;height:72px}
 .sello small{font-size:.76rem;color:var(--soft)}
 .sello.on small{color:var(--ink);font-weight:700}
+
+.creditos{text-align:center;color:var(--soft);font-size:.72rem;margin:6px 18px 10px}

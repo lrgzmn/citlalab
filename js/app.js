@@ -969,7 +969,7 @@ function iniciaAjustes() {
     ST.respaldo = fechaHoy(); var txt = exportarTodo(), ok = false;
     if (!window.REPASO_DEMO) try {   /* en la versión de demostración (dentro de una página que bloquea descargas) se muestra el código en su lugar */
       var blob = new Blob([txt], { type: 'application/json' }), u = URL.createObjectURL(blob), a = document.createElement('a');
-      a.href = u; a.download = 'repaso-respaldo-' + fechaHoy() + '.json'; document.body.appendChild(a); a.click(); a.remove();
+      a.href = u; a.download = 'citlalab-respaldo-' + fechaHoy() + '.json'; document.body.appendChild(a); a.click(); a.remove();
       setTimeout(function () { URL.revokeObjectURL(u); }, 4000); ok = true;
     } catch (e) {}
     if (ok) { ST.respaldo = fechaHoy(); guardar(); ultimoRespaldo(); $('bk-msg').textContent = 'Listo: se descargó un archivo. Guárdalo en un lugar seguro (en tu celular lo encuentras en «Archivos» o «Descargas»). Para recuperarlo, usa «Restaurar desde archivo».'; }
@@ -981,8 +981,8 @@ function iniciaAjustes() {
     /* Solo se leen archivos de texto de respaldo. Fotos, videos, audios y cualquier otro tipo se rechazan SIN abrirlos. */
     var nom = String(f.name || '').toLowerCase(), tipo = String(f.type || '').toLowerCase();
     var esTexto = /\.(json|txt)$/.test(nom) && (!tipo || tipo === 'application/json' || tipo === 'text/plain');
-    if (!esTexto) { $('bk-msg').textContent = 'Ese archivo no es un respaldo. Elige el archivo .json que descargaste desde Repaso (no fotos ni videos).'; return; }
-    if (f.size > 1000000) { $('bk-msg').textContent = 'Ese archivo es demasiado grande para ser un respaldo de Repaso.'; return; }
+    if (!esTexto) { $('bk-msg').textContent = 'Ese archivo no es un respaldo. Elige el archivo .json que descargaste desde Citlalab (no fotos ni videos).'; return; }
+    if (f.size > 1000000) { $('bk-msg').textContent = 'Ese archivo es demasiado grande para ser un respaldo de Citlalab.'; return; }
     var rd = new FileReader();
     rd.onload = function () { preparaRestaurar(String(rd.result)); };
     rd.onerror = function () { $('bk-msg').textContent = 'No se pudo leer ese archivo.'; };
@@ -990,7 +990,7 @@ function iniciaAjustes() {
   };
   function preparaRestaurar(txt) {
     var r = leerRespaldo(txt);
-    if (!r) { pendiente = null; $('bk-conf').hidden = true; $('bk-msg').textContent = 'Ese archivo o código no sirve. Revisa que sea un respaldo de Repaso y que esté completo.'; return; }
+    if (!r) { pendiente = null; $('bk-conf').hidden = true; $('bk-msg').textContent = 'Ese archivo o código no sirve. Revisa que sea un respaldo de Citlalab y que esté completo.'; return; }
     pendiente = r; $('bk-conf').hidden = false;
     $('bk-conf-t').textContent = 'Encontré un respaldo con ' + r.ids.length + (r.ids.length === 1 ? ' perfil' : ' perfiles') + (r.fecha ? ' (hecho el ' + r.fecha.split('-').reverse().join('/') + ')' : '') + '. Al restaurarlo se reemplaza el avance que hay ahora en este dispositivo.';
     $('bk-msg').textContent = ''; $('bk-si').focus();

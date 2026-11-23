@@ -1,4 +1,4 @@
-# Repaso · Cuida a tu mascota repasando ciencias
+# Citlalab · Cuida a tu mascota repasando ciencias
 
 App web para repasar Biología, Física y Química. Cada materia tiene su mascota (Atomín, Neurín y Matracín, con versión niña y niño). Cada una empieza como algo real de su materia (Física: un átomo de hidrógeno; Biología: una célula madre neural; Química: un matraz con un cristal semilla), se transforma en su primer repaso y evoluciona poco a poco mientras el cuarto se llena con lo que van desbloqueando. El avance se guarda solo en el dispositivo de cada alumno.
 
@@ -125,4 +125,4 @@ data/PLANTILLA_*.js   plantillas para fichas y lecturas nuevas
 sw.js, manifest.*     para que funcione sin internet y se pueda instalar
 ```
 
-Creada por Uriel, docente de Ciencias.
+Creada por Uriel Lara Guzmán, docente de Ciencias.

@@ -149,7 +149,7 @@ function resumenMaestro() {
   });
   if (!alguna) { L.push(''); L.push('Todavía no hay actividad de repaso registrada.'); }
   if (ideas.length) { L.push(''); L.push('Para conversar en casa: pídale que les explique con sus palabras «' + ideas[0] + '». Explicar es una de las mejores formas de aprender.'); }
-  L.push(''); L.push('Este reporte lo genera la app Repaso con datos guardados solo en el dispositivo del alumno. Se comparte con el maestro únicamente cuando él lo solicita.');
+  L.push(''); L.push('Este reporte lo genera la app Citlalab con datos guardados solo en el dispositivo del alumno. Se comparte con el maestro únicamente cuando él lo solicita.');
   if (alguna) { L.push(''); L.push('Código para el maestro (por favor no lo borre; sirve para sumar el reporte al análisis del grupo):'); L.push(codigoMaestro()); }
   return L.join('\n');
 }
