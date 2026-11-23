@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Repaso · Cuida a tu mascota repasando ciencias</title>
+<meta name="author" content="Uriel, docente de Ciencias">
+<meta name="description" content="Repasa Biología, Física y Química cuidando a tu mascota. Sin cuentas, sin anuncios y sin compras.">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; manifest-src 'self'; worker-src 'self'; connect-src 'none'; form-action 'none'; base-uri 'none'; frame-src 'none'; object-src 'none'; media-src 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#4a67ee">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<noscript><p style="padding:24px;font-family:sans-serif">Esta app necesita JavaScript para funcionar.</p></noscript>
+<canvas id="cf" aria-hidden="true"></canvas>
+
+<div class="phone" id="phone" data-view="home" data-size="l">
+  <header class="top">
+    <div class="brand">Repaso</div>
+    <div class="rt" id="rt">
+      <span class="chip" id="c-racha"></span><span class="chip b" id="c-dom"></span>
+      <button class="gear" id="b-set" aria-label="Ajustes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
+    </div>
+  </header>
+  <main id="main">
+  <h1 class="sr">Repaso: cuida a tu mascota repasando ciencias</h1>
+  <div class="pills" id="pills" role="group" aria-label="Materia"></div>
+
+  <!-- El cuarto de la mascota: siempre visible -->
+  <div class="stage" id="stage">
+    <svg id="scene" viewBox="-38 0 276 200" preserveAspectRatio="xMidYMax meet" overflow="visible">
+      <g id="roomG" aria-hidden="true"></g>
+      <svg id="pet" x="0" y="0" width="200" height="200" viewBox="0 0 200 200" overflow="visible" role="button" tabindex="0" aria-label="Tu mascota. Tócala para que reaccione"></svg>
+    </svg>
+    <div class="night" id="night" aria-hidden="true"><i class="moon"></i><b class="zz z1">z</b><b class="zz z2">z</b><b class="zz z3">Z</b></div>
+  </div>
+  <div class="say" id="say" role="status" aria-live="polite"></div>
+  <div class="name" id="name"><input id="nm" maxlength="14" aria-label="Nombre de tu mascota"></div>
+  <p class="lvl" id="lvl"></p>
+
+  <!-- Primera vez -->
+  <section class="view" id="v-ob0" aria-label="Bienvenida">
+    <div class="h1" style="margin-top:30px">Bienvenido a Repaso</div>
+    <p class="p">Tienes tres mascotas, una por materia: un átomo, una célula madre y un matraz con un cristal. Son personajes de juego. Repasa para que se transformen, crezcan y llenen su cuarto de cosas nuevas.</p>
+    <div class="obeggs" id="ob-eggs"></div>
+    <div class="seglbl">Quiero un personaje de</div>
+    <div class="seg" role="radiogroup" aria-label="Personaje" id="seg0"></div>
+    <button class="cta" id="ob-go" disabled>Empezar</button>
+    <p class="safe">Sin cuentas, sin anuncios, sin compras y sin internet. Tu avance se guarda solo en este dispositivo.</p>
+  </section>
+
+  <!-- Inicio -->
+  <section class="view" id="v-home" aria-label="Inicio">
+    <div class="bars" id="bars"></div>
+    <div class="actions">
+      <button class="big a" id="a-feed">Alimentar<small id="a-sub">Repasa 5 preguntas</small></button>
+      <button class="big g" id="a-play">Jugar<small id="a-play-sub">Tarjetas y más</small></button>
+    </div>
+    <div class="cards2" id="cards2"></div>
+    <p class="aviso" id="guardaaviso" hidden>Este navegador no deja guardar tu avance (¿modo privado?). Ábrelo en una ventana normal para no perderlo.</p>
+    <p class="safe">Sin cuentas, sin anuncios, sin compras y sin internet. Tu avance se guarda solo en este dispositivo.</p>
+  </section>
+
+  <!-- Juegos -->
+  <section class="view" id="v-games" aria-label="Jugar">
+    <div class="h1">¿A qué jugamos?</div>
+    <div class="gcards" id="gcards"></div>
+    <button class="link" id="g-back" style="align-self:center">Volver</button>
+  </section>
+
+  <!-- Lectura científica: lista -->
+  <section class="view" id="v-lecturas" aria-label="Lectura científica">
+    <div class="h1">Lectura científica</div>
+    <p class="p" id="lc-intro" style="margin-top:0">Lee con calma, busca pruebas en el texto y responde. Ganas puntos una vez por día en cada lectura.</p>
+    <div class="gcards" id="lc-list"></div>
+    <button class="link" id="lc-back" style="align-self:center">Volver</button>
+  </section>
+
+  <!-- Lectura científica: una lectura -->
+  <section class="view" id="v-lect" aria-label="Lectura">
+    <div class="qhead"><button class="link" id="l-exit" style="margin:0;min-height:36px;font-size:.85rem">Salir</button><span class="pr"><i id="l-pr"></i></span><span class="cnt" id="l-cnt"></span></div>
+    <article class="pasaje" id="l-pas" aria-label="Texto para leer">
+      <div class="pt"><b id="l-tit"></b><button class="voz" id="l-voz-t" hidden aria-label="Escuchar el texto" aria-pressed="false">Escuchar</button></div>
+      <p id="l-txt"></p>
+    </article>
+    <div class="qtag" id="l-tag"></div>
+    <div class="qtext" id="l-text"></div>
+    <button class="voz sm" id="l-voz-q" hidden aria-label="Escuchar la pregunta">Escuchar pregunta</button>
+    <div class="opts" id="l-opts"></div>
+    <div class="fb" id="l-fb" hidden role="status"></div>
+    <button class="cta" id="l-next" hidden>Siguiente</button>
+  </section>
+
+  <!-- Tarjetas -->
+  <section class="view" id="v-cards" aria-label="Verdadero o falso">
+    <div class="qhead"><button class="link" id="c-exit" style="margin:0;min-height:36px;font-size:.85rem">Salir</button><span class="pr"><i id="c-pr"></i></span><span class="cnt" id="c-cnt"></span></div>
+    <div class="combo" id="combo"></div>
+    <div class="deck" id="deck"></div>
+    <p class="swipehint">Desliza a la derecha si es verdadero y a la izquierda si es falso.</p>
+    <div class="dir"><button class="f" id="d-f">Falso</button><button class="v" id="d-v">Verdadero</button></div>
+    <div class="fb" id="c-fb" hidden role="status"></div>
+    <button class="cta" id="c-ok" hidden>Entendido</button>
+  </section>
+
+  <!-- Armar el átomo -->
+  <section class="view" id="v-atom" aria-label="Armar el átomo">
+    <div class="qhead"><button class="link" id="at-exit" style="margin:0;min-height:36px;font-size:.85rem">Salir</button><span class="pr"><i id="at-pr"></i></span><span class="cnt" id="at-cnt"></span></div>
+    <svg class="atomsvg" id="atomSvg" viewBox="0 0 200 200" role="img" aria-label="Tu átomo"></svg>
+    <div class="task" id="at-task"></div>
+    <div class="parts" id="at-parts"></div>
+    <div class="chg" id="at-chg"></div>
+    <div class="atfb" id="at-fb" role="status">Toca + y − para agregar o quitar partículas.</div>
+    <button class="cta" id="at-check">Comprobar</button>
+    <button class="cta" id="at-next" hidden>Siguiente átomo</button>
+  </section>
+
+  <!-- Lluvia de respuestas -->
+  <section class="view" id="v-lluvia" aria-label="Lluvia de respuestas">
+    <div class="qhead"><button class="link" id="ll-exit" style="margin:0;min-height:36px;font-size:.85rem">Salir</button><span class="pr"><i id="ll-pr"></i></span><span class="cnt" id="ll-cnt"></span></div>
+    <div class="qtag" id="ll-tag"></div>
+    <div class="qtext" id="ll-q" style="font-size:1.1rem"></div>
+    <div class="llarea" id="ll-area"></div>
+    <p class="swipehint">Arrastra a tu mascota (o toca una burbuja) para atrapar la respuesta correcta.</p>
+    <div class="fb" id="ll-fb" hidden role="status"></div>
+    <button class="cta" id="ll-next" hidden>Siguiente</button>
+  </section>
+
+  <!-- Dónde está la mascota -->
+  <section class="view" id="v-vasos" aria-label="Dónde está la mascota">
+    <div class="qhead"><button class="link" id="vs-exit" style="margin:0;min-height:36px;font-size:.85rem">Salir</button><span class="pr"><i id="vs-pr"></i></span><span class="cnt" id="vs-cnt"></span></div>
+    <div class="h1" id="vs-msg" style="font-size:1.1rem;margin-top:6px" role="status"></div>
+    <div class="vsarea" id="vs-area"></div>
+  </section>
+
+  <!-- Hora de dormir -->
+  <section class="view" id="v-sleep" aria-label="Hora de dormir">
+    <div class="h1" id="sl-t" style="margin-top:12px">Hora de dormir</div>
+    <p class="p" id="sl-p">Apaga la luz para que tu mascota descanse. Dormir le da felicidad.</p>
+    <button class="cta" id="sl-btn">Apagar la luz</button>
+    <button class="link" id="sl-exit" style="align-self:center">Volver</button>
+  </section>
+
+  <!-- Jefe -->
+  <section class="view" id="v-boss" aria-label="Jefe de la ficha">
+    <div class="bossbox" id="bossbox"><svg id="bossSvg" viewBox="0 0 150 110" role="img" aria-label="Jefe"></svg><div class="bname" id="bname"></div><div class="hp" id="hp"></div></div>
+    <div class="qtag" id="bq-tag"></div>
+    <div class="qtext" id="bq-text" style="font-size:1.1rem"></div>
+    <div class="opts" id="bq-opts"></div>
+    <div class="fb" id="bq-fb" hidden role="status"></div>
+    <button class="cta" id="bq-next" hidden>Siguiente</button>
+    <button class="link" id="bq-exit" style="align-self:center">Salir del combate</button>
+  </section>
+
+  <!-- Cuarto -->
+  <section class="view" id="v-room" aria-label="Cuarto de la mascota">
+    <div class="h1" style="margin-top:12px;font-size:1.15rem">El laboratorio de <span id="room-name"></span></div>
+    <div class="seglbl">Pared</div>
+    <div class="grid" id="wallgrid"></div>
+    <div class="seglbl">Objetos</div>
+    <div class="grid" id="decgrid"></div>
+    <p class="roomhint" id="roomhint" role="status">Toca un objeto para ponerlo en el cuarto o quitarlo. Lo que desbloqueas aparece solo.</p>
+  </section>
+
+  <!-- Personalizar -->
+  <section class="view" id="v-custom" aria-label="Personalizar">
+    <div class="seg" role="radiogroup" aria-label="Personaje" id="seg2"></div>
+    <div class="tabs" role="tablist" id="tabs">
+      <button class="tab" role="tab" data-t="color" aria-selected="true">Color</button>
+      <button class="tab" role="tab" data-t="ojos" aria-selected="false">Ojos</button>
+      <button class="tab" role="tab" data-t="ropa" aria-selected="false">Ropa</button>
+    </div>
+    <div class="grid" id="grid"></div>
+    <p class="hint" id="hint" role="status"></p>
+  </section>
+
+  <!-- Progreso -->
+  <section class="view" id="v-prog" aria-label="Mi progreso">
+    <div class="sub">Mi racha</div>
+    <div class="week" id="week"></div>
+    <p class="p" id="racha-txt" style="margin-top:4px"></p>
+    <div class="sub">Mis sellos</div>
+    <div id="sellos" class="sellos-w"></div>
+    <div class="sub">Mis fichas</div>
+    <div id="topics"></div>
+    <div class="sub" id="hab-sub" hidden>Mi comprensión lectora</div>
+    <div class="habs" id="habs" hidden></div>
+    <div class="sub">Colección</div>
+    <p class="p" id="coll" style="text-align:left;margin-top:2px"></p>
+  </section>
+
+  <!-- Ajustes -->
+  <section class="view" id="v-set" aria-label="Ajustes">
+    <div class="h1">Ajustes</div>
+    <div class="row2"><span>Sonidos<small>Efectos suaves al acertar</small></span><button class="tog" id="t-snd" role="switch" aria-checked="true" aria-label="Sonidos"></button></div>
+    <div class="row2"><span>Vibración<small>Solo en celulares que la tengan</small></span><button class="tog" id="t-vib" role="switch" aria-checked="true" aria-label="Vibración"></button></div>
+    <div class="row2"><span>Menos movimiento<small>Quita animaciones y confeti</small></span><button class="tog" id="t-mov" role="switch" aria-checked="false" aria-label="Menos movimiento"></button></div>
+    <div class="row2"><span>Preguntar qué tan seguro estoy<small>Antes de ver si acertaste: seguro, dudo o adiviné</small></span><button class="tog" id="t-conf" role="switch" aria-checked="true" aria-label="Preguntar qué tan seguro estoy"></button></div>
+    <div class="row2"><span>Letra grande<small>Textos un poco más grandes</small></span><button class="tog" id="t-big" role="switch" aria-checked="false" aria-label="Letra grande"></button></div>
+    <p class="aviso" id="set-aviso" hidden>Este navegador no deja guardar tu avance (¿modo privado?). Ábrelo en una ventana normal para no perderlo.</p>
+    <div class="sub">¿Quién está usando la app?</div>
+    <p class="p" style="text-align:left;margin-top:2px">Si compartes este celular o tablet con alguien más, cada quien puede tener su propio perfil con su avance, su mascota y su cuarto.</p>
+    <div class="perfiles" id="perfiles" role="group" aria-label="Perfiles de este dispositivo"></div>
+    <button class="cta sec" id="pf-nuevo">Agregar otro perfil</button>
+    <label class="lbl" for="al-nombre">Mi nombre (opcional)</label>
+    <input id="al-nombre" class="inp" maxlength="40" autocomplete="off" placeholder="Nombre y grupo, por ejemplo: Ana 2.º B">
+    <p class="aviso" id="ios-aviso" hidden>En iPhone o iPad, Safari puede borrar el avance si no usas la app por varios días. Para evitarlo, toca el botón Compartir y elige «Agregar a pantalla de inicio». También puedes guardar tu código de respaldo.</p>
+    <div class="sub">Reporte para mi familia</div>
+    <p class="p" style="text-align:left;margin-top:2px">Copia este reporte y pásaselo a tu mamá, papá o tutor. Si tu maestro lo solicita, ellos se lo mandan por WhatsApp. Solo incluye tu avance, nada más.</p>
+    <button class="cta sec" id="rs-copiar">Copiar mi reporte</button>
+    <textarea id="rs" rows="7" readonly aria-label="Reporte para mi familia" hidden></textarea>
+    <p class="hint" id="rs-msg" role="status"></p>
+    <div class="sub">Copia de seguridad</div>
+    <p class="p" style="text-align:left;margin-top:2px">Tu avance se guarda solo en este dispositivo y no se envía a ningún lado. Descarga un archivo para tenerlo a salvo, pasarlo a otro dispositivo o recuperarlo si se borra el navegador. Incluye a todos los perfiles de este dispositivo.</p>
+    <p class="hint" id="bk-ultimo" style="text-align:left;margin:0 18px 6px;min-height:0"></p>
+    <div class="frow"><button class="cta sec" id="bk-bajar">Descargar mi respaldo</button><button class="cta sec" id="bk-abrir">Restaurar desde archivo</button></div>
+    <input type="file" id="bk-arch" accept=".json,.txt,application/json,text/plain" hidden aria-label="Archivo de respaldo">
+    <div class="aviso" id="bk-conf" hidden role="alert"><span id="bk-conf-t"></span><div class="frow" style="margin:8px 0 0"><button class="cta" id="bk-si">Sí, restaurar</button><button class="cta sec" id="bk-no">No, cancelar</button></div></div>
+    <details id="bk-det" class="otra"><summary>Otra forma: copiar un código</summary>
+      <textarea id="bk" rows="3" aria-label="Código de respaldo" placeholder="Aquí aparece tu código. Para restaurar, pégalo aquí."></textarea>
+      <div class="frow"><button class="cta sec" id="bk-copiar">Copiar mi código</button><button class="cta sec" id="bk-restaurar">Restaurar con código</button></div>
+    </details>
+    <p class="hint" id="bk-msg" role="status"></p>
+    <details class="otra" id="fam-det"><summary>Información para familias</summary>
+      <p class="p" style="text-align:left;margin-top:8px"><b>Qué guarda la app:</b> el nombre que se escriba (puede ser un apodo), la mascota y el avance de repaso. Todo se queda únicamente en este celular o tablet.</p>
+      <p class="p" style="text-align:left"><b>Qué no hace:</b> no pide cuentas, correo, teléfono, ubicación, cámara ni micrófono, y no accede a tus fotos, videos ni archivos (solo guarda o lee el respaldo cuando tú lo pides y eliges el archivo); no tiene anuncios, compras, chats ni enlaces a otros sitios; no usa rastreadores y no envía tu información a ningún servidor. La página la aloja GitHub, que, como cualquier sitio web, puede registrar visitas técnicas (por ejemplo, la dirección IP), pero no ve nombres, avance ni mascotas.</p>
+      <p class="p" style="text-align:left"><b>Qué se comparte y con quién:</b> nada se envía solo. El reporte de la familia solo se copia si el alumno lo pide, y es la familia quien decide si se lo manda al maestro.</p>
+      <p class="p" style="text-align:left"><b>Quién la hizo:</b> esta app fue creada por Uriel, docente de Ciencias, para el repaso de sus alumnos.</p>
+      <p class="p" style="text-align:left"><b>Cómo borrar todo:</b> con el botón «Borrar mi progreso», o borrando los datos del sitio en el navegador.</p>
+    </details>
+    <button class="cta danger" id="bk-borrar">Borrar mi progreso</button>
+    <p class="safe">Esta app no tiene cuentas, anuncios ni compras. Tu mascota nunca se enferma ni muere: si pasan días, solo te espera.</p>
+    <p class="safe" id="creditos">Creada por Uriel, docente de Ciencias.</p>
+    <button class="cta sec" id="set-back">Volver</button>
+  </section>
+
+  <!-- Repaso -->
+  <section class="view" id="v-quiz" aria-label="Repaso">
+    <div class="qhead"><button class="link" id="q-exit" style="margin:0;min-height:36px;font-size:.85rem">Salir</button><span class="pr"><i id="q-pr"></i></span><span class="cnt" id="q-cnt"></span></div>
+    <div class="qtag" id="q-tag"></div>
+    <div class="qtext" id="q-text"></div>
+    <div class="opts" id="q-opts"></div>
+    <div class="fb" id="q-fb" hidden role="status"></div>
+    <button class="cta" id="q-next" hidden>Siguiente</button>
+  </section>
+
+  <!-- Resultado -->
+  <section class="view" id="v-res" aria-label="Resultado">
+    <div class="h1" id="r-t"></div>
+    <div class="res-list" id="r-list"></div>
+    <div class="unl" id="r-unl" hidden></div>
+    <button class="cta" id="r-custom" hidden>Estrenar lo nuevo</button>
+    <button class="cta sec" id="r-home">Volver al inicio</button>
+  </section>
+
+  </main>
+  <nav class="nav" id="nav" aria-label="Secciones">
+    <button data-v="home" aria-current="page">Inicio</button>
+    <button data-v="room">Cuarto</button>
+    <button data-v="custom">Personalizar</button>
+    <button data-v="prog">Progreso</button>
+  </nav>
+
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Cofre diario"><div class="mbox" id="mbox"></div></div>
+</div>
+
+<!-- Contenido: estas dos líneas cargan las fichas listadas en data/lista.js -->
+<script src="js/core.js"></script>
+<script src="js/catalogo.js"></script>
+<script src="data/lista.js"></script>
+<script src="js/art.js"></script>
+<script src="js/sfx.js"></script>
+<script src="js/store.js"></script>
+<script src="js/app.js"></script>
+<script src="js/lectura.js"></script>
+<script src="js/extras.js"></script>
+<script>
+arrancar();
+if ('serviceWorker' in navigator && location.protocol.indexOf('http') === 0) {
+  navigator.serviceWorker.register('sw.js').catch(function () {});
+}
+</script>
+</body>
+</html>

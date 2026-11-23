@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src data:; connect-src 'none'; form-action 'none'; base-uri 'none'; frame-src 'none'; object-src 'none'">
+<title>Repaso · Panel del maestro</title>
+<meta name="author" content="Uriel, docente de Ciencias">
+<style>
+  :root{--ink:#1d2433;--soft:#5d6b82;--line:#dfe5f0;--brand:#4a67ee;--brand-d:#3a54d6;--bg:#f3f6fb}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:var(--bg);line-height:1.45}
+  main{max-width:1100px;margin:0 auto;padding:18px 16px 60px}
+  h1{font-size:1.5rem;margin:6px 0 2px} h2{font-size:1.15rem;margin:26px 0 6px} h3{font-size:1rem;margin:14px 0 4px}
+  p{margin:4px 0 10px;color:var(--soft)} .card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:10px 0}
+  textarea{width:100%;min-height:150px;border:2px solid var(--line);border-radius:12px;padding:10px;font:inherit;font-size:.85rem}
+  button{font:inherit;font-weight:700;border-radius:12px;border:2px solid var(--brand);background:var(--brand);color:#fff;min-height:44px;padding:8px 16px;cursor:pointer;margin:6px 8px 0 0}
+  button.sec{background:#fff;color:var(--brand-d)} button.dng{background:#fff;color:#b42323;border-color:#e9b1b1}
+  button:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid #f2b705;outline-offset:2px}
+  select{font:inherit;min-height:44px;border:2px solid var(--line);border-radius:12px;padding:6px 10px;background:#fff}
+  .msg{min-height:1.4em;font-weight:600;color:#14724a} .err{color:#b42323}
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}
+  .kpi{background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 14px}.kpi b{display:block;font-size:1.6rem}.kpi span{color:var(--soft);font-size:.85rem}
+  .tw{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:#fff}
+  table{border-collapse:collapse;width:100%;font-size:.9rem} th,td{padding:7px 9px;border-bottom:1px solid var(--line);text-align:center;white-space:nowrap}
+  th{background:#f6f8fd;font-weight:700;position:sticky;top:0} th:first-child,td:first-child{text-align:left;position:sticky;left:0;background:inherit}
+  td:first-child{background:#fff;font-weight:600} tr.tot td{font-weight:800;background:#f6f8fd}
+  .c0{background:#fbd3d3}.c1{background:#ffe9b8}.c2{background:#e3f3d6}.c3{background:#bfe8d3}.cn{color:#8a94a7}
+  .leg span{display:inline-block;margin:2px 8px 2px 0;padding:2px 9px;border-radius:8px;font-size:.82rem}
+  ol.q{padding-left:20px} ol.q li{margin:6px 0} .tag{display:inline-block;background:#eef1ff;color:var(--brand-d);border-radius:999px;padding:1px 9px;font-size:.78rem;font-weight:700;margin-left:6px}
+  .bar{display:grid;grid-template-columns:200px 1fr 60px;gap:8px;align-items:center;margin:4px 0;font-size:.9rem}.bar i{display:block;height:12px;border-radius:99px;background:var(--brand)}.bar .t{background:#edf1f8;border-radius:99px;overflow:hidden}
+  .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  @media print{button,textarea,.noprint{display:none}}
+</style>
+</head>
+<body>
+<main>
+<h1>Panel del maestro</h1>
+<p>Pega aquí los reportes que te mandaron las familias por WhatsApp (puedes pegar varios a la vez). La página busca en cada uno la línea que empieza con <b>R1:</b> y arma el análisis del grupo. Todo se queda en este navegador: no se sube nada a internet.</p>
+
+<div class="card noprint">
+  <label for="pega"><b>Reportes de las familias</b></label>
+  <textarea id="pega" placeholder="Pega uno o varios reportes completos. Si pegas otra vez el reporte de un alumno, se queda el más reciente."></textarea>
+  <button id="analizar">Agregar y analizar</button>
+  <button class="sec" id="csv">Descargar tabla (CSV)</button>
+  <button class="dng" id="borrar">Borrar todos los reportes</button>
+  <p class="msg" id="msg" role="status"></p>
+</div>
+
+<div id="out" hidden>
+  <label for="mat"><b>Materia:</b></label> <select id="mat"></select>
+
+  <h2>Resumen del grupo</h2>
+  <div class="kpis" id="kpis"></div>
+
+  <h2>Mapa de dominio por tema</h2>
+  <p>Cada celda es el porcentaje de respuestas correctas del alumno en ese tema (y entre paréntesis, cuántas contestó). Las celdas con «—» son temas que aún no practica. El color ayuda, pero el número y la marca ⚠ (menos de 50 %) dicen lo mismo.</p>
+  <div class="leg" aria-hidden="true"><span class="c0">menos de 50 %</span><span class="c1">50 a 69 %</span><span class="c2">70 a 84 %</span><span class="c3">85 % o más</span></div>
+  <div class="tw" tabindex="0" role="region" aria-label="Mapa de dominio por tema (se puede desplazar)"><table id="mapa"></table></div>
+  <p id="leyTemas" style="font-size:.85rem"></p>
+
+  <h2>Preguntas que más se fallan</h2>
+  <p>Con al menos 3 respuestas en total. Si casi todos fallan una pregunta, revisa si está bien redactada o si el tema necesita reforzarse en clase.</p>
+  <ol class="q" id="dificiles"></ol>
+
+  <h2>Seguridad al responder</h2>
+  <p>Antes de ver si acertaron, los alumnos dicen si están seguros, dudan o adivinan. Lo más valioso es lo que está seguro y es incorrecto: son ideas equivocadas que conviene aclarar en clase.</p>
+  <div class="kpis" id="cal"></div>
+  <h3>Preguntas donde más alumnos estaban seguros y se equivocaron</h3>
+  <ol class="q" id="confundidas"></ol>
+
+  <h2>Comprensión lectora (promedio del grupo)</h2>
+  <div id="habs"></div>
+
+  <h2>Alumnos a quienes conviene dar seguimiento</h2>
+  <ul id="seguir"></ul>
+</div>
+</main>
+
+<script src="js/core.js"></script>
+<script src="js/catalogo.js"></script>
+<script src="data/lista.js"></script>
+<script>
+window.addEventListener('load', function () {
+  var KEYM = 'repaso.maestro.v1', REP = {};   // REP[claveAlumno] = reporte decodificado
+  function $(id) { return document.getElementById(id); }
+  function esc(t) { return String(t).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function cargar() { try { REP = JSON.parse(localStorage.getItem(KEYM)) || {}; } catch (e) { REP = {}; } }
+  function guardar() { try { localStorage.setItem(KEYM, JSON.stringify(REP)); } catch (e) {} }
+  function decodifica(c) {
+    try { var b = c.slice(3).replace(/-/g, '+').replace(/_/g, '/'); while (b.length % 4) b += '='; var o = JSON.parse(decodeURIComponent(escape(atob(b)))); return o && o.v === 1 && o.m ? o : null; } catch (e) { return null; }
+  }
+  var PORID = {}, TEMAS = {};   // preguntas y temas por id
+  REPASO.fichas.forEach(function (f) {
+    f.preguntas.forEach(function (q) { PORID[q.id] = q; });
+    f.temas.forEach(function (t) { (TEMAS[f.materia] = TEMAS[f.materia] || []).push({ key: f.ficha.id + '.' + t.id, id: t.id, nombre: t.nombre, ficha: f.ficha.id }); });
+  });
+  var HABN = { literal: 'Entender lo que dice el texto', inferencia: 'Deducir lo que no está escrito', vocabulario: 'Palabras en contexto', evidencia: 'Encontrar pruebas en el texto', secuencia: 'Ordenar ideas', explicar: 'Explicar con tus palabras (autoevaluación)' };
+  function pct(n, c) { return n ? Math.round(c / n * 100) : null; }
+  function cls(p) { return p == null ? 'cn' : p < 50 ? 'c0' : p < 70 ? 'c1' : p < 85 ? 'c2' : 'c3'; }
+  function fechaTxt(f) { return f.slice(6) + '/' + f.slice(4, 6) + '/' + f.slice(0, 4); }
+  function lista() { return Object.keys(REP).map(function (k) { return REP[k]; }).sort(function (a, b) { return (a.a || '').localeCompare(b.a || '', 'es'); }); }
+
+  $('analizar').onclick = function () {
+    var txt = $('pega').value, m = txt.match(/R1:[A-Za-z0-9_\-]+/g) || [], ok = 0, mal = 0;
+    m.forEach(function (c) {
+      var o = decodifica(c); if (!o) { mal++; return; }
+      var clave = (o.a || '').trim().toLowerCase() || ('sin nombre ' + (Object.keys(REP).length + 1));
+      if (!REP[clave] || (REP[clave].f || '') <= o.f) REP[clave] = o;
+      if (!o.a) o.a = 'Sin nombre (' + fechaTxt(o.f) + ')';
+      ok++;
+    });
+    guardar();
+    $('msg').className = 'msg' + (ok ? '' : ' err');
+    $('msg').textContent = !m.length ? 'No encontré ningún código R1: en el texto pegado. Pega el reporte completo que mandó la familia.' : ok + ' reporte(s) agregado(s)' + (mal ? ' y ' + mal + ' código(s) incompleto(s) (revisa que se haya copiado entero)' : '') + '.';
+    if (ok) $('pega').value = '';
+    pinta();
+  };
+  $('borrar').onclick = function () {
+    if (this.dataset.seguro !== '1') { this.dataset.seguro = '1'; this.textContent = 'Toca otra vez para borrar todo'; var b = this; setTimeout(function () { b.dataset.seguro = ''; b.textContent = 'Borrar todos los reportes'; }, 4000); return; }
+    REP = {}; guardar(); pinta(); this.dataset.seguro = ''; this.textContent = 'Borrar todos los reportes'; $('msg').textContent = 'Reportes borrados de este navegador.';
+  };
+  $('mat').onchange = pinta;
+
+  function pinta() {
+    var L = lista(), out = $('out'); out.hidden = !L.length; if (!L.length) return;
+    var mats = []; L.forEach(function (r) { Object.keys(r.m).forEach(function (m) { if (mats.indexOf(m) < 0) mats.push(m); }); });
+    var sel = $('mat'), actual = sel.value; sel.innerHTML = '';
+    mats.forEach(function (m) { var o = document.createElement('option'); o.value = m; o.textContent = (MAT[m] ? MAT[m].n : m); sel.appendChild(o); });
+    if (mats.indexOf(actual) > -1) sel.value = actual;
+    var mat = sel.value, alumnos = L.filter(function (r) { return r.m[mat]; }), temas = TEMAS[mat] || [];
+
+    // --- KPIs
+    var N = 0, C = 0, cons = 0; alumnos.forEach(function (r) { Object.keys(r.m[mat].t).forEach(function (k) { N += r.m[mat].t[k][0]; C += r.m[mat].t[k][1]; }); cons += r.d; });
+    $('kpis').innerHTML = '<div class="kpi"><b>' + alumnos.length + '</b><span>alumnos con reporte</span></div><div class="kpi"><b>' + (pct(N, C) == null ? '—' : pct(N, C) + ' %') + '</b><span>aciertos del grupo</span></div><div class="kpi"><b>' + (alumnos.length ? (cons / alumnos.length).toFixed(1) : '—') + ' de 7</b><span>días de repaso por alumno (última semana)</span></div><div class="kpi"><b>' + N + '</b><span>respuestas en total</span></div>';
+
+    // --- Mapa
+    var h = '<thead><tr><th scope="col">Alumno</th>' + temas.map(function (t) { return '<th scope="col" title="' + esc(t.nombre) + '">' + t.ficha + '.' + t.id + '</th>'; }).join('') + '<th scope="col">Total</th><th scope="col">Días/7</th></tr></thead><tbody>';
+    alumnos.forEach(function (r) {
+      var x = r.m[mat], n = 0, c = 0;
+      h += '<tr><td>' + esc(r.a || 'Sin nombre') + '</td>' + temas.map(function (t) {
+        var v = x.t[t.key]; if (!v || !v[0]) return '<td class="cn">—</td>'; var p = pct(v[0], v[1]); n += v[0]; c += v[1];
+        return '<td class="' + cls(p) + '">' + (p < 50 ? '⚠ ' : '') + p + ' % <small>(' + v[0] + ')</small></td>';
+      }).join('') + '<td class="' + cls(pct(n, c)) + '">' + (pct(n, c) == null ? '—' : pct(n, c) + ' %') + '</td><td>' + r.d + '</td></tr>';
+    });
+    h += '<tr class="tot"><td>Grupo</td>' + temas.map(function (t) {
+      var n = 0, c = 0; alumnos.forEach(function (r) { var v = r.m[mat].t[t.key]; if (v) { n += v[0]; c += v[1]; } });
+      var p = pct(n, c); return '<td class="' + cls(p) + '">' + (p == null ? '—' : (p < 50 ? '⚠ ' : '') + p + ' % <small>(' + n + ')</small>') + '</td>';
+    }).join('') + '<td></td><td></td></tr></tbody>';
+    $('mapa').innerHTML = h;
+    $('leyTemas').innerHTML = '<b>Temas:</b> ' + temas.map(function (t) { return t.ficha + '.' + t.id + ' = ' + esc(t.nombre); }).join(' · ');
+
+    // --- Preguntas difíciles
+    var Q = {}; alumnos.forEach(function (r) { var q = r.m[mat].q; Object.keys(q).forEach(function (id) { var z = Q[id] = Q[id] || [0, 0]; z[0] += q[id][0]; z[1] += q[id][1]; }); });
+    var arr = Object.keys(Q).filter(function (id) { return Q[id][0] >= 3 && PORID[id]; }).map(function (id) { return { id: id, n: Q[id][0], c: Q[id][1], p: pct(Q[id][0], Q[id][1]) }; }).sort(function (a, b) { return a.p - b.p || b.n - a.n; }).slice(0, 8);
+    $('dificiles').innerHTML = arr.length ? arr.map(function (z) { var q = PORID[z.id], t = q.q.replace('{m}', 'La mascota'); return '<li><b>' + z.p + ' %</b> de aciertos (' + z.c + ' de ' + z.n + ') <span class="tag">' + z.id + '</span><br>' + esc(t) + '</li>'; }).join('') : '<li>Todavía no hay suficientes respuestas (se necesitan al menos 3 por pregunta).</li>';
+
+    // --- Seguridad al responder
+    var K = [0, 0, 0, 0, 0, 0], Z = {}, rutas = 0, sellos = 0;
+    alumnos.forEach(function (r) { var x = r.m[mat]; (x.k || []).forEach(function (v, i) { K[i] += v; }); rutas += x.u || 0; sellos += x.s || 0; Object.keys(x.z || {}).forEach(function (id) { var z = Z[id] = Z[id] || [0, 0]; z[0] += x.z[id]; z[1]++; }); });
+    var totK = K.reduce(function (a, b) { return a + b; }, 0), ns = K[0] + K[1];
+    $('cal').innerHTML = totK ? '<div class="kpi"><b>' + (ns ? pct(ns, K[0]) + ' %' : '—') + '</b><span>aciertos cuando dijeron «seguro»</span></div><div class="kpi"><b>' + K[1] + '</b><span>veces seguros y equivocados</span></div><div class="kpi"><b>' + K[4] + '</b><span>aciertos que fueron adivinados</span></div><div class="kpi"><b>' + rutas + '</b><span>rutas diarias completadas</span></div><div class="kpi"><b>' + sellos + '</b><span>sellos de ficha ganados en total</span></div>' : '<p>Todavía no hay datos de seguridad (los reportes son de una versión anterior o el alumno la desactivó).</p>';
+    var zc = Object.keys(Z).filter(function (id) { return PORID[id]; }).sort(function (a, b) { return Z[b][1] - Z[a][1] || Z[b][0] - Z[a][0]; }).slice(0, 6);
+    $('confundidas').innerHTML = zc.length ? zc.map(function (id) { return '<li><b>' + Z[id][1] + (Z[id][1] === 1 ? ' alumno' : ' alumnos') + '</b> (' + Z[id][0] + ' veces) <span class="tag">' + id + '</span><br>' + esc(PORID[id].q.replace('{m}', 'La mascota')) + '</li>'; }).join('') : '<li>Sin casos todavía.</li>';
+
+    // --- Habilidades
+    var H = {}; alumnos.forEach(function (r) { var h = r.m[mat].h || {}; Object.keys(h).forEach(function (k) { var z = H[k] = H[k] || [0, 0]; z[0] += h[k][0]; z[1] += h[k][1]; }); });
+    var hk = Object.keys(H);
+    $('habs').innerHTML = hk.length ? hk.map(function (k) { var p = pct(H[k][0], H[k][1]); return '<div class="bar"><span>' + (HABN[k] || k) + '</span><span class="t"><i style="width:' + p + '%"></i></span><span>' + p + ' %</span></div>'; }).join('') : '<p>Todavía no hay datos de lectura científica.</p>';
+
+    // --- Seguimiento
+    var s = [];
+    alumnos.forEach(function (r) {
+      var x = r.m[mat], n = 0, c = 0, flojos = [];
+      temas.forEach(function (t) { var v = x.t[t.key]; if (v && v[0] >= 3) { n += v[0]; c += v[1]; if (pct(v[0], v[1]) < 50) flojos.push(t.nombre); } else if (v) { n += v[0]; c += v[1]; } });
+      var rs = [];
+      if (r.d <= 1) rs.push('repasó ' + r.d + ' día(s) de los últimos 7');
+      if (n >= 5 && pct(n, c) < 60) rs.push('acierta ' + pct(n, c) + ' %');
+      if (flojos.length) rs.push('tema(s) por debajo de 50 %: ' + flojos.slice(0, 3).join(', '));
+      if (x.k && x.k[1] >= 3) rs.push('estuvo seguro y se equivocó ' + x.k[1] + ' veces (ideas por aclarar)');
+      if (rs.length) s.push('<li><b>' + esc(r.a || 'Sin nombre') + '</b>: ' + esc(rs.join('; ')) + '. <span class="tag">reporte del ' + fechaTxt(r.f) + '</span></li>');
+    });
+    $('seguir').innerHTML = s.length ? s.join('') : '<li>Nadie cumple los criterios de seguimiento con los reportes actuales.</li>';
+  }
+
+  $('csv').onclick = function () {
+    var L = lista(); if (!L.length) { $('msg').className = 'msg err'; $('msg').textContent = 'Todavía no hay reportes.'; return; }
+    var rows = [], cab = ['Alumno', 'Fecha del reporte', 'Materia', 'Días de repaso (de 7)', 'Racha', 'Respuestas', 'Aciertos %', 'Seguro: aciertos', 'Seguro: errores', 'Adiviné: aciertos'];
+    var allT = []; Object.keys(TEMAS).forEach(function (m) { TEMAS[m].forEach(function (t) { allT.push(t); }); });
+    allT.forEach(function (t) { cab.push(t.ficha + '.' + t.id + ' %'); });
+    rows.push(cab);
+    L.forEach(function (r) { Object.keys(r.m).forEach(function (m) {
+      var x = r.m[m], n = 0, c = 0; Object.keys(x.t).forEach(function (k) { n += x.t[k][0]; c += x.t[k][1]; });
+      var kk = x.k || [], row = [r.a, fechaTxt(r.f), MAT[m] ? MAT[m].n : m, r.d, r.r, n, pct(n, c) == null ? '' : pct(n, c), kk[0] == null ? '' : kk[0], kk[1] == null ? '' : kk[1], kk[4] == null ? '' : kk[4]];
+      allT.forEach(function (t) { var v = x.t[t.key]; row.push(v && v[0] ? pct(v[0], v[1]) : ''); });
+      rows.push(row);
+    }); });
+    var csv = '﻿' + rows.map(function (r) { return r.map(function (v) { v = String(v == null ? '' : v); return /[",\n;]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; }).join(','); }).join('\n');
+    var a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' })); a.download = 'repaso_grupo.csv'; document.body.appendChild(a); a.click(); a.remove();
+  };
+
+  cargar(); pinta();
+  if (Object.keys(REP).length) { $('msg').textContent = Object.keys(REP).length + ' reporte(s) guardado(s) en este navegador.'; }
+});
+</script>
+</body>
+</html>
