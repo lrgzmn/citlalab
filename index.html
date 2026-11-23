@@ -6,7 +6,7 @@
 <title>Citlalab · Cuida a tu mascota repasando ciencias</title>
 <meta name="author" content="Uriel Lara Guzmán, docente de Ciencias">
 <meta name="description" content="Repasa Biología, Física y Química cuidando a tu mascota. Sin cuentas, sin anuncios y sin compras.">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; manifest-src 'self'; worker-src 'self'; connect-src 'none'; form-action 'none'; base-uri 'none'; frame-src 'none'; object-src 'none'; media-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; manifest-src 'self'; worker-src 'self'; connect-src 'none'; form-action 'none'; base-uri 'none'; frame-src 'none'; object-src 'none'; media-src 'none'">
 <meta name="referrer" content="no-referrer">
 <meta name="theme-color" content="#4a67ee">
 <link rel="manifest" href="manifest.webmanifest">
@@ -44,7 +44,7 @@
 
   <!-- Primera vez -->
   <section class="view" id="v-ob0" aria-label="Bienvenida">
-    <div class="h1" style="margin-top:30px">Bienvenido a Citlalab</div>
+    <div class="h1" style="margin-top:30px">Te damos la bienvenida a Citlalab</div>
     <p class="p">Tienes tres mascotas, una por materia: un átomo, una célula madre y un matraz con un cristal. Son personajes de juego. Repasa para que se transformen, crezcan y llenen su cuarto de cosas nuevas.</p>
     <div class="obeggs" id="ob-eggs"></div>
     <div class="seglbl">Quiero un personaje de</div>
@@ -100,6 +100,7 @@
     <div class="qhead"><button class="link" id="c-exit" style="margin:0;min-height:36px;font-size:.85rem">Salir</button><span class="pr"><i id="c-pr"></i></span><span class="cnt" id="c-cnt"></span></div>
     <div class="combo" id="combo"></div>
     <div class="deck" id="deck"></div>
+    <button class="esc-btn" id="c-voz" type="button" hidden>Escuchar la afirmación</button>
     <p class="swipehint">Desliza a la derecha si es verdadero y a la izquierda si es falso.</p>
     <div class="dir"><button class="f" id="d-f">Falso</button><button class="v" id="d-v">Verdadero</button></div>
     <div class="fb" id="c-fb" hidden role="status"></div>
@@ -124,7 +125,8 @@
     <div class="qtag" id="ll-tag"></div>
     <div class="qtext" id="ll-q" style="font-size:1.1rem"></div>
     <div class="llarea" id="ll-area"></div>
-    <p class="swipehint">Arrastra a tu mascota (o toca una burbuja) para atrapar la respuesta correcta.</p>
+    <button class="esc-btn" id="ll-voz" type="button" hidden>Escuchar la pregunta</button>
+    <p class="swipehint" id="ll-hint">Arrastra a tu mascota (o toca una burbuja) para atrapar la respuesta correcta.</p>
     <div class="fb" id="ll-fb" hidden role="status"></div>
     <button class="cta" id="ll-next" hidden>Siguiente</button>
   </section>
@@ -145,8 +147,8 @@
   </section>
 
   <!-- Jefe -->
-  <section class="view" id="v-boss" aria-label="Jefe de la ficha">
-    <div class="bossbox" id="bossbox"><svg id="bossSvg" viewBox="0 0 150 110" role="img" aria-label="Jefe"></svg><div class="bname" id="bname"></div><div class="hp" id="hp"></div></div>
+  <section class="view" id="v-boss" aria-label="Reto final de la ficha">
+    <div class="bossbox" id="bossbox"><svg id="bossSvg" viewBox="0 0 150 110" role="img" aria-label="Reto final"></svg><div class="bname" id="bname"></div><div class="hp" id="hp"></div></div>
     <div class="qtag" id="bq-tag"></div>
     <div class="qtext" id="bq-text" style="font-size:1.1rem"></div>
     <div class="opts" id="bq-opts"></div>
@@ -198,8 +200,18 @@
     <div class="row2"><span>Sonidos<small>Efectos suaves al acertar</small></span><button class="tog" id="t-snd" role="switch" aria-checked="true" aria-label="Sonidos"></button></div>
     <div class="row2"><span>Vibración<small>Solo en celulares que la tengan</small></span><button class="tog" id="t-vib" role="switch" aria-checked="true" aria-label="Vibración"></button></div>
     <div class="row2"><span>Menos movimiento<small>Quita animaciones y confeti</small></span><button class="tog" id="t-mov" role="switch" aria-checked="false" aria-label="Menos movimiento"></button></div>
-    <div class="row2"><span>Preguntar qué tan seguro estoy<small>Antes de ver si acertaste: seguro, dudo o adiviné</small></span><button class="tog" id="t-conf" role="switch" aria-checked="true" aria-label="Preguntar qué tan seguro estoy"></button></div>
+    <div class="row2"><span>Preguntar cuánta seguridad tengo<small>Antes de ver si acertaste: lo sé, dudo o adiviné</small></span><button class="tog" id="t-conf" role="switch" aria-checked="true" aria-label="Preguntar cuánta seguridad tengo"></button></div>
     <div class="row2"><span>Letra grande<small>Textos un poco más grandes</small></span><button class="tog" id="t-big" role="switch" aria-checked="false" aria-label="Letra grande"></button></div>
+
+    <div class="sub" style="margin-top:14px">Accesibilidad</div>
+    <div class="row2"><span>Alto contraste<small>Colores más fuertes y bordes marcados</small></span><button class="tog" id="t-contraste" role="switch" aria-checked="false" aria-label="Alto contraste"></button></div>
+    <div class="seglbl" id="f-lbl">Tipo de letra</div>
+    <div class="seg seg3" role="radiogroup" aria-labelledby="f-lbl"><button id="f-normal" role="radio" aria-checked="true">Normal</button><button id="f-facil" role="radio" aria-checked="false">Fácil de leer</button><button id="f-dis" role="radio" aria-checked="false">Dislexia</button></div>
+    <div class="row2"><span>Leer preguntas en voz alta<small>Las lee solas al aparecer; también hay un botón para escucharlas</small></span><button class="tog" id="t-voz" role="switch" aria-checked="false" aria-label="Leer preguntas en voz alta"></button></div>
+    <p class="hint" id="voz-nota" hidden style="margin:-2px 18px 4px;text-align:left">Este dispositivo no tiene una voz en español instalada, así que la lectura en voz alta no está disponible.</p>
+    <div class="row2"><span>Juegos tranquilos<small>Lluvia y vasos van más lento y se juegan tocando</small></span><button class="tog" id="t-lento" role="switch" aria-checked="false" aria-label="Juegos tranquilos"></button></div>
+    <div class="row2"><span>Elegir en vez de escribir<small>En «Explícalo con tus palabras» eliges ideas en lugar de teclear</small></span><button class="tog" id="t-elegir" role="switch" aria-checked="false" aria-label="Elegir en vez de escribir"></button></div>
+    <div class="row2"><span>Dibujos en las preguntas<small>Pequeñas ilustraciones que ayudan a entender</small></span><button class="tog" id="t-dib" role="switch" aria-checked="false" aria-label="Dibujos en las preguntas"></button></div>
     <p class="aviso" id="set-aviso" hidden>Este navegador no deja guardar tu avance (¿modo privado?). Ábrelo en una ventana normal para no perderlo.</p>
     <div class="sub">¿Quién está usando la app?</div>
     <p class="p" style="text-align:left;margin-top:2px">Si compartes este celular o tablet con alguien más, cada quien puede tener su propio perfil con su avance, su mascota y su cuarto.</p>
@@ -209,7 +221,7 @@
     <input id="al-nombre" class="inp" maxlength="40" autocomplete="off" placeholder="Nombre y grupo, por ejemplo: Ana 2.º B">
     <p class="aviso" id="ios-aviso" hidden>En iPhone o iPad, Safari puede borrar el avance si no usas la app por varios días. Para evitarlo, toca el botón Compartir y elige «Agregar a pantalla de inicio». También puedes guardar tu código de respaldo.</p>
     <div class="sub">Reporte para mi familia</div>
-    <p class="p" style="text-align:left;margin-top:2px">Copia este reporte y pásaselo a tu mamá, papá o tutor. Si tu maestro lo solicita, ellos se lo mandan por WhatsApp. Solo incluye tu avance, nada más.</p>
+    <p class="p" style="text-align:left;margin-top:2px">Copia este reporte y pásaselo a tu familia o tutores. Si tu docente lo solicita, ellos se lo mandan por WhatsApp. Solo incluye tu avance, nada más.</p>
     <button class="cta sec" id="rs-copiar">Copiar mi reporte</button>
     <textarea id="rs" rows="7" readonly aria-label="Reporte para mi familia" hidden></textarea>
     <p class="hint" id="rs-msg" role="status"></p>
@@ -227,13 +239,13 @@
     <details class="otra" id="fam-det"><summary>Información para familias</summary>
       <p class="p" style="text-align:left;margin-top:8px"><b>Qué guarda la app:</b> el nombre que se escriba (puede ser un apodo), la mascota y el avance de repaso. Todo se queda únicamente en este celular o tablet.</p>
       <p class="p" style="text-align:left"><b>Qué no hace:</b> no pide cuentas, correo, teléfono, ubicación, cámara ni micrófono, y no accede a tus fotos, videos ni archivos (solo guarda o lee el respaldo cuando tú lo pides y eliges el archivo); no tiene anuncios, compras, chats ni enlaces a otros sitios; no usa rastreadores y no envía tu información a ningún servidor. La página la aloja GitHub, que, como cualquier sitio web, puede registrar visitas técnicas (por ejemplo, la dirección IP), pero no ve nombres, avance ni mascotas.</p>
-      <p class="p" style="text-align:left"><b>Qué se comparte y con quién:</b> nada se envía solo. El reporte de la familia solo se copia si el alumno lo pide, y es la familia quien decide si se lo manda al maestro.</p>
-      <p class="p" style="text-align:left"><b>Quién la hizo:</b> esta app fue creada por Uriel Lara Guzmán, docente de Ciencias, para el repaso de sus alumnos.</p>
+      <p class="p" style="text-align:left"><b>Qué se comparte y con quién:</b> nada se envía solo. El reporte de la familia solo se copia si la persona que usa la app lo pide, y es su familia quien decide si se lo manda al docente.</p>
+      <p class="p" style="text-align:left" id="quien"><b>Quién la hizo:</b> <span id="quien-t"></span></p>
       <p class="p" style="text-align:left"><b>Cómo borrar todo:</b> con el botón «Borrar mi progreso», o borrando los datos del sitio en el navegador.</p>
     </details>
     <button class="cta danger" id="bk-borrar">Borrar mi progreso</button>
     <p class="safe">Esta app no tiene cuentas, anuncios ni compras. Tu mascota nunca se enferma ni muere: si pasan días, solo te espera.</p>
-    <p class="creditos" id="creditos">Creada por Uriel Lara Guzmán, docente de Ciencias.</p>
+    <section class="equipo creditos" id="creditos" aria-labelledby="eq-t"><h3 id="eq-t"></h3><div class="eq-fila" id="eq-fila"></div></section>
     <button class="cta sec" id="set-back">Volver</button>
   </section>
 

@@ -11,15 +11,15 @@ REPASO.agregar({
   materia: 'fisica',
   ficha: { id: 'f7', titulo: 'Ficha 7 · Composición de la materia. Los modelos atómicos', jefe: 'El Átomo Travieso' },
   temas: [
-    { id: "t1", nombre: "Demócrito y Dalton" },
-    { id: "t2", nombre: "Thomson y el electrón" },
-    { id: "t3", nombre: "Rutherford y el núcleo" },
-    { id: "t4", nombre: "Chadwick y el neutrón" },
-    { id: "t5", nombre: "Bohr y las órbitas" },
-    { id: "t6", nombre: "El átomo actual" },
-    { id: "t7", nombre: "Protones, electrones y neutrones (cálculos)" },
-    { id: "t8", nombre: "Línea del tiempo del átomo" },
-    { id: "t9", nombre: "Aplicaciones del conocimiento del átomo" }
+    { id: "t1", nombre: "Demócrito y Dalton", icono: "esfera" },
+    { id: "t2", nombre: "Thomson y el electrón", icono: "panque" },
+    { id: "t3", nombre: "Rutherford y el núcleo", icono: "hoja_oro" },
+    { id: "t4", nombre: "Chadwick y el neutrón", icono: "neutron" },
+    { id: "t5", nombre: "Bohr y las órbitas", icono: "orbitas" },
+    { id: "t6", nombre: "El átomo actual", icono: "nube" },
+    { id: "t7", nombre: "Protones, electrones y neutrones (cálculos)", icono: "particulas" },
+    { id: "t8", nombre: "Línea del tiempo del átomo", icono: "tiempo" },
+    { id: "t9", nombre: "Aplicaciones del conocimiento del átomo", icono: "bombilla" }
   ],
   preguntas: [
 
@@ -51,7 +51,7 @@ REPASO.agregar({
     O("f7-25", "t2", "En el modelo del panqué con pasas, las «pasas» son…", ["Los electrones","Los protones","Los neutrones","Los átomos"], "Las pasas son los electrones, de carga negativa, repartidos en la esfera positiva.", "Ficha 7, p. 44"),
     VF("f7-26", "t2", "Niels Bohr descubrió el electrón.", false, "Falso. El electrón lo descubrió Thomson en 1897.", "Ficha 7, p. 42"),
     VF("f7-27", "t2", "Antes de Thomson, nadie había identificado la partícula elemental de la carga eléctrica.", true, "Verdadero. Esa partícula es el electrón.", "Ficha 7, p. 42"),
-    O("f7-97", "t2", "Un alumno dice: «En el modelo de Thomson, los electrones giran alrededor de un núcleo». ¿Qué le corregirías?", ["Thomson no tenía núcleo: los electrones estaban repartidos dentro de una esfera positiva","Thomson no hablaba de electrones","Los electrones giran, pero en una nube","No hay nada que corregir"], "En el panqué con pasas no hay núcleo. El núcleo lo propuso Rutherford después.", "Ficha 7, p. 41"),
+    O("f7-97", "t2", "Alguien dice: «En el modelo de Thomson, los electrones giran alrededor de un núcleo». ¿Qué le corregirías?", ["Thomson no tenía núcleo: los electrones estaban repartidos dentro de una esfera positiva","Thomson no hablaba de electrones","Los electrones giran, pero en una nube","No hay nada que corregir"], "En el panqué con pasas no hay núcleo. El núcleo lo propuso Rutherford después.", "Ficha 7, p. 41"),
     O("f7-98", "t2", "En el modelo del panqué con pasas, ¿por qué la esfera es positiva?", ["Para compensar los electrones negativos y que el átomo sea neutro","Porque Thomson ya había descubierto el protón","Porque los electrones no tienen carga","Porque así se veía mejor en el dibujo"], "El átomo es neutro: la carga positiva de la esfera equilibra la carga negativa de los electrones.", "Ficha 7, p. 41"),
 
     /* t3 · Rutherford y el núcleo */
@@ -119,7 +119,7 @@ REPASO.agregar({
     O("f7-111", "t7", "El oxígeno tiene número atómico 8 y masa atómica 16. ¿Cuántos neutrones tiene?", ["8","16","24","0"], "16 − 8 = 8 neutrones.", "Ficha 7, p. 43"),
     O("f7-112", "t7", "Un átomo neutro tiene 9 protones y masa atómica 19. ¿Cuántos neutrones y cuántos electrones tiene?", ["10 neutrones y 9 electrones","9 neutrones y 10 electrones","19 neutrones y 9 electrones","10 neutrones y 10 electrones"], "Neutrones: 19 − 9 = 10. Electrones: igual que los protones, 9.", "Ficha 7, p. 43"),
     O("f7-113", "t7", "El berilio tiene 4 protones y es neutro. ¿Cómo se acomodan sus electrones?", ["2 en la primera órbita y 2 en la segunda","4 en la primera órbita","3 en la primera y 1 en la segunda","1 en la primera y 3 en la segunda"], "Tiene 4 electrones: 2 llenan la primera órbita y los otros 2 van a la segunda.", "Ficha 7, p. 43"),
-    O("f7-114", "t7", "Un alumno calculó los neutrones del litio (número atómico 3, masa atómica 7) como 7 + 3 = 10. ¿Qué hizo mal?", ["Sumó en lugar de restar","Usó el número atómico equivocado","Restó los electrones","Nada, está bien"], "Neutrones = masa atómica − protones = 7 − 3 = 4.", "Ficha 7, p. 43"),
+    O("f7-114", "t7", "Alguien calculó los neutrones del litio (número atómico 3, masa atómica 7) como 7 + 3 = 10. ¿Qué hizo mal?", ["Sumó en lugar de restar","Usó el número atómico equivocado","Restó los electrones","Nada, está bien"], "Neutrones = masa atómica − protones = 7 − 3 = 4.", "Ficha 7, p. 43"),
 
     /* t8 · Línea del tiempo del átomo */
     ORD("f7-85", "t8", "Ordena a los científicos del más antiguo al más reciente.", ["Demócrito","Dalton (1803)","Thomson (1897)","Rutherford","Bohr (1913)"], "Demócrito (hace más de 2 000 años), Dalton (1803), Thomson (1897), Rutherford (1911) y Bohr (1913).", "Ficha 7, p. 41"),

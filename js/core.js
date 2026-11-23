@@ -18,6 +18,7 @@ var REPASO = {
   agregar: function (d) {
     d.preguntas.forEach(function (q) { q.tema = d.ficha.id + '.' + q.t; q.ficha = d.ficha.id; q.materia = d.materia; });
     d.temas.forEach(function (t) { t.key = d.ficha.id + '.' + t.id; });
+    d.preguntas.forEach(function (q) { var tm = d.temas.filter(function (t) { return t.id === q.t; })[0]; if (tm && tm.icono && q.ic === undefined) q.ic = tm.icono; });
     REPASO.fichas.push(d);
   },
   porque: function (m) { Object.keys(m).forEach(function (id) { REPASO.porques[id] = m[id]; }); },

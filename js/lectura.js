@@ -5,9 +5,9 @@
 
 var HAB = {
   literal: 'Entender lo que dice el texto', inferencia: 'Deducir lo que no está escrito', vocabulario: 'Palabras en contexto',
-  evidencia: 'Encontrar pruebas en el texto', secuencia: 'Ordenar ideas', explicar: 'Explicar con tus palabras (autoevaluación)'
+  evidencia: 'Encontrar pruebas en el texto', secuencia: 'Ordenar ideas', explicar: 'Explicar con tus palabras (tú te revisas)'
 };
-var HAB_CORTO = { literal: 'Entender el texto', inferencia: 'Deducir', vocabulario: 'Vocabulario', evidencia: 'Buscar pruebas', secuencia: 'Ordenar ideas', explicar: 'Explicar (autoevaluación)' };
+var HAB_CORTO = { literal: 'Entender el texto', inferencia: 'Deducir', vocabulario: 'Vocabulario', evidencia: 'Buscar pruebas', secuencia: 'Ordenar ideas', explicar: 'Explicar (tú te revisas)' };
 var HAB_ORDEN = ['literal', 'inferencia', 'vocabulario', 'evidencia', 'secuencia', 'explicar'];
 var lc = null;
 
@@ -19,7 +19,7 @@ var ICO_LIBRO = '<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M7 10 H22 
 function renderLecturas() {
   var s = cur(), c = $('lc-list'), hoy = fechaHoy(); c.innerHTML = '';
   var ls = lecturasDe(ST.activa);
-  if (!ls.length) { c.appendChild(el('p', 'p', 'Tu maestro agregará lecturas de ' + MAT[ST.activa].n + ' muy pronto.')); return; }
+  if (!ls.length) { c.appendChild(el('p', 'p', 'Tu docente agregará lecturas de ' + MAT[ST.activa].n + ' muy pronto.')); return; }
   ls.forEach(function (L) {
     var rec = s.lect[L.id], b = el('button', 'gcard');
     var meta = '<span class="lcard-meta"><i>' + L.items.length + ' preguntas</i>' + (rec && rec.veces ? '<i>Mejor: ' + rec.best + ' de ' + L.items.length + '</i>' : '') + (rec && rec.d === hoy ? '<i>Puntos de hoy ganados</i>' : '<i>Puntos disponibles hoy</i>') + '</span>';
@@ -42,7 +42,8 @@ function vozLocal() {
 }
 function hayVozEs() { return TTS && !!vozLocal(); }
 try { if (TTS && speechSynthesis.addEventListener) speechSynthesis.addEventListener('voiceschanged', function () {
-  if (typeof vistaActual !== 'undefined' && vistaActual === 'lect' && lc && lc.fase !== 'explica') { var v = hayVozEs(); $('l-voz-t').hidden = !v; $('l-voz-q').hidden = !v; }
+  var v = hayVozEs(); document.querySelectorAll('.esc-btn').forEach(function (b) { b.hidden = !v; });
+  if (typeof vistaActual !== 'undefined' && vistaActual === 'lect' && lc && lc.fase !== 'explica') { $('l-voz-t').hidden = !v; $('l-voz-q').hidden = !v; }
 }); } catch (e) {}
 function callar() {
   if (!TTS) return;
@@ -53,7 +54,7 @@ function callar() {
 function hablar(frases, marcar, fin) {
   callar(); var vz = TTS ? vozLocal() : null; if (!vz) return;
   frases.forEach(function (t, i) {
-    var u = new SpeechSynthesisUtterance(t); u.voice = vz; u.lang = vz.lang; u.rate = .92;
+    var u = new SpeechSynthesisUtterance(t); u.voice = vz; u.lang = vz.lang; u.rate = (typeof ST !== 'undefined' && ST.cfg && ST.cfg.lento) ? .8 : .92;
     u.onstart = function () { if (marcar) { document.querySelectorAll('.pasaje .or.say').forEach(function (x) { x.classList.remove('say'); }); var o = document.querySelector('.pasaje .or[data-i="' + i + '"]'); if (o) o.classList.add('say'); } };
     if (i === frases.length - 1) u.onend = function () { if (marcar) callar(); if (fin) fin(); };
     try { speechSynthesis.speak(u); } catch (e) {}
@@ -166,8 +167,39 @@ function terminarLectura() {
    El alumno escribe su explicación, la compara con una respuesta modelo y se autoevalúa con una lista de ideas clave.
    La app sugiere qué ideas detectó (por palabras clave) pero el alumno decide. Lo que escribe no se guarda ni se envía. */
 function normaliza(t) { return String(t).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); }
+/* Alternativa a escribir: el alumno toca las ideas que sí explican la respuesta (hay ideas falsas mezcladas). Misma revisión y mismos registros. */
+function mostrarExplicaElegir() {
+  var L = lc.L, E = L.explica; lc.fase = 'explica'; lc.checks = null; callar();
+  $('l-voz-t').hidden = true; $('l-voz-q').hidden = true;
+  $('l-pr').style.width = '100%'; $('l-cnt').textContent = 'Extra';
+  $('l-fb').hidden = true; $('l-next').hidden = true; pintaPasaje('lee');
+  $('l-tag').textContent = 'Explicar eligiendo ideas'; $('l-text').textContent = E.q;
+  var box = $('l-opts'); box.innerHTML = '';
+  var info = el('p', 'p', 'Toca las ideas que sí explican la respuesta. Ojo: hay algunas que no son ciertas. Puedes mirar el texto.'); info.style.cssText = 'margin:0 0 6px;text-align:left'; box.appendChild(info);
+  var cards = mezclar(E.claves.map(function (c) { return { t: c.t, ok: true }; }).concat(E.falsas.map(function (f) { return { t: f, ok: false }; })));
+  var pick = {}, lista = el('div', 'idl'); lista.setAttribute('role', 'group'); lista.setAttribute('aria-label', 'Ideas');
+  cards.forEach(function (c, i) {
+    var b = el('button', 'idea', c.t); b.type = 'button'; b.setAttribute('aria-pressed', 'false');
+    b.onclick = function () { if (lc.checks) return; pick[i] = !pick[i]; b.setAttribute('aria-pressed', pick[i] ? 'true' : 'false'); b.classList.toggle('sel', !!pick[i]); SFX.tick(); cmp.disabled = !Object.keys(pick).some(function (k) { return pick[k]; }); };
+    c.el = b; lista.appendChild(b);
+  });
+  box.appendChild(lista);
+  var cmp = el('button', 'cta', 'Comparar con la respuesta modelo'); cmp.disabled = true; cmp.style.margin = '8px 0 0'; box.appendChild(cmp);
+  var alt = el('button', 'link', 'Prefiero escribir'); alt.type = 'button'; alt.onclick = function () { var v = ST.cfg.elegir; ST.cfg.elegir = false; mostrarExplica(); ST.cfg.elegir = v; }; box.appendChild(alt);
+  cmp.onclick = function () {
+    lc.checks = []; cmp.hidden = true; alt.hidden = true;
+    cards.forEach(function (c, i) { c.el.disabled = true; c.el.classList.remove('sel'); if (c.ok) c.el.classList.add(pick[i] ? 'ok' : 'falto'); else if (pick[i]) c.el.classList.add('bad'); });
+    var res = el('div', 'fb good'); res.style.margin = '12px 0 0'; res.appendChild(el('strong', '', 'Respuesta modelo')); res.appendChild(document.createTextNode(E.modelo)); box.appendChild(res);
+    var mal = cards.filter(function (c, i) { return !c.ok && pick[i]; }).length, bien = cards.filter(function (c, i) { return c.ok && pick[i]; }).length;
+    box.appendChild(el('p', 'p', bien + ' de ' + E.claves.length + ' ideas correctas' + (mal ? '. Elegiste ' + mal + (mal === 1 ? ' idea que no es cierta.' : ' ideas que no son ciertas.') : '.'))); box.lastChild.style.cssText = 'margin:8px 0 0;text-align:left;font-weight:700';
+    E.claves.forEach(function (cl, i) { var k = cards.filter(function (c) { return c.ok && c.t === cl.t; })[0]; lc.checks.push({ checked: !!pick[cards.indexOf(k)] }); });
+    var fin_ = el('button', 'cta', 'Ver resultado'); fin_.style.margin = '10px 0 0'; fin_.onclick = function () { terminarLectura(); }; box.appendChild(fin_); fin_.focus();
+  };
+  enfocar('l-text');
+}
 function mostrarExplica() {
   var L = lc.L, E = L.explica; lc.fase = 'explica'; lc.checks = null; callar();
+  if (E.falsas && E.falsas.length && ST.cfg.elegir) return mostrarExplicaElegir();
   $('l-voz-t').hidden = true; $('l-voz-q').hidden = true;   /* aquí no se escucha nada: el alumno lee y escribe con sus propias palabras */
   $('l-pr').style.width = '100%'; $('l-cnt').textContent = 'Extra';
   $('l-fb').hidden = true; $('l-next').hidden = true; pintaPasaje('lee');
@@ -179,15 +211,16 @@ function mostrarExplica() {
   var falta = el('p', 'hint', ''); falta.style.cssText = 'margin:4px 0 0;min-height:0;text-align:left'; falta.setAttribute('aria-live', 'polite');
   var cmp = el('button', 'cta', 'Comparar con la respuesta modelo'); cmp.disabled = true; cmp.style.margin = '8px 0 0';
   box.appendChild(lab); box.appendChild(ta); box.appendChild(falta); box.appendChild(cmp);
+  if (E.falsas && E.falsas.length) { var alt = el('button', 'link', 'Prefiero elegir ideas en vez de escribir'); alt.type = 'button'; alt.onclick = function () { mostrarExplicaElegir(); }; box.appendChild(alt); }
   var MIN = 10;   /* palabras mínimas para poder comparar */
   ta.oninput = function () {
     var n = ta.value.trim() ? ta.value.trim().split(/\s+/).length : 0;
-    cmp.disabled = n < MIN; falta.textContent = n < MIN ? 'Escribe un poco más (' + n + ' de ' + MIN + ' palabras).' : '¡Listo para comparar!';
+    cmp.disabled = n < MIN; falta.textContent = n < MIN ? 'Escribe un poco más (' + n + ' de ' + MIN + ' palabras).' : '¡Ya puedes comparar con la respuesta modelo!';
   };
   cmp.onclick = function () {
     var txt = normaliza(ta.value); ta.readOnly = true; cmp.hidden = true; falta.hidden = true; lc.checks = [];
     var res = el('div', 'fb good'); res.style.margin = '12px 0 0'; res.appendChild(el('strong', '', 'Respuesta modelo')); res.appendChild(document.createTextNode(E.modelo)); box.appendChild(res);
-    box.appendChild(el('div', 'qtag', 'Tu autoevaluación')); box.lastChild.style.margin = '12px 0 4px';
+    box.appendChild(el('div', 'qtag', 'Tu revisión')); box.lastChild.style.margin = '12px 0 4px';
     box.appendChild(el('p', 'p', 'Marca las ideas que sí incluiste en tu explicación. Ya marcamos las que parece que mencionaste; corrígelo tú si hace falta.')); box.lastChild.style.cssText = 'margin:0 0 6px;text-align:left';
     E.claves.forEach(function (cl, i) {
       var hallas = cl.k.filter(function (w) { return txt.indexOf(normaliza(w)) > -1; }).length;

@@ -214,3 +214,39 @@ function selloMk(num, color, ganado) {
     (ganado ? '<text x="50" y="60" text-anchor="middle" font-family="Nunito,system-ui,sans-serif" font-weight="900" font-size="' + (String(num).length > 1 ? 26 : 32) + '" fill="' + c + '">' + num + '</text>'
             : '<text x="50" y="60" text-anchor="middle" font-family="Nunito,system-ui,sans-serif" font-weight="900" font-size="' + (String(num).length > 1 ? 24 : 30) + '" fill="#aab4c8">' + num + '</text>') + '</svg>';
 }
+
+/* ---------- Dibujos para las preguntas (apoyo visual, DUA) ----------
+   En cada tema de una ficha puedes poner  icono: 'nombre'  y sus preguntas mostrarán ese dibujo. Una pregunta puede usar otro con  ic: 'nombre'  (o ic: false para ninguno).
+   Nombres disponibles: esfera, panque, hoja_oro, neutron, orbitas, nube, particulas, tiempo, bombilla, atomo, celula, adn, matraz, microscopio, hoja, planeta, gota, iman.
+   Son dibujos decorativos: la pregunta siempre se entiende solo con el texto. */
+var ICONOS = (function () {
+  var B = 'var(--brand)', BS = 'var(--brand-soft)', ROJO = '#ff6b6b', AZ = '#4a67ee', GR = '#aab4c8', ORO = '#ffb830', VD = '#2fbf86', MO = '#9a6cff', TX = '#1d2433';
+  function p(n, c, s) { return '<circle cx="' + n[0] + '" cy="' + n[1] + '" r="' + n[2] + '" fill="' + c + '"' + (s ? ' stroke="' + s + '" stroke-width="1.6"' : '') + '/>'; }
+  function t(x, y, s, c, sz) { return '<text x="' + x + '" y="' + y + '" text-anchor="middle" font-family="system-ui,sans-serif" font-weight="800" font-size="' + (sz || 11) + '" fill="' + c + '">' + s + '</text>'; }
+  var o = {};
+  o.esfera = p([32, 32, 22], BS, B) + '<path d="M19 26 A15 15 0 0 1 30 15" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/>';
+  o.panque = p([32, 32, 24], '#ffd9e2', ROJO) + [[22, 24], [38, 22], [28, 38], [42, 38], [20, 40], [33, 30]].map(function (c) { return p([c[0], c[1], 3.4], AZ); }).join('');
+  o.hoja_oro = '<rect x="4" y="26" width="9" height="12" rx="2" fill="' + GR + '"/><rect x="34" y="8" width="5" height="48" rx="2" fill="' + ORO + '"/>' +
+    '<path d="M13 28 H58 M13 32 H58 M13 36 H58" stroke="' + B + '" stroke-width="2" stroke-dasharray="3 3" stroke-linecap="round" fill="none"/>' +
+    '<path d="M13 40 H33 L28 52" stroke="' + ROJO + '" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>';
+  o.neutron = [[14, 20], [32, 20], [50, 20]].map(function (c) { return p([c[0], c[1], 9], ROJO) + t(c[0], c[1] + 5, '+', '#fff', 15); }).join('') + [[14, 44], [32, 44], [50, 44]].map(function (c) { return p([c[0], c[1], 9], GR, '#8793aa') + t(c[0], c[1] + 4, '0', TX, 12); }).join('');
+  o.orbitas = '<circle cx="32" cy="32" r="11" fill="none" stroke="' + GR + '" stroke-dasharray="2 3" stroke-width="1.6"/><circle cx="32" cy="32" r="19" fill="none" stroke="' + GR + '" stroke-dasharray="2 3" stroke-width="1.6"/><circle cx="32" cy="32" r="27" fill="none" stroke="' + GR + '" stroke-dasharray="2 3" stroke-width="1.6"/>' +
+    p([32, 32, 5.5], ROJO) + p([43, 32, 3.6], AZ) + p([18.5, 24.5, 3.6], AZ) + p([32, 59, 3.6], AZ);
+  o.nube = '<defs><radialGradient id="nb"><stop offset="0" stop-color="#4a67ee" stop-opacity=".55"/><stop offset="1" stop-color="#4a67ee" stop-opacity="0"/></radialGradient></defs><circle cx="32" cy="32" r="30" fill="url(#nb)"/>' +
+    [[20, 24], [44, 22], [24, 44], [46, 40], [36, 14], [14, 36], [50, 30], [30, 52]].map(function (c) { return p([c[0], c[1], 1.8], AZ); }).join('') + p([32, 32, 4.5], ROJO);
+  o.particulas = p([13, 32, 10.5], ROJO) + t(13, 38, '+', '#fff', 17) + p([32, 32, 10.5], AZ) + t(32, 37.5, '−', '#fff', 17) + p([51, 32, 10.5], GR, '#8793aa') + t(51, 36.5, '0', TX, 13);
+  o.tiempo = '<path d="M5 34 H57" stroke="' + B + '" stroke-width="3" stroke-linecap="round"/><path d="M52 29 L58 34 L52 39" fill="none" stroke="' + B + '" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>' +
+    p([10, 34, 3.4], ORO) + p([22, 34, 4.2], ROJO) + p([34, 34, 5], AZ) + p([46, 34, 5.8], VD) + '<path d="M10 28 V20 M22 28 V16 M34 28 V20 M46 28 V14" stroke="' + GR + '" stroke-width="2" stroke-linecap="round"/>';
+  o.bombilla = '<path d="M32 6 A16 16 0 0 0 22 34 V40 H42 V34 A16 16 0 0 0 32 6 Z" fill="#ffe27a" stroke="' + ORO + '" stroke-width="2.2" stroke-linejoin="round"/><rect x="23" y="42" width="18" height="5" rx="2" fill="' + GR + '"/><rect x="26" y="49" width="12" height="5" rx="2.5" fill="' + GR + '"/><path d="M27 30 L30 22 L34 30 L37 22" fill="none" stroke="' + ORO + '" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>';
+  o.atomo = '<g fill="none" stroke="' + B + '" stroke-width="2.4"><ellipse cx="32" cy="32" rx="27" ry="10"/><ellipse cx="32" cy="32" rx="27" ry="10" transform="rotate(60 32 32)"/><ellipse cx="32" cy="32" rx="27" ry="10" transform="rotate(120 32 32)"/></g>' + p([32, 32, 6], ORO);
+  o.celula = '<path d="M32 6 C50 6 58 20 56 34 C54 50 42 58 30 57 C14 56 6 44 8 30 C10 16 18 6 32 6 Z" fill="' + BS + '" stroke="' + B + '" stroke-width="2.4"/>' + p([30, 30, 10], MO) + p([30, 30, 4], '#6f45d1') + '<ellipse cx="46" cy="44" rx="5" ry="3" fill="' + VD + '" transform="rotate(-30 46 44)"/><ellipse cx="17" cy="42" rx="5" ry="3" fill="' + VD + '" transform="rotate(25 17 42)"/><ellipse cx="44" cy="18" rx="4" ry="2.6" fill="' + ORO + '"/>';
+  o.adn = '<path d="M20 6 C20 22 44 22 44 38 C44 50 20 50 20 58 M44 6 C44 22 20 22 20 38 C20 50 44 50 44 58" fill="none" stroke="' + B + '" stroke-width="3" stroke-linecap="round"/><path d="M26 14 H38 M24 30 H40 M26 46 H38" stroke="' + ORO + '" stroke-width="3" stroke-linecap="round"/>';
+  o.matraz = '<path d="M26 6 H38 M28 6 V24 L10 52 A5 5 0 0 0 14 58 H50 A5 5 0 0 0 54 52 L36 24 V6" fill="none" stroke="' + B + '" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/><path d="M17 42 H47 L54 52 A5 5 0 0 1 50 58 H14 A5 5 0 0 1 10 52 Z" fill="' + VD + '" opacity=".75"/>' + p([30, 48, 2.4], '#fff') + p([38, 52, 2], '#fff');
+  o.microscopio = '<rect x="12" y="52" width="40" height="6" rx="3" fill="' + GR + '"/><path d="M22 52 A18 18 0 0 0 40 20" fill="none" stroke="' + B + '" stroke-width="4" stroke-linecap="round"/><rect x="26" y="8" width="10" height="22" rx="3" transform="rotate(25 31 19)" fill="' + AZ + '"/><rect x="18" y="44" width="16" height="4" rx="2" fill="' + TX + '"/>';
+  o.hoja = '<path d="M10 54 C8 26 28 8 56 8 C58 36 40 56 10 54 Z" fill="' + VD + '"/><path d="M10 54 C24 40 36 28 48 16" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/>';
+  o.planeta = p([32, 32, 17], ORO) + '<ellipse cx="32" cy="32" rx="29" ry="8" fill="none" stroke="' + MO + '" stroke-width="3.4" transform="rotate(-20 32 32)"/><path d="M22 28 C28 24 36 24 42 28" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".7"/>';
+  o.gota = '<path d="M32 6 C32 6 14 28 14 40 A18 18 0 0 0 50 40 C50 28 32 6 32 6 Z" fill="#7ec8ff" stroke="' + AZ + '" stroke-width="2.4"/><path d="M24 40 A8 8 0 0 0 30 49" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/>';
+  o.iman = '<path d="M14 8 H26 V34 A6 6 0 0 0 38 34 V8 H50 V34 A18 18 0 0 1 14 34 Z" fill="' + ROJO + '"/><rect x="14" y="8" width="12" height="10" fill="' + GR + '"/><rect x="38" y="8" width="12" height="10" fill="' + GR + '"/>';
+  return o;
+})();
+function iconoMk(k) { return k && ICONOS[k] ? '<svg viewBox="0 0 64 64" class="qimg-svg" aria-hidden="true" focusable="false">' + ICONOS[k] + '</svg>' : ''; }

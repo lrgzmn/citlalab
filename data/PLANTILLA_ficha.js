@@ -15,33 +15,39 @@
      VF(id, tema, afirmación, true | false, explicación, página)
          Verdadero o falso. Escribe true o false SIN comillas.
      ORD(id, tema, instrucción, [elementos en el orden correcto], explicación, página)
-         La app los revuelve y el alumno los ordena tocándolos.
+         La app los revuelve y el estudiante los ordena tocándolos.
 
      CM(id, tema, lo que dice la mascota, [corrección correcta, otras opciones], explicación, página)
-         «Corrige a tu mascota»: la mascota dice algo con un error típico y el alumno la corrige. Escribe la afirmación errónea
+         «Corrige a tu mascota»: la mascota dice algo con un error típico y el estudiante la corrige. Escribe la afirmación errónea
          sin comillas (la app agrega «Atomina dice: ...»). Aparece en el repaso y en el juego del mismo nombre.
      CMOK(id, tema, lo que dice la mascota, explicación, página)
-         Igual, pero esta vez la mascota tiene razón y el alumno debe decir «Tienes razón». Mezcla algunas para que no
+         Igual, pero esta vez la mascota tiene razón y el estudiante debe decir «Tienes razón». Mezcla algunas para que no
          adivinen que siempre se equivoca.
 
    POR QUÉ NO (opcional): en un archivo aparte, por ejemplo data/biologia/ficha3_porque.js, agrega:
      REPASO.porque({ 'b3-01': { 'Opción incorrecta exacta': 'por qué no es', 'Otra opción incorrecta': 'por qué no es' } });
-   Cuando el alumno elige esa opción, la app le explica específicamente por qué se equivocó. Escribe el texto de la opción
+   Cuando el estudiante elige esa opción, la app le explica específicamente por qué se equivocó. Escribe el texto de la opción
    exactamente igual que en la pregunta (la revisión con ?revisar=1 avisa si no coincide). Solo en preguntas de tipo O y CM.
+
+   DIBUJOS (opcional): en cada tema puedes agregar  icono: 'nombre'  y todas sus preguntas mostrarán ese dibujo como apoyo visual.
+     { id: 't1', nombre: 'Partes de la célula', icono: 'celula' }
+   Nombres: esfera, panque, hoja_oro, neutron, orbitas, nube, particulas, tiempo, bombilla, atomo, celula, adn, matraz, microscopio, hoja, planeta, gota, iman.
+   Una pregunta puede llevar otro dibujo si agregas al final un campo, o ninguno. Si un tema no lleva icono, sus preguntas salen sin dibujo.
+   (¿Necesitas un dibujo que no existe? Pídelo y se agrega a la biblioteca.)
 
    El id de cada pregunta debe ser único en toda la app (por ejemplo b3-01, b3-02...).
    El tema es el id de uno de los temas de la lista de arriba (t1, t2...).
    Procura al menos 4 preguntas por tema, y varias de verdadero o falso para el juego de tarjetas.
    Mezcla preguntas de recordar con otras de aplicar, explicar o corregir un error («¿qué está mal en esta frase?», «¿qué pasaría si…?»);
-   para esas, los distractores funcionan mejor si son errores típicos de los alumnos.
+   para esas, los distractores funcionan mejor si son errores típicos de los estudiantes.
    Para practicar comprensión lectora, puedes agregar lecturas con data/PLANTILLA_lectura.js.
    Antes de agregar una ficha, verifica los datos contra la fe de erratas del libro. */
 REPASO.agregar({
   materia: 'biologia',
   ficha: { id: 'b3', titulo: 'Ficha 3 · La célula', jefe: 'El Virus Travieso' },
   temas: [
-    { id: 't1', nombre: 'Partes de la célula' },
-    { id: 't2', nombre: 'Célula animal y vegetal' }
+    { id: 't1', nombre: 'Partes de la célula', icono: 'celula' },
+    { id: 't2', nombre: 'Célula animal y vegetal', icono: 'celula' }
   ],
   preguntas: [
 

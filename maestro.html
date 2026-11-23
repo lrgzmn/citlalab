@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src data:; connect-src 'none'; form-action 'none'; base-uri 'none'; frame-src 'none'; object-src 'none'">
-<title>Citlalab · Panel del maestro</title>
+<title>Citlalab · Panel docente</title>
 <meta name="author" content="Uriel Lara Guzmán, docente de Ciencias">
 <style>
   :root{--ink:#1d2433;--soft:#5d6b82;--line:#dfe5f0;--brand:#4a67ee;--brand-d:#3a54d6;--bg:#f3f6fb}
@@ -36,12 +36,12 @@
 </head>
 <body>
 <main>
-<h1>Panel del maestro</h1>
+<h1>Panel docente</h1>
 <p>Pega aquí los reportes que te mandaron las familias por WhatsApp (puedes pegar varios a la vez). La página busca en cada uno la línea que empieza con <b>R1:</b> y arma el análisis del grupo. Todo se queda en este navegador: no se sube nada a internet.</p>
 
 <div class="card noprint">
   <label for="pega"><b>Reportes de las familias</b></label>
-  <textarea id="pega" placeholder="Pega uno o varios reportes completos. Si pegas otra vez el reporte de un alumno, se queda el más reciente."></textarea>
+  <textarea id="pega" placeholder="Pega uno o varios reportes completos. Si pegas otra vez el reporte de un estudiante, se queda el más reciente."></textarea>
   <button id="analizar">Agregar y analizar</button>
   <button class="sec" id="csv">Descargar tabla (CSV)</button>
   <button class="dng" id="borrar">Borrar todos los reportes</button>
@@ -55,7 +55,7 @@
   <div class="kpis" id="kpis"></div>
 
   <h2>Mapa de dominio por tema</h2>
-  <p>Cada celda es el porcentaje de respuestas correctas del alumno en ese tema (y entre paréntesis, cuántas contestó). Las celdas con «—» son temas que aún no practica. El color ayuda, pero el número y la marca ⚠ (menos de 50 %) dicen lo mismo.</p>
+  <p>Cada celda es el porcentaje de respuestas correctas de cada estudiante en ese tema (y entre paréntesis, cuántas contestó). Las celdas con «—» son temas que aún no practica. El color ayuda, pero el número y la marca ⚠ (menos de 50 %) dicen lo mismo.</p>
   <div class="leg" aria-hidden="true"><span class="c0">menos de 50 %</span><span class="c1">50 a 69 %</span><span class="c2">70 a 84 %</span><span class="c3">85 % o más</span></div>
   <div class="tw" tabindex="0" role="region" aria-label="Mapa de dominio por tema (se puede desplazar)"><table id="mapa"></table></div>
   <p id="leyTemas" style="font-size:.85rem"></p>
@@ -65,9 +65,9 @@
   <ol class="q" id="dificiles"></ol>
 
   <h2>Seguridad al responder</h2>
-  <p>Antes de ver si acertaron, los alumnos dicen si están seguros, dudan o adivinan. Lo más valioso es lo que está seguro y es incorrecto: son ideas equivocadas que conviene aclarar en clase.</p>
+  <p>Antes de ver si acertaron, cada estudiante marca «Lo sé», «Dudo» o «Adiviné». Lo más valioso son las respuestas marcadas «Lo sé» que resultaron incorrectas: son ideas equivocadas que conviene aclarar en clase.</p>
   <div class="kpis" id="cal"></div>
-  <h3>Preguntas donde más alumnos estaban seguros y se equivocaron</h3>
+  <h3>Preguntas donde más estudiantes marcaron «Lo sé» y se equivocaron</h3>
   <ol class="q" id="confundidas"></ol>
 
   <h2>Comprensión lectora (promedio del grupo)</h2>
@@ -83,7 +83,7 @@
 <script src="data/lista.js"></script>
 <script>
 window.addEventListener('load', function () {
-  var KEYM = 'repaso.maestro.v1', REP = {};   // REP[claveAlumno] = reporte decodificado
+  var KEYM = 'repaso.maestro.v1', REP = {};   // REP[claveEstudiante] = reporte decodificado
   function $(id) { return document.getElementById(id); }
   function esc(t) { return String(t).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   function cargar() { try { REP = JSON.parse(localStorage.getItem(KEYM)) || {}; } catch (e) { REP = {}; } }
@@ -129,15 +129,15 @@ window.addEventListener('load', function () {
     var sel = $('mat'), actual = sel.value; sel.innerHTML = '';
     mats.forEach(function (m) { var o = document.createElement('option'); o.value = m; o.textContent = (MAT[m] ? MAT[m].n : m); sel.appendChild(o); });
     if (mats.indexOf(actual) > -1) sel.value = actual;
-    var mat = sel.value, alumnos = L.filter(function (r) { return r.m[mat]; }), temas = TEMAS[mat] || [];
+    var mat = sel.value, estudiantes = L.filter(function (r) { return r.m[mat]; }), temas = TEMAS[mat] || [];
 
     // --- KPIs
-    var N = 0, C = 0, cons = 0; alumnos.forEach(function (r) { Object.keys(r.m[mat].t).forEach(function (k) { N += r.m[mat].t[k][0]; C += r.m[mat].t[k][1]; }); cons += r.d; });
-    $('kpis').innerHTML = '<div class="kpi"><b>' + alumnos.length + '</b><span>alumnos con reporte</span></div><div class="kpi"><b>' + (pct(N, C) == null ? '—' : pct(N, C) + ' %') + '</b><span>aciertos del grupo</span></div><div class="kpi"><b>' + (alumnos.length ? (cons / alumnos.length).toFixed(1) : '—') + ' de 7</b><span>días de repaso por alumno (última semana)</span></div><div class="kpi"><b>' + N + '</b><span>respuestas en total</span></div>';
+    var N = 0, C = 0, cons = 0; estudiantes.forEach(function (r) { Object.keys(r.m[mat].t).forEach(function (k) { N += r.m[mat].t[k][0]; C += r.m[mat].t[k][1]; }); cons += r.d; });
+    $('kpis').innerHTML = '<div class="kpi"><b>' + estudiantes.length + '</b><span>estudiantes con reporte</span></div><div class="kpi"><b>' + (pct(N, C) == null ? '—' : pct(N, C) + ' %') + '</b><span>aciertos del grupo</span></div><div class="kpi"><b>' + (estudiantes.length ? (cons / estudiantes.length).toFixed(1) : '—') + ' de 7</b><span>días de repaso por estudiante (última semana)</span></div><div class="kpi"><b>' + N + '</b><span>respuestas en total</span></div>';
 
     // --- Mapa
     var h = '<thead><tr><th scope="col">Alumno</th>' + temas.map(function (t) { return '<th scope="col" title="' + esc(t.nombre) + '">' + t.ficha + '.' + t.id + '</th>'; }).join('') + '<th scope="col">Total</th><th scope="col">Días/7</th></tr></thead><tbody>';
-    alumnos.forEach(function (r) {
+    estudiantes.forEach(function (r) {
       var x = r.m[mat], n = 0, c = 0;
       h += '<tr><td>' + esc(r.a || 'Sin nombre') + '</td>' + temas.map(function (t) {
         var v = x.t[t.key]; if (!v || !v[0]) return '<td class="cn">—</td>'; var p = pct(v[0], v[1]); n += v[0]; c += v[1];
@@ -145,40 +145,40 @@ window.addEventListener('load', function () {
       }).join('') + '<td class="' + cls(pct(n, c)) + '">' + (pct(n, c) == null ? '—' : pct(n, c) + ' %') + '</td><td>' + r.d + '</td></tr>';
     });
     h += '<tr class="tot"><td>Grupo</td>' + temas.map(function (t) {
-      var n = 0, c = 0; alumnos.forEach(function (r) { var v = r.m[mat].t[t.key]; if (v) { n += v[0]; c += v[1]; } });
+      var n = 0, c = 0; estudiantes.forEach(function (r) { var v = r.m[mat].t[t.key]; if (v) { n += v[0]; c += v[1]; } });
       var p = pct(n, c); return '<td class="' + cls(p) + '">' + (p == null ? '—' : (p < 50 ? '⚠ ' : '') + p + ' % <small>(' + n + ')</small>') + '</td>';
     }).join('') + '<td></td><td></td></tr></tbody>';
     $('mapa').innerHTML = h;
     $('leyTemas').innerHTML = '<b>Temas:</b> ' + temas.map(function (t) { return t.ficha + '.' + t.id + ' = ' + esc(t.nombre); }).join(' · ');
 
     // --- Preguntas difíciles
-    var Q = {}; alumnos.forEach(function (r) { var q = r.m[mat].q; Object.keys(q).forEach(function (id) { var z = Q[id] = Q[id] || [0, 0]; z[0] += q[id][0]; z[1] += q[id][1]; }); });
+    var Q = {}; estudiantes.forEach(function (r) { var q = r.m[mat].q; Object.keys(q).forEach(function (id) { var z = Q[id] = Q[id] || [0, 0]; z[0] += q[id][0]; z[1] += q[id][1]; }); });
     var arr = Object.keys(Q).filter(function (id) { return Q[id][0] >= 3 && PORID[id]; }).map(function (id) { return { id: id, n: Q[id][0], c: Q[id][1], p: pct(Q[id][0], Q[id][1]) }; }).sort(function (a, b) { return a.p - b.p || b.n - a.n; }).slice(0, 8);
     $('dificiles').innerHTML = arr.length ? arr.map(function (z) { var q = PORID[z.id], t = q.q.replace('{m}', 'La mascota'); return '<li><b>' + z.p + ' %</b> de aciertos (' + z.c + ' de ' + z.n + ') <span class="tag">' + z.id + '</span><br>' + esc(t) + '</li>'; }).join('') : '<li>Todavía no hay suficientes respuestas (se necesitan al menos 3 por pregunta).</li>';
 
     // --- Seguridad al responder
     var K = [0, 0, 0, 0, 0, 0], Z = {}, rutas = 0, sellos = 0;
-    alumnos.forEach(function (r) { var x = r.m[mat]; (x.k || []).forEach(function (v, i) { K[i] += v; }); rutas += x.u || 0; sellos += x.s || 0; Object.keys(x.z || {}).forEach(function (id) { var z = Z[id] = Z[id] || [0, 0]; z[0] += x.z[id]; z[1]++; }); });
+    estudiantes.forEach(function (r) { var x = r.m[mat]; (x.k || []).forEach(function (v, i) { K[i] += v; }); rutas += x.u || 0; sellos += x.s || 0; Object.keys(x.z || {}).forEach(function (id) { var z = Z[id] = Z[id] || [0, 0]; z[0] += x.z[id]; z[1]++; }); });
     var totK = K.reduce(function (a, b) { return a + b; }, 0), ns = K[0] + K[1];
-    $('cal').innerHTML = totK ? '<div class="kpi"><b>' + (ns ? pct(ns, K[0]) + ' %' : '—') + '</b><span>aciertos cuando dijeron «seguro»</span></div><div class="kpi"><b>' + K[1] + '</b><span>veces seguros y equivocados</span></div><div class="kpi"><b>' + K[4] + '</b><span>aciertos que fueron adivinados</span></div><div class="kpi"><b>' + rutas + '</b><span>rutas diarias completadas</span></div><div class="kpi"><b>' + sellos + '</b><span>sellos de ficha ganados en total</span></div>' : '<p>Todavía no hay datos de seguridad (los reportes son de una versión anterior o el alumno la desactivó).</p>';
+    $('cal').innerHTML = totK ? '<div class="kpi"><b>' + (ns ? pct(ns, K[0]) + ' %' : '—') + '</b><span>aciertos cuando marcaron «Lo sé»</span></div><div class="kpi"><b>' + K[1] + '</b><span>veces «Lo sé» con respuesta incorrecta</span></div><div class="kpi"><b>' + K[4] + '</b><span>aciertos que fueron adivinados</span></div><div class="kpi"><b>' + rutas + '</b><span>rutas diarias completadas</span></div><div class="kpi"><b>' + sellos + '</b><span>sellos de ficha ganados en total</span></div>' : '<p>Todavía no hay datos de seguridad (los reportes son de una versión anterior o la persona la desactivó).</p>';
     var zc = Object.keys(Z).filter(function (id) { return PORID[id]; }).sort(function (a, b) { return Z[b][1] - Z[a][1] || Z[b][0] - Z[a][0]; }).slice(0, 6);
-    $('confundidas').innerHTML = zc.length ? zc.map(function (id) { return '<li><b>' + Z[id][1] + (Z[id][1] === 1 ? ' alumno' : ' alumnos') + '</b> (' + Z[id][0] + ' veces) <span class="tag">' + id + '</span><br>' + esc(PORID[id].q.replace('{m}', 'La mascota')) + '</li>'; }).join('') : '<li>Sin casos todavía.</li>';
+    $('confundidas').innerHTML = zc.length ? zc.map(function (id) { return '<li><b>' + Z[id][1] + (Z[id][1] === 1 ? ' estudiante' : ' estudiantes') + '</b> (' + Z[id][0] + ' veces) <span class="tag">' + id + '</span><br>' + esc(PORID[id].q.replace('{m}', 'La mascota')) + '</li>'; }).join('') : '<li>Sin casos todavía.</li>';
 
     // --- Habilidades
-    var H = {}; alumnos.forEach(function (r) { var h = r.m[mat].h || {}; Object.keys(h).forEach(function (k) { var z = H[k] = H[k] || [0, 0]; z[0] += h[k][0]; z[1] += h[k][1]; }); });
+    var H = {}; estudiantes.forEach(function (r) { var h = r.m[mat].h || {}; Object.keys(h).forEach(function (k) { var z = H[k] = H[k] || [0, 0]; z[0] += h[k][0]; z[1] += h[k][1]; }); });
     var hk = Object.keys(H);
     $('habs').innerHTML = hk.length ? hk.map(function (k) { var p = pct(H[k][0], H[k][1]); return '<div class="bar"><span>' + (HABN[k] || k) + '</span><span class="t"><i style="width:' + p + '%"></i></span><span>' + p + ' %</span></div>'; }).join('') : '<p>Todavía no hay datos de lectura científica.</p>';
 
     // --- Seguimiento
     var s = [];
-    alumnos.forEach(function (r) {
+    estudiantes.forEach(function (r) {
       var x = r.m[mat], n = 0, c = 0, flojos = [];
       temas.forEach(function (t) { var v = x.t[t.key]; if (v && v[0] >= 3) { n += v[0]; c += v[1]; if (pct(v[0], v[1]) < 50) flojos.push(t.nombre); } else if (v) { n += v[0]; c += v[1]; } });
       var rs = [];
       if (r.d <= 1) rs.push('repasó ' + r.d + ' día(s) de los últimos 7');
       if (n >= 5 && pct(n, c) < 60) rs.push('acierta ' + pct(n, c) + ' %');
       if (flojos.length) rs.push('tema(s) por debajo de 50 %: ' + flojos.slice(0, 3).join(', '));
-      if (x.k && x.k[1] >= 3) rs.push('estuvo seguro y se equivocó ' + x.k[1] + ' veces (ideas por aclarar)');
+      if (x.k && x.k[1] >= 3) rs.push('marcó «Lo sé» y se equivocó ' + x.k[1] + ' veces (ideas por aclarar)');
       if (rs.length) s.push('<li><b>' + esc(r.a || 'Sin nombre') + '</b>: ' + esc(rs.join('; ')) + '. <span class="tag">reporte del ' + fechaTxt(r.f) + '</span></li>');
     });
     $('seguir').innerHTML = s.length ? s.join('') : '<li>Nadie cumple los criterios de seguimiento con los reportes actuales.</li>';

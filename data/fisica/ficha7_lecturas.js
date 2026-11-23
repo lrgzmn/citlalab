@@ -19,6 +19,7 @@ REPASO.lectura({
   explica: {
     q: 'Con tus palabras: ¿qué descubrió Rutherford y cómo lo supo?',
     modelo: 'Rutherford lanzó partículas alfa contra una hoja de oro muy delgada. Casi todas pasaron derecho, así que el átomo es casi todo espacio vacío. Unas pocas rebotaron, lo que mostró que en el centro hay un núcleo pequeño, denso y con carga positiva.',
+    falsas: ['Casi todas las partículas rebotaron, así que el átomo es una bola maciza', 'Rutherford descubrió el neutrón en el centro del átomo'],
     claves: [
       { t: 'Lanzó partículas alfa contra una hoja de oro', k: ['alfa', 'oro'], min: 1 },
       { t: 'Casi todas pasaron, así que el átomo es casi todo vacío', k: ['pasaron', 'atraves', 'vacio', 'derecho'], min: 1 },
@@ -49,6 +50,7 @@ REPASO.lectura({
   explica: {
     q: 'Con tus palabras: ¿por qué fue cambiando la idea del átomo con el tiempo?',
     modelo: 'Cada científico propuso un modelo con las pruebas que tenía: Demócrito imaginó el átomo, Dalton retomó la idea, Thomson descubrió el electrón, Rutherford encontró el núcleo y Bohr propuso las órbitas. Los modelos cambiaron porque aparecieron nuevas pruebas.',
+    falsas: ['El átomo mismo va cambiando de forma con los años, por eso hubo nuevos modelos', 'Dalton fue el primero en descubrir el electrón'],
     claves: [
       { t: 'Menciona al menos dos científicos y lo que aportó cada uno', k: ['democrito', 'dalton', 'thomson', 'rutherford', 'bohr'], min: 2 },
       { t: 'Cada modelo se basó en las pruebas que había en su época', k: ['prueba', 'experiment', 'descubr', 'descubri'], min: 1 },
@@ -80,6 +82,7 @@ REPASO.lectura({
   explica: {
     q: 'Con tus palabras: ¿qué es un neutrón y cómo se descubrió?',
     modelo: 'Chadwick lanzó partículas alfa contra una lámina de berilio y salió una radiación muy intensa. Concluyó que estaba formada por partículas sin carga, los neutrones, que están en el núcleo junto a los protones.',
+    falsas: ['Chadwick lanzó partículas alfa contra una hoja de oro', 'Los neutrones tienen carga positiva y giran fuera del núcleo'],
     claves: [
       { t: 'Chadwick lanzó partículas alfa contra berilio', k: ['berilio', 'chadwick', 'alfa'], min: 1 },
       { t: 'Los neutrones no tienen carga', k: ['sin carga', 'no tiene carga', 'no tienen carga', 'neutra', 'neutro', 'carga neutra'], min: 1 },

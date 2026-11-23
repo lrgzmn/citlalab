@@ -12,14 +12,14 @@ var MAT = {
 var ORDEN = ['fisica', 'biologia', 'quimica'];
 /* Títulos por sellos ganados (un sello = una ficha dominada). Ajusta los números cuando sepas cuántas fichas tendrá cada materia. */
 var TITULOS = [
-  { n: 'Aprendiz', v: 0 }, { n: 'Explorador', v: 1 }, { n: 'Investigador', v: 2 }, { n: 'Experimentador', v: 4 },
-  { n: 'Científico', v: 6 }, { n: 'Gran científico', v: 9 }, { n: 'Leyenda de la ciencia', v: 12 }
+  { n: 'Aprendiz', v: 0 }, { n: 'Mente curiosa', v: 1 }, { n: 'Mente investigadora', v: 2 }, { n: 'Mente experimental', v: 4 },
+  { n: 'Mente científica', v: 6 }, { n: 'Gran mente científica', v: 9 }, { n: 'Leyenda de la ciencia', v: 12 }
 ];
-var ETAPAS = ['Origen', 'Cría', 'Joven', 'Sabio'];   // la etapa 0 de cada mascota tiene su propio nombre en MAT[materia].orig
+var ETAPAS = ['Origen', 'Brote', 'Joven', 'Sabiduría'];   // la etapa 0 de cada mascota tiene su propio nombre en MAT[materia].orig
 /* PUNTOS Y RITMO (puedes ajustar estos números)
-   XP_ETAPA = puntos para transformarse de su forma inicial en Cría (15), ser Joven (300) y ser Sabio (1200).
+   XP_ETAPA = puntos para transformarse de su forma inicial en Brote (15), ser Joven (300) y llegar a Sabiduría (1200).
    La primera transformación es rápida a propósito (3 aciertos, en el primer minuto) para llamar la atención; después cuesta más.
-   Una ruta de hoy completa da unos 50 a 60 puntos, así que Joven llega en aproximadamente una semana de uso diario y Sabio en cerca de un mes.
+   Una ruta de hoy completa da unos 50 a 60 puntos, así que Joven llega en aproximadamente una semana de uso diario y Sabiduría en cerca de un mes.
    XP_DIA_MAX = tope de puntos por materia y por día (evita que se «cultive» puntos repitiendo preguntas). */
 var XP_ETAPA = [0, 15, 300, 1200];
 var XP_DIA_MAX = 150;
@@ -33,7 +33,7 @@ var COLORES = [
   { id: 'coral', n: 'Coral', c: '#ff7a6b', l: '#ffab9f' }, { id: 'uva', n: 'Uva', c: '#9a6cff', l: '#c0a2ff' }, { id: 'sol', n: 'Sol', c: '#ffb830', l: '#ffd37a' },
   { id: 'dorado', n: 'Dorado', c: '#e8b923', l: '#fff0a8', req: { k: 'racha', v: 7, t: 'una racha de 7 días' } },
   { id: 'noche', n: 'Noche', c: '#34406b', l: '#5d6bb0', req: { k: 'dominados', v: 4, t: 'dominar 4 temas' } },
-  { id: 'galaxia', n: 'Galaxia', c: 'galaxia', l: '', req: { k: 'etapa', v: 3, t: 'llegar a la etapa Sabio' } }
+  { id: 'galaxia', n: 'Galaxia', c: 'galaxia', l: '', req: { k: 'etapa', v: 3, t: 'llegar a la etapa Sabiduría' } }
 ];
 var OJOS = [
   { id: 'redondos', n: 'Redondos' }, { id: 'felices', n: 'Felices' },
@@ -41,12 +41,12 @@ var OJOS = [
   { id: 'estrellas', n: 'Estrellas', req: { k: 'dominados', v: 2, t: 'dominar 2 temas' } }
 ];
 var ROPA = [
-  { id: 'nada', n: 'Ninguna' }, { id: 'gafas', n: 'Gafas' }, { id: 'monito', n: 'Moñito rosa', soloF: true }, { id: 'mono', n: 'Corbatín' },
+  { id: 'nada', n: 'Ninguna' }, { id: 'gafas', n: 'Gafas' }, { id: 'monito', n: 'Moño rosa' }, { id: 'mono', n: 'Corbatín' },
   { id: 'gorro', n: 'Gorro de graduación', req: { k: 'racha', v: 3, t: 'una racha de 3 días' } },
   { id: 'bata', n: 'Bata de laboratorio', req: { k: 'dominados', v: 1, t: 'dominar 1 tema' } },
   { id: 'audifonos', n: 'Audífonos', cofre: true },
   { id: 'corona', n: 'Corona', req: { k: 'dominados', v: 5, t: 'dominar 5 temas' } },
-  { id: 'aureola', n: 'Aureola de sabio', req: { k: 'etapa', v: 3, t: 'llegar a la etapa Sabio' } }
+  { id: 'aureola', n: 'Aureola de sabiduría', req: { k: 'etapa', v: 3, t: 'llegar a la etapa Sabiduría' } }
 ];
 var PAREDES = [
   { id: 'cielo', n: 'Cielo', a: '#e5ecff', b: '#f7f9ff', d: '#d3ddf6' },
@@ -63,7 +63,22 @@ var DECOR = [
   { id: 'planeta', n: 'Planeta', slot: 'C', req: { k: 'etapa', v: 2, t: 'llegar a la etapa Joven' } },
   { id: 'cohete', n: 'Cohete', slot: 'C', cofre: true },
   { id: 'telescopio', n: 'Telescopio', slot: 'D', req: { k: 'dominados', v: 3, t: 'dominar 3 temas' } },
-  { id: 'trofeo', n: 'Trofeo del jefe', slot: 'D', premio: true, req: { k: 'jefe', v: 1, t: 'vencer a un jefe de ficha' } }
+  { id: 'trofeo', n: 'Trofeo del reto final', slot: 'D', premio: true, req: { k: 'jefe', v: 1, t: 'superar un reto final de ficha' } }
 ];
 var LISTAS = { color: COLORES, ojos: OJOS, ropa: ROPA, pared: PAREDES, decor: DECOR };
 var COFRE_POOL = [['ropa', 'audifonos'], ['pared', 'bosque'], ['decor', 'planta'], ['decor', 'cohete']];
+
+/* CRÉDITOS (se editan aquí, en un solo lugar).
+   equipo: una persona por renglón, en el orden en que aparecen.
+     rol     = lo que hizo (se muestra tal cual)
+     nombre  = cómo quiere aparecer (el nombre que ella o él elija)
+     icono   = 'idea' | 'codigo' | 'estrella'
+     familias = texto más completo que sale en «Información para familias» (opcional)
+   Si un renglón no tiene nombre, no se muestra. */
+var CREDITOS = {
+  titulo: 'Hecho en el laboratorio por…',
+  equipo: [
+    { rol: 'Idea y concepto', nombre: 'Soff Escalante', icono: 'idea' },
+    { rol: 'Desarrollo', nombre: 'Uriel Lara', icono: 'codigo', familias: 'Uriel Lara Guzmán, docente de Ciencias' }
+  ]
+};

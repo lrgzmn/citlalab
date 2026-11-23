@@ -24,7 +24,7 @@ function difDias(a, b) {
 
 function nuevoMat(id, g) {
   var m = MAT[id];
-  return { name: m.names[g] || m.names.n, gender: g, color: m.col, ojos: 'redondos', ropa: g === 'f' ? ['monito'] : [], pared: 'cielo',
+  return { name: m.names[g] || m.names.n, gender: g, color: m.col, ojos: 'redondos', ropa: [], pared: 'cielo',
     decor: { A: null, B: null, C: null, D: null }, xp: 0, vis: 0, hamb: 75, feli: 75, t: Date.now(),
     box: {}, ult: {}, n: 0, c: 0, tm: {}, qs: {}, hab: {}, lect: {}, jefes: {}, cofre: { dia: '', ganados: [] }, desb: {}, nuevos: {},
     due: {}, prim: {}, xpd: { d: '', n: 0 }, cal: { s: [0, 0], d: [0, 0], a: [0, 0] }, sf: {}, ruta: { d: '', veces: 0 }, sellos: {} };
@@ -32,7 +32,8 @@ function nuevoMat(id, g) {
 function normalizar(s) {
   if (!s || typeof s !== 'object' || s.v !== 1) s = { v: 1, genero: null, activa: 'fisica', racha: 0, ultimo: '', dias: [], cfg: {}, m: {} };
   var reduce = false; try { reduce = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches); } catch (e) {}
-  s.cfg = Object.assign({ snd: true, vib: true, mov: reduce, grande: false, conf: true }, s.cfg || {});   /* si el dispositivo pide menos movimiento, se respeta desde el inicio */
+  s.cfg = Object.assign({ snd: true, vib: true, mov: reduce, grande: false, conf: true, contraste: false, fuente: 'normal', voz: false, lento: false, elegir: false, dib: true }, s.cfg || {});
+  if (['normal', 'facil', 'dislexia'].indexOf(s.cfg.fuente) < 0) s.cfg.fuente = 'normal';   /* si el dispositivo pide menos movimiento, se respeta desde el inicio */
   s.dias = s.dias || []; s.m = s.m || {}; s.alumno = typeof s.alumno === 'string' ? s.alumno : '';
   ORDEN.forEach(function (id) {
     if (!s.m[id]) return;

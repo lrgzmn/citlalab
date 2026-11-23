@@ -1,5 +1,5 @@
 /* FÍSICA · Ficha 7 · POR QUÉ NO: explicación de las opciones incorrectas
-   Cuando un alumno elige una opción equivocada, la app le explica específicamente por qué esa opción no es.
+   Cuando un estudiante elige una opción equivocada, la app le explica específicamente por qué esa opción no es.
    Formato (una pregunta por bloque):   'id de la pregunta': { 'texto exacto de la opción incorrecta': 'por qué no es', ... }
    No hace falta escribirlas para todas las opciones ni para todas las preguntas.
    Redacción mía (no copiada del libro): verifícala junto con las preguntas. */

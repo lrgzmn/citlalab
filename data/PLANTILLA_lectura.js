@@ -27,13 +27,17 @@
    LE cuenta como «evidencia» y LS como «secuencia» automáticamente.
    Procura mezclar al menos 3 habilidades distintas en cada lectura.
 
-   Las oraciones-prueba se resaltan en el texto cuando el alumno responde.
+   Las oraciones-prueba se resaltan en el texto cuando el estudiante responde.
 
    EXPLÍCALO CON TUS PALABRAS (opcional, al final de la lectura)
    Agrega  explica: { q, modelo, claves }  junto a texto e items. El alumno escribe su explicación, ve la respuesta modelo y se
    autoevalúa con tu lista de ideas clave. La app sugiere qué ideas detectó buscando las palabras de «k» (sin importar acentos
-   ni mayúsculas) y el alumno decide. No da puntos, el alumno tiene que escribirla él mismo (no se escucha ni se puede saltar) y lo que escribe no se guarda. «min» = cuántas palabras de «k» deben aparecer
-   para marcar la idea como detectada (si lo omites, con una basta). */
+   ni mayúsculas) y el estudiante decide. No da puntos, el estudiante tiene que escribirla él mismo (no se escucha ni se puede saltar) y lo que escribe no se guarda. «min» = cuántas palabras de «k» deben aparecer
+   para marcar la idea como detectada (si lo omites, con una basta).
+
+   ALTERNATIVA A ESCRIBIR (recomendada): agrega  falsas: ['idea que NO es cierta', 'otra idea falsa']  dentro de explica. Así el estudiante que lo prefiera
+   (o que active «Elegir en vez de escribir» en Ajustes) toca las ideas que sí explican la respuesta, entre las de «claves» y estas falsas.
+   Escribe 2 falsas que sean errores típicos de los estudiantes, redactadas como las ideas de «claves». Si no las pones, solo se puede escribir. */
 REPASO.lectura({
   materia: 'biologia', ficha: 'b3', id: 'b3-l1', tema: 't1',
   titulo: 'Título de la lectura',
@@ -46,6 +50,7 @@ REPASO.lectura({
   explica: {
     q: 'Con tus palabras: ¿pregunta que pide explicar?',
     modelo: 'Respuesta modelo de 2 a 3 oraciones.',
+    falsas: ['Idea falsa pero creíble (error típico)', 'Otra idea falsa creíble'],
     claves: [
       { t: 'Primera idea que debe aparecer', k: ['palabra1', 'palabra2'], min: 1 },
       { t: 'Segunda idea que debe aparecer', k: ['palabra3', 'palabra4'], min: 1 }

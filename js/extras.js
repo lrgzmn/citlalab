@@ -8,6 +8,8 @@ function validar() {
     var etq = f.ficha && f.ficha.id ? f.ficha.id : '(sin id)', r = { id: etq, titulo: f.ficha ? f.ficha.titulo : '', mat: f.materia, op: 0, vf: 0, ord: 0, temas: {} };
     if (!MAT[f.materia]) avisos.push('Ficha ' + etq + ': la materia «' + f.materia + '» no existe (usa fisica, biologia o quimica).');
     if (!f.ficha || !f.ficha.id || !f.ficha.titulo) avisos.push('Ficha ' + etq + ': falta id o título.');
+    (f.temas || []).forEach(function (tm) { if (tm.icono && typeof ICONOS !== 'undefined' && !ICONOS[tm.icono]) avisos.push('Ficha ' + etq + ', tema ' + tm.id + ': el dibujo «' + tm.icono + '» no existe (revisa los nombres en la plantilla).'); });
+    (typeof REPASO !== 'undefined' ? REPASO.lecturas : []).forEach(function () {});
     var tk = {}; f.temas.forEach(function (t) { tk[t.id] = 1; r.temas[t.id] = 0; });
     f.preguntas.forEach(function (q) {
       var w = function (m) { avisos.push(q.id + ': ' + m); };
@@ -99,11 +101,11 @@ function demo() {
 }
 
 
-/* ---------- Resumen para la familia (el alumno se lo pasa a sus papás; ellos lo mandan al maestro si él lo pide) ---------- */
+/* ---------- Resumen para la familia (la persona se lo pasa a su familia; ellos lo mandan al docente si lo pide) ---------- */
 function resumenMaestro() {
   var L = [], nom = (ST.alumno || '').trim(), f = fechaHoy().split('-');
   L.push('REPORTE DE REPASO DE CIENCIAS');
-  L.push('Alumno(a): ' + (nom || '(sin nombre)'));
+  L.push('Estudiante: ' + (nom || '(sin nombre)'));
   L.push('Fecha: ' + f[2] + '/' + f[1] + '/' + f[0]);
   var sem = 0, hoy = new Date(); if (DIA_OFFSET) hoy.setDate(hoy.getDate() + DIA_OFFSET);
   for (var i = 0; i < 7; i++) { var d = new Date(hoy); d.setDate(d.getDate() - i); if (ST.dias.indexOf(fechaDe(d)) > -1) sem++; }
@@ -131,11 +133,11 @@ function resumenMaestro() {
     }
     var cs = s.cal.s[0] + s.cal.s[1], cd = s.cal.d[0] + s.cal.d[1], ca = s.cal.a[0] + s.cal.a[1];
     if (cs + cd + ca >= 5) {
-      var cc = 'Al responder dijo estar seguro ' + cs + ' veces (acertó ' + s.cal.s[0] + '), dudó ' + cd + ' y adivinó ' + ca + (s.cal.a[0] ? ' (acertó ' + s.cal.a[0] + ' por suerte)' : '') + '.';
+      var cc = 'Al responder marcó «Lo sé» ' + cs + ' veces (acertó ' + s.cal.s[0] + '), marcó «Dudo» ' + cd + ' y «Adiviné» ' + ca + (s.cal.a[0] ? ' (acertó ' + s.cal.a[0] + ' por suerte)' : '') + '.';
       L.push('- ' + cc);
       var Tsf = {}; Object.keys(s.sf).forEach(function (id) { if (PORID[id]) Tsf[PORID[id].tema] = (Tsf[PORID[id].tema] || 0) + s.sf[id]; });
       var tt = Object.keys(Tsf).sort(function (a, b) { return Tsf[b] - Tsf[a]; }).slice(0, 2).map(temaNombre).filter(Boolean);
-      if (tt.length) { L.push('- Ideas en las que estaba seguro pero se equivocó (las mejores para conversar en casa): ' + tt.join('; ') + '.'); if (!ideas.length) ideas.push(tt[0]); }
+      if (tt.length) { L.push('- Ideas que marcó «Lo sé» pero eran incorrectas (las mejores para conversar en casa): ' + tt.join('; ') + '.'); if (!ideas.length) ideas.push(tt[0]); }
     }
     if (fichasDe(mat).length) L.push('- Sellos de ficha ganados: ' + sellosDe(s) + ' de ' + fichasDe(mat).length + ' (título actual: ' + tituloDe(s).n + ').');
     if (s.ruta.veces) L.push('- Rutas diarias de repaso completadas: ' + s.ruta.veces + '.');
@@ -149,15 +151,15 @@ function resumenMaestro() {
   });
   if (!alguna) { L.push(''); L.push('Todavía no hay actividad de repaso registrada.'); }
   if (ideas.length) { L.push(''); L.push('Para conversar en casa: pídale que les explique con sus palabras «' + ideas[0] + '». Explicar es una de las mejores formas de aprender.'); }
-  L.push(''); L.push('Este reporte lo genera la app Citlalab con datos guardados solo en el dispositivo del alumno. Se comparte con el maestro únicamente cuando él lo solicita.');
-  if (alguna) { L.push(''); L.push('Código para el maestro (por favor no lo borre; sirve para sumar el reporte al análisis del grupo):'); L.push(codigoMaestro()); }
+  L.push(''); L.push('Este reporte lo genera la app Citlalab con datos guardados solo en el dispositivo de quien lo usa. Se comparte con docentes únicamente cuando lo solicitan.');
+  if (alguna) { L.push(''); L.push('Código para docentes (por favor no lo borre; sirve para sumar el reporte al análisis del grupo):'); L.push(codigoMaestro()); }
   return L.join('\n');
 }
 $('al-nombre').oninput = function () { ST.alumno = this.value.slice(0, 40); guardar(); nombrarPerfil(ST.alumno); if (typeof renderPerfiles === 'function') renderPerfiles(); };
 $('rs-copiar').onclick = function () {
   var txt = resumenMaestro(), ta = $('rs'); ta.hidden = false; ta.value = txt; ta.rows = Math.min(14, txt.split('\n').length + 1);
   copiarTexto(txt, ta, function (ok) {
-    $('rs-msg').textContent = ok ? 'Reporte copiado. Pásaselo a tu mamá, papá o tutor para que lo mande cuando tu maestro lo pida.' : 'Selecciona el texto del recuadro, cópialo y pásaselo a tu familia.';
+    $('rs-msg').textContent = ok ? 'Reporte copiado. Pásaselo a tu familia o tutores para que lo manden cuando tu docente lo pida.' : 'Selecciona el texto del recuadro, cópialo y pásaselo a tu familia.';
   });
 };
 
