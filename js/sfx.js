@@ -23,6 +23,7 @@ var SFX = {
   win: function () { [523, 523, 659, 784, 659, 784, 1047].forEach(function (f, i) { tono(f, .2, 'triangle', .09, i * .12); }); },
   tick: function () { tono(520, .06, 'sine', .06); },
   nana: function () { [392, 330, 294, 330, 392, 392, 392].forEach(function (f, i) { tono(f, .5, 'sine', .05, i * .45); }); },
+  ronca: function () { tono(150, .55, 'triangle', .05); tono(115, .75, 'triangle', .05, .65); },
   crack: function () { tono(180, .05, 'square', .06); tono(300, .05, 'square', .05, .04); tono(120, .08, 'square', .05, .08); }
 };
 function vibra(p) { if (ST && ST.cfg.vib && navigator.vibrate) { try { navigator.vibrate(p); } catch (e) {} } }

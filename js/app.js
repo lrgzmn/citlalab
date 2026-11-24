@@ -103,7 +103,7 @@ function chequearEvolucion() {
 
 /* ============ MASCOTA: TOQUES ============ */
 var toques = [], FRASES = ['¡Ja, cosquillas!', '¿Repasamos un poquito?', '¡Hoy aprendí algo nuevo!', '¡Qué bien lo haces!', 'Me da gusto que vengas.', '¡Otra vez!'];
-function tocarMascota() {
+function tocarMascota() { if (typeof dormido !== 'undefined' && dormido) return;
   var s = cur(); if (bloqueo) return;
   if (s.vis === 0) {
     var e = $('egg'); if (e) { e.classList.remove('wob'); void e.getBoundingClientRect(); e.classList.add('wob'); }
@@ -387,19 +387,31 @@ function pintarPregunta(q, ids, cb, op) {
     pinta();
   }
 }
+/* Lupa: abre una búsqueda en internet con la afirmación o la respuesta, para que cada estudiante verifique el dato por su cuenta. */
+function urlBusqueda(q) {
+  var t = q.q || '';
+  if (q.m) { var m = /dice: "(.*)"\. /.exec(t); t = m ? m[1] : (q.e || t); }
+  else if (q.k === 'opcion') t = t + ' ' + correcta(q);
+  else if (q.k === 'orden' && q.items) t = t + ' ' + q.items[0];
+  t = t.replace(/\s+/g, ' ').trim().slice(0, 180);
+  return 'https://www.google.com/search?q=' + encodeURIComponent(t);
+}
 function feedback(fb, q, bien, extra, elegido) {
   fb.hidden = false; fb.className = 'fb ' + (bien ? 'good' : 'nope'); fb.innerHTML = '';
   fb.appendChild(el('strong', '', bien ? '¡Correcto!' : 'Casi. La respuesta es: ' + respuestaTexto(q)));
   if (!bien && elegido && q.d && q.d[elegido]) { var pq = el('div', 'porque'); pq.innerHTML = '<b>Sobre "' + esc(elegido) + '":</b> ' + esc(q.d[elegido]); fb.appendChild(pq); }
   fb.appendChild(document.createTextNode(q.e || '')); fb.appendChild(el('div', 'ref', q.r || ''));
   if (extra) fb.appendChild(el('div', 'ref', extra));
+  var lp = el('a', 'lupa'); lp.href = urlBusqueda(q); lp.target = '_blank'; lp.rel = 'noopener noreferrer';
+  lp.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg>Verificar en internet';
+  lp.setAttribute('aria-label', 'Verificar esta respuesta en internet (abre una pestaña nueva)'); fb.appendChild(lp);
   if (TTS) {
     var be = el('button', 'esc-btn', 'Escuchar la explicación'); be.type = 'button'; be.hidden = !hayVozEs();
     be.onclick = function () { hablar([textoFb(fb)]); }; fb.appendChild(be);
     if (ST.cfg.voz && hayVozEs()) setTimeout(function () { if (!fb.hidden) hablar([textoFb(fb)]); }, 250);
   }
 }
-function textoFb(fb) { var r = []; fb.childNodes.forEach(function (n) { if (n.nodeType === 1 && (n.classList.contains('esc-btn') || n.classList.contains('ref'))) return; var s = (n.textContent || '').replace(/\s+/g, ' ').trim(); if (s) r.push(/[.!?:]$/.test(s) ? s : s + '.'); }); return r.join(' '); }
+function textoFb(fb) { var r = []; fb.childNodes.forEach(function (n) { if (n.nodeType === 1 && (n.classList.contains('esc-btn') || n.classList.contains('lupa') || n.classList.contains('ref'))) return; var s = (n.textContent || '').replace(/\s+/g, ' ').trim(); if (s) r.push(/[.!?:]$/.test(s) ? s : s + '.'); }); return r.join(' '); }
 
 /* ============ REPASO (ALIMENTAR / TEMA / FICHA) ============ */
 function iniciarQuiz(op) {
@@ -580,7 +592,7 @@ function responderCarta(valor) {
   var got = registrar(q, bien, PTS.carta); cg.xp += got;
   if (bien) {
     cg.ok++; cg.combo++; cg.best = Math.max(cg.best, cg.combo);
-    SFX.ok(); vibra(20); reaccion(); flotar(quiz.corrige ? '¡Gracias!' : got ? '+' + got + ' XP' : '¡Bien!'); if (cg.combo === 3 || cg.combo === 5) { flotar('¡Racha x' + cg.combo + '!', '#d97706'); confeti(30); }
+    SFX.ok(); vibra(20); reaccion(); flotar(got ? '+' + got + ' XP' : '¡Bien!'); if (cg.combo === 3 || cg.combo === 5) { flotar('¡Racha x' + cg.combo + '!', '#d97706'); confeti(30); }
     renderPet(); setTimeout(sigCarta, 300);
   } else {
     cg.combo = 0; SFX.no(); vibra(40);
@@ -717,7 +729,7 @@ function atrapa(o) {
   o.el.classList.add('ok'); ll.b.forEach(function (x) { if (x !== o) x.el.classList.add('off'); });
   o.el.style.transition = 'transform .45s ease'; o.x = (ll.W - o.w) / 2; o.y = ll.H * .3;   /* la respuesta correcta sube al centro para leerla completa */
   var got = registrar(q, bien, g); feedback($('ll-fb'), q, bien);
-  if (bien) { ll.ok++; ll.xp += got; SFX.ok(); vibra(25); confeti(18); flotar(quiz.corrige ? '¡Gracias!' : got ? '+' + got + ' XP' : '¡Bien!'); renderPet(); } else SFX.pop();
+  if (bien) { ll.ok++; ll.xp += got; SFX.ok(); vibra(25); confeti(18); flotar(got ? '+' + got + ' XP' : '¡Bien!'); renderPet(); } else SFX.pop();
   var n = $('ll-next'); n.hidden = false; n.textContent = ll.i === ll.qs.length - 1 ? 'Ver resultado' : 'Siguiente'; n.scrollIntoView({ block: 'nearest' });
 }
 $('ll-next').onclick = function () {
@@ -779,7 +791,13 @@ function elige(i) {
 $('vs-exit').onclick = function () { go('home'); };
 
 /* ============ HORA DE DORMIR ============ */
-var dormido = false;
+var dormido = false, zzzT = null, zzzDesde = 0;
+function pintaZzz() {
+  var b = $('b-zzz'); if (!b) return;
+  b.setAttribute('aria-pressed', dormido ? 'true' : 'false');
+  b.setAttribute('aria-label', dormido ? 'Despertar a la mascota' : 'Poner a dormir a la mascota');
+  b.lastChild.textContent = dormido ? 'Despertar' : 'Dormir';
+}
 function iniciarDormir() {
   var s = cur(); dormido = false; go('sleep'); renderPet();
   $('sl-btn').textContent = 'Apagar la luz'; $('sl-t').textContent = 'Hora de dormir';
@@ -788,22 +806,39 @@ function iniciarDormir() {
 }
 function finDormir() {
   if (!dormido && !$('night').classList.contains('on')) return;
-  dormido = false; $('night').classList.remove('on'); if (tieneMascotas()) { petKey = ''; renderPet(); }
+  clearInterval(zzzT); dormido = false; $('night').classList.remove('on'); pintaZzz(); if (tieneMascotas()) { petKey = ''; renderPet(); }
+}
+/* Dormir y despertar se usan desde el botón del inicio y desde la vista "Hora de dormir". */
+function dormirYa() {
+  var s = cur(); if (dormido || !tieneMascotas()) return;
+  dormido = true; zzzDesde = Date.now(); $('night').classList.add('on'); SFX.nana(); vibra(20);
+  if (s.vis > 0 && $('gEyes')) $('gEyes').innerHTML = ojosMarkup('dormilones');
+  clearInterval(zzzT); zzzT = setInterval(function () { if (dormido) SFX.ronca(); }, 3600);
+  say(s.vis === 0 ? 'Zzz...' : s.name + ': Zzz...'); pintaZzz();
+}
+function despertarYa() {
+  var s = cur(); if (!dormido) return false;
+  var descanso = Date.now() - zzzDesde >= 8000;
+  finDormir();
+  if (descanso) {
+    actualizarTiempo(s); s.feli = Math.min(100, s.feli + 10); s.hamb = Math.min(100, s.hamb + 3); guardar();
+    SFX.up(); vibra(20); if (s.vis > 0) { reaccion(); corazones(); }
+    say(s.name + ': ¡Qué bien descansé! Gracias.');
+  } else say(s.name + ': Uy, quería dormir un ratito más.');
+  renderTop(); return descanso;
 }
 $('sl-btn').onclick = function () {
   var s = cur();
   if (!dormido) {
-    dormido = true; $('night').classList.add('on'); SFX.nana(); vibra(20);
-    if (s.vis > 0) $('gEyes').innerHTML = ojosMarkup('dormilones');
+    dormirYa();
     $('sl-t').textContent = 'Buenas noches'; $('sl-p').textContent = s.vis === 0 ? 'Shhh. ' + s.name + ' descansa.' : 'Shhh. ' + s.name + ' está soñando con átomos, células y burbujas.';
-    this.textContent = 'Despertar'; say(s.vis === 0 ? 'Zzz...' : s.name + ': Zzz...');
+    this.textContent = 'Despertar';
   } else {
-    actualizarTiempo(s); s.feli = Math.min(100, s.feli + 10); s.hamb = Math.min(100, s.hamb + 3); guardar();
-    finDormir(); SFX.up(); vibra(20); if (s.vis > 0) { reaccion(); corazones(); }
-    $('sl-t').textContent = '¡Buenos días!'; $('sl-p').textContent = 'Descansó muy bien. Su felicidad subió.'; this.textContent = 'Volver a dormir';
-    say(s.name + ': ¡Qué bien descansé! Gracias.'); renderTop();
+    var ok = despertarYa();
+    $('sl-t').textContent = '¡Buenos días!'; $('sl-p').textContent = ok ? 'Descansó muy bien. Su felicidad subió.' : 'Despertó pronto. Déjala dormir un poco más para que se recupere.'; this.textContent = 'Volver a dormir';
   }
 };
+$('b-zzz').onclick = function () { if (dormido) despertarYa(); else dormirYa(); };
 $('sl-exit').onclick = function () { go('home'); };
 
 /* ============ JEFE DE LA FICHA ============ */

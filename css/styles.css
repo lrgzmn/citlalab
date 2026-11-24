@@ -543,3 +543,16 @@ html.contraste .top{background:#fff}
 html.contraste .tile.lock{background:#fff;color:#1f1f1f;border-style:dashed}
 html.contraste .tile.lock span{color:#1f1f1f}
 html.contraste .aviso{background:#fff;border:2px solid #000;color:#1f1f1f}
+
+/* Icono junto al nombre, botón de dormir en el inicio y lupa de verificación */
+.brand{display:inline-flex;align-items:center;gap:8px}
+.brand img{width:30px;height:30px;border-radius:8px;flex:none;display:block}
+html.f-dis .brand img{width:26px;height:26px}
+.zbtn{position:absolute;left:10px;top:10px;z-index:5;display:none;align-items:center;gap:6px;min-height:44px;padding:6px 14px 6px 10px;border-radius:999px;border:2px solid var(--brand);background:var(--surf);color:var(--brand-d);font-family:inherit;font-weight:800;font-size:.85rem;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.phone[data-view=home] .zbtn{display:inline-flex}
+.zbtn svg{width:20px;height:20px;flex:none}
+.zbtn[aria-pressed=true]{background:#ffe9a8;border-color:#e6c75a;color:#3a3000}
+.zbtn:focus-visible,.lupa:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+.lupa{display:inline-flex;align-items:center;gap:8px;margin:8px 8px 0 0;min-height:44px;padding:6px 16px;border:2px solid var(--brand);border-radius:999px;background:var(--surf);color:var(--brand-d);font-weight:800;font-size:.9rem;text-decoration:none}
+.lupa svg{width:18px;height:18px;flex:none}
+@media (prefers-reduced-motion:reduce){.zbtn{transition:none}}
