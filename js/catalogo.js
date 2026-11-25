@@ -9,7 +9,7 @@ var MAT = {
   quimica:  { id: 'quimica',  n: 'Química',  g: '3.º', creature: 'matraz',  brand: '#8a55d6', dk: '#6d3bb8', soft: '#f2eafc', line: '#dcc8f5', col: 'uva',   names: { f: 'Matracina', m: 'Matracín', n: 'Matraci' },
     orig: { n: 'Matraz con cristal semilla', ini: 'Soy un matraz con un cristal semilla en mi solución. Repasa conmigo y mi cristal irá creciendo.', mid: '¡Mi cristal ya creció! Faltan {f} puntos para terminar de transformarme.' } }
 };
-var ORDEN = ['fisica', 'biologia', 'quimica'];
+var ORDEN = ['biologia', 'fisica', 'quimica'];
 /* Títulos por sellos ganados (un sello = una ficha dominada). Ajusta los números cuando sepas cuántas fichas tendrá cada materia. */
 var TITULOS = [
   { n: 'Aprendiz', v: 0 }, { n: 'Mente curiosa', v: 1 }, { n: 'Mente investigadora', v: 2 }, { n: 'Mente experimental', v: 4 },

@@ -349,7 +349,7 @@ textarea#bk{margin:4px 18px;width:calc(100% - 36px);border:2px solid var(--line)
 .cupw .cup{position:absolute;left:0;right:0;bottom:0;height:120px;transition:transform .4s;z-index:2}
 .cupw .cup svg{width:100%;height:100%}
 .cupw.lift .cup{transform:translateY(-78px)}
-.cuppet{position:absolute;left:50%;bottom:6px;width:84px;height:84px;margin-left:-42px;z-index:1}
+.cuppet{position:absolute;left:50%;bottom:12px;width:52px;height:52px;margin-left:-26px;z-index:1}
 .cupw:not(:disabled):hover .cup{transform:translateY(-6px)}
 /* hora de dormir */
 .night{position:absolute;inset:0;background:radial-gradient(circle at 50% 60%,rgba(20,28,70,.45),rgba(10,14,40,.78));opacity:0;pointer-events:none;transition:opacity 1.4s;z-index:3}
@@ -556,3 +556,24 @@ html.f-dis .brand img{width:26px;height:26px}
 .lupa{display:inline-flex;align-items:center;gap:8px;margin:8px 8px 0 0;min-height:44px;padding:6px 16px;border:2px solid var(--brand);border-radius:999px;background:var(--surf);color:var(--brand-d);font-weight:800;font-size:.9rem;text-decoration:none}
 .lupa svg{width:18px;height:18px;flex:none}
 @media (prefers-reduced-motion:reduce){.zbtn{transition:none}}
+
+/* Mascota dormida: respira despacio */
+.respira{animation:resp 3.8s ease-in-out infinite;transform-origin:100px 176px}
+@keyframes resp{0%,100%{transform:scale(1,1)}50%{transform:scale(1.035,.965)}}
+.noanim .respira{animation:none}
+@media (prefers-reduced-motion:reduce){.respira{animation:none}}
+/* Repasar fichas anteriores */
+.fdets{display:flex;flex-direction:column;gap:10px;margin:6px 14px 4px}
+.fdet{border:2px solid var(--line);border-radius:18px;background:var(--surf);overflow:hidden}
+.fdet summary{list-style:none;cursor:pointer;padding:12px 16px;min-height:56px;display:flex;align-items:center;gap:10px;position:relative}
+.fdet summary::-webkit-details-marker{display:none}
+.fdet summary::after{content:"";width:10px;height:10px;border-right:3px solid var(--brand);border-bottom:3px solid var(--brand);transform:rotate(45deg);margin-left:auto;flex:none;transition:transform .2s}
+.fdet[open] summary::after{transform:rotate(-135deg)}
+.fdet summary:focus-visible{outline:3px solid var(--brand);outline-offset:-3px}
+.fdet .fn{display:flex;flex-direction:column;min-width:0;flex:1}
+.fdet .fn b{font-size:.98rem;line-height:1.25}
+.fdet .fn small{color:var(--soft);font-size:.82rem;margin-top:2px}
+.fdet>.cta{margin:2px 14px 8px;min-height:48px;font-size:.92rem;width:calc(100% - 28px)}
+.ftema{display:flex;align-items:center;gap:10px;padding:8px 14px;border-top:1px solid var(--line)}
+.ftema .cta{margin:0;flex:none;min-height:44px;width:auto;padding:0 16px;font-size:.85rem}
+html.contraste .fdet{border:3px solid #000}
