@@ -40,6 +40,10 @@ function normalizar(s) {
     if (!s.m[id]) return;
     var d = nuevoMat(id, s.m[id].gender || 'n'), x = Object.assign(d, s.m[id]);
     x.decor = Object.assign({ A: null, B: null, C: null, D: null }, x.decor);
+    ['A', 'B', 'C', 'D'].forEach(function (k) {   /* un objeto de otra materia (versiones anteriores) se guarda y se libera el lugar */
+      var it = x.decor[k] && DECOR.filter(function (d) { return d.id === x.decor[k]; })[0];
+      if (x.decor[k] && (!it || (it.mat !== 'todas' && it.mat !== id))) x.decor[k] = null;
+    });
     x.cofre = Object.assign({ dia: '', ganados: [] }, x.cofre);
     x.box = x.box || {}; x.ult = x.ult || {}; x.tm = x.tm || {}; x.qs = x.qs || {}; x.hab = x.hab || {}; x.lect = x.lect || {}; x.due = x.due || {}; x.prim = x.prim || {}; x.xpd = Object.assign({ d: '', n: 0 }, x.xpd || {}); x.sf = x.sf || {}; x.sellos = (x.sellos && typeof x.sellos === 'object') ? x.sellos : {}; x.cal = Object.assign({ s: [0, 0], d: [0, 0], a: [0, 0] }, x.cal || {}); x.ruta = Object.assign({ d: '', veces: 0 }, x.ruta || {}); x.n = x.n || 0; x.c = x.c || 0; x.jefes = x.jefes || {}; x.desb = x.desb || {}; x.nuevos = x.nuevos || {};
     s.m[id] = x;
@@ -170,7 +174,7 @@ function falta(s, it) {
 function sincronizar(s, mat) {
   var pr = prog(s, mat), nuevos = [];
   Object.keys(LISTAS).forEach(function (k) {
-    LISTAS[k].forEach(function (it) {
+    listaDe(k, mat).forEach(function (it) {
       if (!it.req || s.desb[k + '|' + it.id]) return;
       if (pr[it.req.k] >= it.req.v) {
         s.desb[k + '|' + it.id] = 1; s.nuevos[k + '|' + it.id] = 1;

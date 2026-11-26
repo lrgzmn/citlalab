@@ -18,7 +18,7 @@ REPASO.agregar({
   preguntas: [
 
     /* t1 · Quarks */
-    O("f8-01", "t1", "¿Qué descubrieron en el LHC (Gran Colisionador de Hadrones) sobre los protones y neutrones?", ["Que están formados por partículas más pequeñas llamadas quarks", "Que son indivisibles", "Que no tienen masa", "Que son iguales a los electrones"], "El LHC es un acelerador de altas energías donde se hacen chocar partículas.", "Ficha 8, p. 46"),
+    O("f8-01", "t1", "¿Qué descubrieron en el LHC (Gran Colisionador de Hadrones) sobre los protones y neutrones?", ["Que están formados por partículas más pequeñas llamadas quarks","Que son indivisibles y no tienen ninguna estructura interna","Que no tienen masa y solo existen como energía","Que son iguales a los electrones, pero con carga positiva"], "El LHC es un acelerador de altas energías donde se hacen chocar partículas.", "Ficha 8, p. 46"),
     O("f8-02", "t1", "¿Cuántos quarks forman un protón?", ["3", "1", "2", "6"], "Cada protón y cada neutrón están formados por tres quarks.", "Ficha 8, p. 46"),
     O("f8-03", "t1", "¿De qué quarks está formado un protón?", ["Dos quarks arriba y uno abajo", "Uno arriba y dos abajo", "Tres quarks arriba", "Tres quarks abajo"], "Protón: arriba, arriba, abajo.", "Ficha 8, p. 46"),
     O("f8-04", "t1", "¿De qué quarks está formado un neutrón?", ["Un quark arriba y dos abajo", "Dos arriba y uno abajo", "Tres arriba", "Tres abajo"], "Neutrón: arriba, abajo, abajo.", "Ficha 8, p. 46"),
@@ -32,7 +32,7 @@ REPASO.agregar({
     /* t2 · Tabla periódica */
     O("f8-11", "t2", "¿Qué indica el número atómico?", ["El número de protones en el núcleo", "El número de neutrones", "La masa del átomo en gramos", "El número de capas"], "En un átomo neutro también es el número de electrones.", "Ficha 8, p. 47"),
     O("f8-12", "t2", "¿Qué representa la masa atómica (redondeada)?", ["La suma de protones y neutrones del núcleo", "Solo el número de protones", "Solo el número de electrones", "La carga total"], "Los electrones aportan una masa despreciable.", "Ficha 8, p. 47"),
-    O("f8-13", "t2", "¿Cómo se obtiene el número de neutrones?", ["Masa atómica (redondeada) menos número atómico", "Número atómico menos masa atómica", "Número atómico más masa atómica", "Es siempre igual al de electrones"], "Neutrones = masa − protones.", "Ficha 8, p. 47"),
+    O("f8-13", "t2", "¿Cómo se obtiene el número de neutrones?", ["Masa atómica (redondeada) menos número atómico","Número atómico menos masa atómica","Número atómico más masa atómica","Es siempre igual al de electrones"], "El número atómico es el de protones, así que neutrones = masa atómica (redondeada) − número atómico.", "Ficha 8, p. 47"),
     O("f8-14", "t2", "El criptón (Kr) tiene número atómico 36 y masa atómica 83.80. ¿Cuántos neutrones tiene?", ["48", "47", "36", "84"], "Se redondea 83.80 a 84: 84 − 36 = 48 neutrones. El libro escribe 83 − 36, que daría 47.", "Ficha 8, p. 47"),
     O("f8-15", "t2", "El titanio (Ti) tiene número atómico 22 y masa atómica 47.90. ¿Cuántos neutrones tiene?", ["26", "25", "22", "48"], "47.90 se redondea a 48: 48 − 22 = 26.", "Ficha 8, p. 47"),
     O("f8-16", "t2", "El indio (In) tiene número atómico 49 y masa atómica 114.82. ¿Cuántos neutrones tiene?", ["66", "65", "49", "115"], "114.82 se redondea a 115: 115 − 49 = 66.", "Ficha 8, p. 47"),
@@ -47,20 +47,20 @@ REPASO.agregar({
     O("f8-23", "t3", "Al dividir 0.13 × 10⁻¹⁰ entre 7.3 × 10⁻¹⁵, ¿qué ocurre con las potencias de diez?", ["Se restan los exponentes: −10 − (−15) = 5", "Se suman los exponentes", "Se multiplican los exponentes", "Se dejan igual"], "En una división de potencias de la misma base, los exponentes se restan. El resultado es 0.017808 × 10⁵ = 1.781 × 10³.", "Ficha 8, p. 48"),
 
     /* t4 · Cuerpo humano y cargas */
-    O("f8-24", "t4", "Según el gráfico de composición del cuerpo humano, si una persona tuviera 1 kg de masa, ¿cuántos gramos de carbono tendría? (el carbono es 18 % en masa)", ["180 g", "18 g", "1 800 g", "10 g"], "18 % de 1 000 g = 180 g.", "Ficha 8, p. 48"),
-    O("f8-25", "t4", "Con 1 kg de masa corporal y 1.5 % de calcio, ¿cuántos gramos de calcio habría?", ["15 g", "1.5 g", "150 g", "0.15 g"], "1.5 % de 1 000 g = 15 g.", "Ficha 8, p. 48"),
+    O("f8-24", "t4", "Según el gráfico de composición del cuerpo humano, si una persona tuviera 1 kg de masa, ¿cuántos gramos de carbono tendría? (el carbono es 18 % en masa)", ["180 g","18 g","1 800 g","10 g"], "Se calcula el 18 % de 1 000 g: 0.18 × 1 000 = 180 g de carbono.", "Ficha 8, p. 48"),
+    O("f8-25", "t4", "Con 1 kg de masa corporal y 1.5 % de calcio, ¿cuántos gramos de calcio habría?", ["15 g","1.5 g","150 g","0.15 g"], "Se calcula el 1.5 % de 1 000 g: 0.015 × 1 000 = 15 g de calcio.", "Ficha 8, p. 48"),
     O("f8-26", "t4", "¿Cuál es el elemento más abundante en el cuerpo humano (en masa)?", ["El oxígeno (65 %)", "El carbono", "El hidrógeno", "El calcio"], "El oxígeno es 65 % de la masa, sobre todo porque está en el agua.", "Ficha 8, p. 48"),
     O("f8-27", "t4", "Un objeto cargado negativamente tiene...", ["Exceso de electrones", "Déficit de electrones", "Exceso de protones", "Exceso de neutrones"], "Los electrones tienen carga negativa. Si sobran, el objeto queda negativo.", "Ficha 8, p. 50"),
     O("f8-28", "t4", "Un objeto cargado positivamente tiene...", ["Déficit de electrones", "Exceso de electrones", "Exceso de neutrones", "Un núcleo más grande"], "Si faltan electrones, predominan las cargas positivas.", "Ficha 8, p. 50"),
-    VF("f8-29", "t4", "Los neutrones no tienen carga eléctrica.", true, "Verdadero. Están en el núcleo junto con los protones.", "Ficha 8, p. 47"),
+    VF("f8-29", "t4", "Los neutrones tienen carga eléctrica positiva.", false, "Falso. Los neutrones no tienen carga; los protones son los positivos. Ambos están en el núcleo.", "Ficha 8, p. 47"),
 
     /* t5 · Tierras raras */
     O("f8-30", "t5", "Las tierras raras son los elementos...", ["Lantánidos o lantanoides", "Gases nobles", "Halógenos", "Alcalinos"], "Incluyen el neodimio, el lantano, el europio y otros.", "Ficha 8, p. 48"),
-    O("f8-31", "t5", "¿Cuántos protones y neutrones tiene el neodimio (60 protones, masa 144)?", ["60 protones y 84 neutrones", "60 protones y 60 neutrones", "84 protones y 60 neutrones", "144 protones y 60 neutrones"], "Neutrones = 144 − 60 = 84.", "Ficha 8, p. 48"),
+    O("f8-31", "t5", "¿Cuántos protones y neutrones tiene el neodimio (60 protones, masa 144)?", ["60 protones y 84 neutrones","60 protones y 60 neutrones","84 protones y 60 neutrones","144 protones y 60 neutrones"], "El número atómico (60) es el de protones; neutrones = masa − protones = 144 − 60 = 84.", "Ficha 8, p. 48"),
     O("f8-32", "t5", "¿Cuántos quarks totales tiene el núcleo del neodimio (60 protones y 84 neutrones)?", ["432", "144", "288", "60"], "Hay 144 nucleones, y cada uno tiene 3 quarks: 144 × 3 = 432.", "Ficha 8, p. 48"),
     O("f8-33", "t5", "¿Cuántos quarks totales tiene el núcleo del lantano (57 protones y 82 neutrones)?", ["417", "139", "279", "57"], "(57 + 82) × 3 = 139 × 3 = 417.", "Ficha 8, p. 48"),
     O("f8-34", "t5", "¿Cuántos quarks totales tiene el núcleo del europio (63 protones y 89 neutrones)?", ["456", "152", "304", "63"], "(63 + 89) × 3 = 152 × 3 = 456.", "Ficha 8, p. 48"),
-    O("f8-35", "t5", "El neodimio se utiliza para fabricar...", ["Los imanes de los motores eléctricos de los autos", "Las vías del tren", "El vidrio ordinario", "El papel"], "Los imanes de neodimio son muy potentes.", "Ficha 8, p. 49"),
+    O("f8-35", "t5", "El neodimio se utiliza para fabricar...", ["Los imanes de los motores eléctricos de los autos","Las vías del tren y los rieles de las estaciones","El vidrio ordinario de las ventanas y los vasos","El papel que se usa en los cuadernos y en los libros"], "Los imanes de neodimio son muy potentes.", "Ficha 8, p. 49"),
     O("f8-36", "t5", "El gadolinio se usa en medicina como...", ["Medio de contraste en resonancia magnética", "Antibiótico", "Vitamina", "Anestésico"], "Mejora la imagen que produce el equipo de resonancia.", "Ficha 8, p. 49"),
     O("f8-37", "t5", "El erbio se usa en las comunicaciones por...", ["Fibra óptica, como amplificador de la señal", "Cable de cobre", "Ondas de radio", "Palomas mensajeras"], "Amplifica la luz que transporta los datos.", "Ficha 8, p. 49"),
     O("f8-38", "t5", "El cerio se usa en...", ["Los convertidores catalíticos de los autos", "Las pilas de reloj", "Los cables eléctricos", "Los imanes de refrigerador"], "Ayudan a reducir los gases contaminantes.", "Ficha 8, p. 49"),
@@ -68,9 +68,9 @@ REPASO.agregar({
     /* refuerzo · verdadero o falso */
     VF("f8-39", "t1", "Los protones y los neutrones están formados por quarks.", true, "Verdadero. Cada uno tiene tres quarks.", "Ficha 8, p. 46"),
     VF("f8-40", "t1", "El electrón está formado por tres quarks.", false, "Falso. El electrón no está formado por quarks.", "Ficha 8, p. 46"),
-    VF("f8-41", "t2", "El número atómico indica cuántos neutrones tiene un átomo.", false, "Falso. Indica los protones.", "Ficha 8, p. 47"),
-    VF("f8-42", "t2", "Restando el número atómico a la masa atómica se obtiene el número de neutrones.", true, "Verdadero.", "Ficha 8, p. 47"),
+    VF("f8-41", "t2", "El número atómico indica cuántos neutrones tiene un átomo.", false, "Falso. El número atómico indica cuántos protones tiene el átomo; los neutrones se obtienen restando el número atómico a la masa atómica.", "Ficha 8, p. 47"),
+    VF("f8-42", "t2", "Restando el número atómico a la masa atómica se obtiene el número de neutrones.", true, "Verdadero. Neutrones = masa atómica − número atómico (que es el de protones).", "Ficha 8, p. 47"),
     VF("f8-43", "t3", "En una maqueta a escala del átomo, el electrón queda muy lejos del núcleo.", true, "Verdadero. Con una pelota de 10 cm como núcleo, quedaría a unos 1 780 m.", "Ficha 8, p. 48"),
-    VF("f8-44", "t5", "El neodimio se usa para fabricar imanes potentes.", true, "Verdadero.", "Ficha 8, p. 49")
+    VF("f8-44", "t5", "El neodimio se usa para fabricar imanes potentes.", true, "Verdadero. El neodimio se usa en imanes muy potentes, como los de los motores eléctricos de los autos.", "Ficha 8, p. 49")
   ]
 });

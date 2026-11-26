@@ -21,10 +21,12 @@ function renderPet() {
   if (vis === 0) {
     var p = Math.min(1, s.xp / XP_ETAPA[1]), k = 'egg|' + ST.activa + '|' + origenNivel(p);
     if (k !== petKey) { svg.innerHTML = origenMk(m.creature, p); petKey = k; }
+    $('etapaB').textContent = 'Etapa 0';
     svg.setAttribute('aria-label', m.orig.n + ' de ' + s.name + '. Tócalo para que reaccione');
     if (dormido) aplicaSueno();
     return;
   }
+  $('etapaB').textContent = 'Etapa ' + vis;
   var key = 'pet|' + ST.activa + '|' + vis;
   if (key !== petKey) { svg.innerHTML = buildPet(m.creature, vis); petKey = key; }
   svg.setAttribute('aria-label', s.name + ', etapa ' + ETAPAS[vis] + '. Tócalo para que reaccione');
@@ -110,7 +112,7 @@ function tocarMascota() { if (typeof dormido !== 'undefined' && dormido) return;
   var s = cur(); if (bloqueo) return;
   if (s.vis === 0) {
     var e = $('egg'); if (e) { e.classList.remove('wob'); void e.getBoundingClientRect(); e.classList.add('wob'); }
-    SFX.pop(); vibra(12);
+    SFX.voz(MAT[ST.activa].creature); vibra(12);
     var falta = Math.max(0, XP_ETAPA[1] - s.xp);
     var o = MAT[ST.activa].orig; say(s.name + ': ' + (origenNivel(s.xp / XP_ETAPA[1]) >= 2 ? o.mid.replace('{f}', falta) : o.ini));
     return;
@@ -123,7 +125,7 @@ function tocarMascota() { if (typeof dormido !== 'undefined' && dormido) return;
   anim(pick(['jump', 'squish', 'jump']));
   var eyes = $('gEyes'), old = s.ojos;
   if (old === 'redondos' || old === 'dormilones') { eyes.innerHTML = ojosMarkup('felices'); setTimeout(function () { if ($('gEyes')) $('gEyes').innerHTML = ojosMarkup(cur().ojos); }, 800); }
-  corazones(); SFX.pop(); vibra(12); say(s.name + ': ' + pick(FRASES));
+  corazones(); SFX.voz(MAT[ST.activa].creature); vibra(12); say(s.name + ': ' + pick(FRASES));
 }
 function iniciaToques() {
   var pet = $('pet');
@@ -295,7 +297,7 @@ function renderHome() {
   else if (s.hamb < 55) msg = 'Tengo ganas de repasar contigo.';
   else msg = pick(['Me gusta cuando vienes a repasar.', '¿Qué repasamos hoy?', 'Cada repaso me hace crecer.']);
   say(s.name + ': ' + msg);
-  $('a-feed').firstChild.nodeValue = vis === 0 ? 'Repasar para crecer' : 'Alimentar';
+  $('a-feed').querySelector('.lb').textContent = vis === 0 ? 'Repasar para crecer' : 'Alimentar';
   var rr = hay ? rutaDe(s, mat) : null;
   $('a-sub').textContent = !hay ? 'Próximamente' : rr.total ? 'Ruta de hoy · ' + rr.total + (rr.total === 1 ? ' pregunta' : ' preguntas') : 'Hoy ya repasaste · 5 extra';
   var hayJuego = juegosDe(mat).length > 0;
@@ -537,10 +539,11 @@ var JUEGOS = {
   armar: { titulo: 'Armar el átomo', sub: 'Pon protones, neutrones y electrones para formar un elemento.', iniciar: function (j) { iniciarAtomo(j); },
     ico: '<svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="8" fill="#ff6b6b"/><circle cx="21" cy="22" r="3" fill="#aab4c8"/><ellipse cx="24" cy="24" rx="20" ry="8" fill="none" stroke="var(--brand)" stroke-width="2.5" transform="rotate(35 24 24)"/><circle cx="38" cy="31" r="3.4" fill="#4f8cff"/></svg>' }
 };
+var NUEVOS_J = { plato: 1, neurona: 1, separar: 1, disolucion: 1, conv: 1, estados: 1, linea: 1 };
 function renderGames() {
   var c = $('gcards'); c.innerHTML = '';
   juegosDe(ST.activa).forEach(function (j) {
-    var d = JUEGOS[j.tipo], b = el('button', 'gcard'); b.innerHTML = '<span class="ico">' + d.ico + '</span><span><b>' + esc(j.titulo || d.titulo) + '</b><small>' + d.sub + '</small></span>';
+    var d = JUEGOS[j.tipo], b = el('button', 'gcard' + (NUEVOS_J[j.tipo] ? ' nuevo' : '')); b.innerHTML = '<span class="ico">' + d.ico + '</span><span><b>' + esc(j.titulo || d.titulo) + '</b><small>' + d.sub + '</small></span>';
     b.onclick = function () { d.iniciar(j); }; c.appendChild(b);
   });
 }
@@ -645,7 +648,7 @@ document.addEventListener('keydown', function (e) {
 /* ---- Armar el átomo (mismo molde sirve después para célula o ecuaciones) ---- */
 var at = null, ELEMS = [];
 function iniciarAtomo(j) {
-  ELEMS = j.elementos; at = { i: 0, p: 0, n: 0, e: 0, ok: 0, xp: 0, et0: etapa(cur()) }; go('atom'); pintaAtomo();
+  ELEMS = mezclar(j.elementos).slice(0, 5); at = { i: 0, p: 0, n: 0, e: 0, ok: 0, xp: 0, et0: etapa(cur()) }; go('atom'); pintaAtomo();
 }
 function pintaAtomo() {
   var e = ELEMS[at.i];
@@ -874,7 +877,7 @@ $('sl-btn').onclick = function () {
   var s = cur();
   if (!dormido) {
     dormirYa();
-    $('sl-t').textContent = 'Buenas noches'; $('sl-p').textContent = s.vis === 0 ? 'Shhh. ' + s.name + ' descansa.' : 'Shhh. ' + s.name + ' está soñando con átomos, células y burbujas.';
+    $('sl-t').textContent = 'Buenas noches'; $('sl-p').textContent = s.vis === 0 ? 'Shhh. ' + s.name + ' descansa.' : 'Shhh. ' + s.name + ' está soñando con ' + ({ biologia: 'células, plantas y neuronas', fisica: 'átomos, planetas y órbitas', quimica: 'burbujas, cristales y mezclas' })[ST.activa] + '.';
     this.textContent = 'Despertar';
   } else {
     var ok = despertarYa();
@@ -930,7 +933,7 @@ $('bq-exit').onclick = function () { go('home'); };
 /* ============ COFRE DIARIO ============ */
 function abrirCofre() {
   var s = cur(); if (s.cofre.dia === fechaHoy()) return;
-  var pend = COFRE_POOL.filter(function (p) { return !s.desb[p[0] + '|' + p[1]]; }), rew, txt;
+  var pend = cofrePool(ST.activa).filter(function (p) { return !s.desb[p[0] + '|' + p[1]]; }), rew, txt;
   if (pend.length) {
     var p = pick(pend), it = LISTAS[p[0]].filter(function (x) { return x.id === p[1]; })[0];
     s.desb[p[0] + '|' + p[1]] = 1; s.nuevos[p[0] + '|' + p[1]] = 1; s.cofre.ganados.push(p[1]);
@@ -968,7 +971,7 @@ function renderRoom() {
     gp.appendChild(b);
   });
   var g = $('decgrid'); g.innerHTML = '';
-  DECOR.forEach(function (it) {
+  listaDe('decor', ST.activa).forEach(function (it) {
     var ok = abierto(s, 'decor', it), on = s.decor[it.slot] === it.id, b = el('button', 'tile' + (ok ? '' : ' lock') + (ok && s.nuevos['decor|' + it.id] ? ' nuevo' : ''));
     b.setAttribute('aria-pressed', on ? 'true' : 'false'); b.setAttribute('aria-label', it.n + (ok ? '' : ' (bloqueado)') + (on ? ' (puesto)' : ''));
     b.innerHTML = itemIcono('decor', it.id) + '<span>' + it.n + '</span>' + (ok ? '' : '<span class="lk" aria-hidden="true">🔒</span>') + (on ? '<span class="pl">Puesto</span>' : '');
@@ -1077,7 +1080,7 @@ function renderProg() {
   var hb = $('habs'); hb.innerHTML = ''; var hayH = HAB_ORDEN.some(function (h) { return habPct(s, h) != null; });
   $('hab-sub').hidden = !hayH; hb.hidden = !hayH;
   HAB_ORDEN.forEach(function (h) { var p = habPct(s, h); if (p != null) barra(hb, HAB_CORTO[h], p, 'var(--brand)', p + '%'); });
-  var tot = 0, ab = 0; Object.keys(LISTAS).forEach(function (k) { LISTAS[k].forEach(function (it) { tot++; if (abierto(s, k, it)) ab++; }); });
+  var tot = 0, ab = 0; Object.keys(LISTAS).forEach(function (k) { listaDe(k, ST.activa).forEach(function (it) { tot++; if (abierto(s, k, it)) ab++; }); });
   $('coll').textContent = ab + ' de ' + tot + ' objetos desbloqueados entre colores, ojos, ropa, paredes y decoración del cuarto de ' + s.name + '.';
 }
 

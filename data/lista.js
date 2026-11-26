@@ -11,6 +11,8 @@ REPASO.cargar([
   'data/biologia/ficha8.js',
   'data/biologia/ficha9.js',
   'data/biologia/ficha10.js',
+  'data/biologia/lecturas.js',
+  'data/biologia/juegos.js',
   'data/fisica/ficha1.js',
   'data/fisica/ficha2.js',
   'data/fisica/ficha3.js',
@@ -34,5 +36,7 @@ REPASO.cargar([
   'data/quimica/ficha8.js',
   'data/quimica/ficha9.js',
   'data/quimica/ficha10.js',
+  'data/quimica/lecturas.js',
+  'data/quimica/juegos.js',
   'data/semana.js'
 ]);

@@ -28,9 +28,9 @@ REPASO.porque({
     'Núcleo y nube': 'Eso describe el modelo actual.'
   },
   'f7-33': {
-    'Todas las partículas rebotaron': 'Si todas hubieran rebotado, el átomo sería macizo. Pero casi todas pasaron.',
-    'Todas las partículas se desviaron': 'Casi todas pasaron derecho; solo unas pocas se desviaron.',
-    'Ninguna partícula pasó': 'Al contrario: casi todas pasaron.'
+    'Todas las partículas rebotaron al chocar con la hoja de oro': 'Si todas hubieran rebotado, el átomo sería macizo. Pero casi todas pasaron.',
+    'Todas las partículas se desviaron con distintos ángulos': 'Casi todas pasaron derecho; solo unas pocas se desviaron.',
+    'Ninguna partícula pasó, porque la hoja era muy gruesa': 'Al contrario: casi todas pasaron.'
   },
   'f7-35': {
     'Grande, ligero y neutro': 'Es todo lo contrario: el núcleo es muy pequeño, denso y positivo.',
@@ -78,9 +78,9 @@ REPASO.porque({
     'Que está dentro del núcleo': 'Los electrones están fuera del núcleo.'
   },
   'f7-70': {
-    'No tiene protones': 'Todos los átomos tienen protones.',
-    'Solo tiene neutrones': 'Tiene protones, neutrones y electrones. Los neutrones no tienen carga.',
-    'Los electrones no tienen carga': 'Los electrones sí tienen carga: negativa.'
+    'No tiene protones, solo electrones y neutrones': 'Todos los átomos tienen protones.',
+    'Solo tiene neutrones, que no tienen carga eléctrica': 'Tiene protones, neutrones y electrones. Los neutrones no tienen carga.',
+    'Los electrones no tienen carga, solo tienen masa': 'Los electrones sí tienen carga: negativa.'
   },
   'f7-71': {
     'En la nube de electrones': 'Los electrones pesan muchísimo menos que los protones y neutrones.',
@@ -123,9 +123,9 @@ REPASO.porque({
     'Número atómico menos masa atómica': 'Está al revés: daría un resultado negativo.'
   },
   'f7-94': {
-    'Dalton nunca habló de átomos': 'Dalton retomó la idea del átomo en 1803.',
-    'Los electrones no existen': 'Sí existen: Thomson los descubrió en 1897.',
-    'Dalton los puso en el núcleo': 'Dalton no habló ni de electrones ni de núcleo.'
+    'Dalton nunca habló de átomos ni de su estructura interna': 'Dalton retomó la idea del átomo en 1803.',
+    'Los electrones no existen, solo son una idea teórica': 'Sí existen: Thomson los descubrió en 1897.',
+    'Dalton los puso en el núcleo, junto con los protones': 'Dalton no habló ni de electrones ni de núcleo.'
   },
   'f7-95': {
     'Un elemento': 'Un elemento tiene un solo tipo de átomo. El agua tiene dos.',
@@ -133,33 +133,33 @@ REPASO.porque({
     'Un solo átomo': 'En el agua hay varios átomos unidos.'
   },
   'f7-96': {
-    'Estaba totalmente equivocada': 'No estaba equivocada: el átomo existe. Lo que faltaba eran pruebas experimentales.',
-    'Nadie la conoció': 'Sí se conoció: Dalton la retomó siglos después.',
-    'Usó otra palabra para átomo': 'Demócrito usó la palabra átomo.'
+    'Estaba totalmente equivocada porque los átomos no existen': 'No estaba equivocada: el átomo existe. Lo que faltaba eran pruebas experimentales.',
+    'Nadie la conoció, porque no se escribió ni se enseñó': 'Sí se conoció: Dalton la retomó siglos después.',
+    'Usó otra palabra para átomo, distinta de la que usamos hoy': 'Demócrito usó la palabra átomo.'
   },
   'f7-97': {
-    'Thomson no hablaba de electrones': 'Thomson descubrió el electrón.',
-    'Los electrones giran, pero en una nube': 'La nube es del modelo actual, no del de Thomson.',
-    'No hay nada que corregir': 'Sí: en el panqué con pasas no hay núcleo ni órbitas.'
+    'Thomson no hablaba de electrones, solo de protones': 'Thomson descubrió el electrón.',
+    'Los electrones giran, pero en una nube y no en órbitas definidas': 'La nube es del modelo actual, no del de Thomson.',
+    'No hay nada que corregir, porque esa descripción es correcta': 'Sí: en el panqué con pasas no hay núcleo ni órbitas.'
   },
   'f7-98': {
-    'Porque Thomson ya había descubierto el protón': 'Thomson descubrió el electrón, no el protón.',
-    'Porque los electrones no tienen carga': 'Los electrones tienen carga negativa.',
-    'Porque así se veía mejor en el dibujo': 'No es cuestión de dibujo: el átomo es neutro y las cargas se deben compensar.'
+    'Porque Thomson ya había descubierto el protón en su laboratorio': 'Thomson descubrió el electrón, no el protón.',
+    'Porque los electrones no tienen ninguna carga eléctrica': 'Los electrones tienen carga negativa.',
+    'Porque así se veía mejor en el dibujo del libro de texto': 'No es cuestión de dibujo: el átomo es neutro y las cargas se deben compensar.'
   },
   'f7-99': {
-    'Todas las partículas rebotaron': 'Eso indicaría un átomo macizo, pero casi todas pasaron.',
-    'La pantalla nunca brilló': 'Sí brilló: cada choque dejaba un centelleo.',
-    'La hoja de oro se rompió': 'Eso no fue lo que se observó. Lo importante fue por dónde llegaban las partículas.'
+    'Todas las partículas rebotaron al llegar a la hoja de oro': 'Eso indicaría un átomo macizo, pero casi todas pasaron.',
+    'La pantalla nunca brilló durante todo el experimento': 'Sí brilló: cada choque dejaba un centelleo.',
+    'La hoja de oro se rompió en cuanto llegaron las partículas': 'Eso no fue lo que se observó. Lo importante fue por dónde llegaban las partículas.'
   },
   'f7-100': {
-    'Rutherford no usó partículas': 'Sí usó: partículas alfa.',
-    'Rutherford usó electrones': 'Usó partículas alfa, no electrones.',
-    'No está mal': 'Sí está mal: casi todas pasaron derecho, no rebotaron.'
+    'Rutherford no usó partículas, solo observó la hoja de oro': 'Sí usó: partículas alfa.',
+    'Rutherford usó electrones en lugar de partículas alfa': 'Usó partículas alfa, no electrones.',
+    'No está mal, porque esa frase explica bien su experimento': 'Sí está mal: casi todas pasaron derecho, no rebotaron.'
   },
   'f7-101': {
-    'Todas rebotarían': 'Sin nada duro en el centro no habría rebotes.',
-    'La mayoría rebotaría': 'Sin nada duro en el centro no habría rebotes.'
+    'Todas rebotarían contra la hoja de oro': 'Sin nada duro en el centro no habría rebotes.',
+    'La mayoría rebotaría y muy pocas pasarían': 'Sin nada duro en el centro no habría rebotes.'
   },
   'f7-104': {
     '10 en la primera órbita': 'La primera órbita solo admite 2.',
@@ -177,9 +177,9 @@ REPASO.porque({
     'Desaparece': 'No desaparece: pasa a la siguiente órbita.'
   },
   'f7-107': {
-    'Bohr no habló de órbitas': 'Sí: propuso órbitas definidas para los electrones.',
-    'Las dos tienen 8': 'La primera solo admite 2.',
-    'No está mal': 'Sí está mal: los números están invertidos.'
+    'Bohr no habló de órbitas, solo de la nube de electrones': 'Sí: propuso órbitas definidas para los electrones.',
+    'Las dos órbitas tienen un máximo de 8 electrones cada una': 'La primera solo admite 2.',
+    'No está mal, porque los números de la frase son los correctos': 'Sí está mal: los números están invertidos.'
   },
   'f7-108': {
     'El núcleo': 'El núcleo es diminuto comparado con todo el átomo.',
@@ -187,14 +187,14 @@ REPASO.porque({
     'Los neutrones': 'Los neutrones están en el núcleo, que es diminuto.'
   },
   'f7-109': {
-    'Porque los electrones no existen': 'Sí existen; solo pesan muchísimo menos.',
-    'Porque el núcleo es más grande que la nube': 'Al revés: la nube es enorme comparada con el núcleo.',
-    'Porque los electrones pesan igual que el núcleo': 'Pesan muchísimo menos.'
+    'Porque los electrones no existen realmente, solo son una idea': 'Sí existen; solo pesan muchísimo menos.',
+    'Porque el núcleo es más grande que la nube de electrones': 'Al revés: la nube es enorme comparada con el núcleo.',
+    'Porque los electrones pesan igual que todo el núcleo junto': 'Pesan muchísimo menos.'
   },
   'f7-110': {
-    'Los neutrones no existen': 'Chadwick los descubrió en 1932.',
-    'Los neutrones tienen carga negativa': 'Los neutrones no tienen carga.',
-    'No está mal': 'Sí está mal: en la nube están los electrones.'
+    'Los neutrones no existen, solo se han supuesto en teoría': 'Chadwick los descubrió en 1932.',
+    'Los neutrones tienen carga negativa y por eso giran': 'Los neutrones no tienen carga.',
+    'No está mal, porque los neutrones sí giran alrededor': 'Sí está mal: en la nube están los electrones.'
   },
   'f7-111': {
     '16': 'Esa es la masa atómica. Hay que restarle los protones.',
@@ -217,9 +217,9 @@ REPASO.porque({
     'Nada, está bien': 'Sí hay error: 7 + 3 = 10, pero debía ser 7 − 3 = 4.'
   },
   'f7-116': {
-    'El descubrimiento del neutrón': 'El neutrón (1932) llegó después y no fue lo que echó abajo el modelo de Thomson.',
-    'Las órbitas de Bohr': 'Bohr propuso sus órbitas después, ya con el núcleo de Rutherford.',
-    'La idea de Demócrito': 'Esa idea es mucho más antigua.'
+    'El descubrimiento del neutrón en el núcleo del átomo': 'El neutrón (1932) llegó después y no fue lo que echó abajo el modelo de Thomson.',
+    'Las órbitas propuestas por Bohr para los electrones': 'Bohr propuso sus órbitas después, ya con el núcleo de Rutherford.',
+    'La idea de Demócrito sobre los átomos y el vacío': 'Esa idea es mucho más antigua.'
   },
   'f7-117': {
     'Dalton y Thomson': 'Pasaron unas décadas (1803 a 1897), mucho menos que 2 000 años.',
@@ -232,9 +232,9 @@ REPASO.porque({
     '135': 'Revisa la resta: 1932 − 1897 = 35.'
   },
   'f7-121': {
-    'Los científicos anteriores mentían': 'No mentían: hicieron la mejor explicación con las pruebas de su época.',
-    'El átomo mismo cambió': 'El átomo es el mismo; lo que cambió es lo que sabemos de él.',
-    'Los libros se actualizan solos': 'Los modelos cambian por nuevas pruebas, no por los libros.'
+    'Los científicos anteriores mentían para ganar fama y premios': 'No mentían: hicieron la mejor explicación con las pruebas de su época.',
+    'El átomo mismo cambió con el paso de los siglos': 'El átomo es el mismo; lo que cambió es lo que sabemos de él.',
+    'Los libros se actualizan solos cada cierto número de años': 'Los modelos cambian por nuevas pruebas, no por los libros.'
   },
   'f7-122': {
     'Un resorte muy grande': 'Los relojes atómicos no usan resortes.',
@@ -242,11 +242,11 @@ REPASO.porque({
     'La luz del Sol': 'No dependen del Sol.'
   },
   'f7-123': {
-    'Porque los átomos cambian de color': 'El color no es la razón.',
-    'Porque así ya no hacen falta experimentos': 'Los experimentos siguen siendo necesarios.',
-    'Porque los átomos son indivisibles': 'Hoy sabemos que el átomo tiene partículas adentro.'
+    'Porque los átomos cambian de color según el material': 'El color no es la razón.',
+    'Porque así ya no hacen falta experimentos en el laboratorio': 'Los experimentos siguen siendo necesarios.',
+    'Porque los átomos son indivisibles y no tienen partes': 'Hoy sabemos que el átomo tiene partículas adentro.'
   },
   'f7-126': {
-    'Para medir el clima': 'Eso lo hacen otros instrumentos, como pluviómetros y termómetros.'
+    'Para medir el clima y la temperatura de la atmósfera': 'Eso lo hacen otros instrumentos, como pluviómetros y termómetros.'
   }
 });

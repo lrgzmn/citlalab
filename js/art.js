@@ -134,6 +134,11 @@ function chestSVG(open){
    '<g class="lid" style="transform-origin:10px 32px"><path d="M8 32 Q8 14 30 14 Q52 14 52 32 Z" fill="#d28a4c" stroke="#7a4a22" stroke-width="2"/><rect x="26" y="15" width="8" height="17" fill="#e8b923"/></g>'+
    '<rect x="27" y="36" width="6" height="8" rx="2" fill="#7a4a22"/></svg>';
 }
+var TABLA_MK=(function(){
+  var cols=['#ff9bb3','#ffd166','#7be0c3','#9db3ff','#c9a7ff'], h='<rect x="-22" y="-16" width="44" height="32" rx="3" fill="#fff" stroke="#c8a165" stroke-width="3"/>', i, j, c=0;
+  for(j=0;j<4;j++) for(i=0;i<8;i++){ if(j===0 && i>0 && i<7) continue; c=(i*3+j*2)%5; h+='<rect x="'+(-19+i*4.8)+'" y="'+(-13+j*6.4)+'" width="4" height="5.4" rx="1" fill="'+cols[c]+'"/>'; }
+  return h;
+})();
 function decorMk(id){
   var m={
    pizarra:'<rect x="-22" y="-16" width="44" height="32" rx="3" fill="#2d4a3e" stroke="#c8a165" stroke-width="3"/><ellipse cx="-6" cy="0" rx="11" ry="4.5" fill="none" stroke="#fff" stroke-width="1.6"/><circle cx="-6" cy="0" r="2.6" fill="#fff"/><path d="M7 -6 h10 M7 0 h13 M7 6 h8" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>',
@@ -143,6 +148,20 @@ function decorMk(id){
    planeta:'<circle r="13" fill="#ff9f43"/><path d="M-12 -4 Q0 -8 12 -4" fill="none" stroke="#ffc78a" stroke-width="3"/><ellipse rx="22" ry="6" fill="none" stroke="#ffd8a8" stroke-width="3" transform="rotate(-20)"/><path d="M-22 4 A22 6 0 0 0 4 6" fill="none" stroke="#ffd8a8" stroke-width="0"/>',
    cohete:'<path d="M0 -24 C 11 -12, 11 8, 7 16 L-7 16 C -11 8, -11 -12, 0 -24 Z" fill="#fff" stroke="#c7cfe4" stroke-width="2"/><circle cy="-6" r="5" fill="#5aa9ff" stroke="#c7cfe4" stroke-width="1.5"/><path d="M-7 8 L-16 18 L-7 16 Z M7 8 L16 18 L7 16 Z" fill="#ff6b6b"/><path d="M-4 18 Q0 28 4 18 Z" fill="#ffb830"/>',
    telescopio:'<path d="M0 6 L-14 22 M0 6 L14 22 M0 6 L0 22" stroke="#7a5a3a" stroke-width="3" stroke-linecap="round"/><rect x="-22" y="-14" width="40" height="11" rx="4" transform="rotate(-30 0 0)" fill="#4f6df5"/><rect x="-26" y="-16" width="9" height="15" rx="2" transform="rotate(-30 0 0)" fill="#2f3858"/><circle r="4" fill="#2f3858"/>',
+   b_pizarra:'<rect x="-22" y="-16" width="44" height="32" rx="3" fill="#2d4a3e" stroke="#c8a165" stroke-width="3"/><circle cx="-9" cy="0" r="5" fill="none" stroke="#fff" stroke-width="1.7"/><path d="M-13 -3 L-18 -8 M-13 3 L-18 8 M-4 0 H13 M13 0 l4 -4 M13 0 l4 4" stroke="#fff" stroke-width="1.7" stroke-linecap="round" fill="none"/>',
+   b_cerebro:'<ellipse cx="0" cy="-4" rx="20" ry="15" fill="#ff9bb3" stroke="#d9617f" stroke-width="2.5"/><path d="M0 -18 V8 M-10 -12 Q-4 -6 -10 0 M10 -12 Q4 -6 10 0 M-14 0 Q-8 4 -4 -2 M14 0 Q8 4 4 -2" stroke="#d9617f" stroke-width="2" fill="none" stroke-linecap="round"/><rect x="-10" y="12" width="20" height="5" rx="2.5" fill="#7a5a3a"/>',
+   b_manzana:'<path d="M0 -8 C -8 -16, -22 -10, -20 4 C -18 16, -8 20, 0 16 C 8 20, 18 16, 20 4 C 22 -10, 8 -16, 0 -8 Z" fill="#ef4b4b" stroke="#b42b2b" stroke-width="2"/><path d="M0 -8 C 0 -14, 2 -18, 5 -20" stroke="#7a4a22" stroke-width="2.4" fill="none" stroke-linecap="round"/><path d="M3 -15 C 8 -22, 16 -20, 17 -16 C 12 -12, 6 -12, 3 -15 Z" fill="#3fbf7f"/><path d="M-12 -2 Q-13 4 -9 8" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" opacity=".7"/>',
+   b_corazon:'<path d="M0 18 C -26 2, -22 -16, -10 -16 C -4 -16, 0 -12, 0 -8 C 0 -12, 4 -16, 10 -16 C 22 -16, 26 2, 0 18 Z" fill="#ff5d73" stroke="#c2304a" stroke-width="2.4"/><path d="M-14 -8 Q-12 -12 -8 -12" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" opacity=".7"/>',
+   b_libro:'<rect x="-16" y="-18" width="32" height="38" rx="3" fill="#3b82c4" stroke="#245a8d" stroke-width="2.4"/><rect x="-12" y="-14" width="24" height="12" rx="2" fill="#fff"/><path d="M-8 -9 H8" stroke="#3b82c4" stroke-width="2" stroke-linecap="round"/><circle cx="0" cy="8" r="5" fill="#5bc58f" stroke="#fff" stroke-width="1.5"/>',
+   f_iman:'<path d="M-14 -2 V4 A14 14 0 0 0 0 18" fill="none" stroke="#3b6de0" stroke-width="9"/><path d="M14 -2 V4 A14 14 0 0 1 0 18" fill="none" stroke="#e5484d" stroke-width="9"/><rect x="-18.5" y="-16" width="9" height="12" fill="#c9d1e4" stroke="#8a95b2" stroke-width="1.5"/><rect x="9.5" y="-16" width="9" height="12" fill="#c9d1e4" stroke="#8a95b2" stroke-width="1.5"/>',
+   f_foco:'<path d="M0 -20 C -14 -20, -18 -8, -12 0 C -8 5, -7 8, -7 12 H7 C 7 8, 8 5, 12 0 C 18 -8, 14 -20, 0 -20 Z" fill="#ffe27a" stroke="#d9a400" stroke-width="2.4"/><rect x="-7" y="12" width="14" height="7" rx="2" fill="#9aa4b5" stroke="#6b7590" stroke-width="1.6"/><path d="M-4 6 L0 -4 L4 6" fill="none" stroke="#d9a400" stroke-width="2"/><path d="M-22 -14 L-26 -17 M22 -14 L26 -17 M0 -25 V-28" stroke="#ffb830" stroke-width="2.4" stroke-linecap="round"/>',
+   q_pizarra:'<rect x="-22" y="-16" width="44" height="32" rx="3" fill="#2d3b4a" stroke="#c8a165" stroke-width="3"/><text x="0" y="3" text-anchor="middle" font-family="system-ui,sans-serif" font-weight="800" font-size="12" fill="#fff">H<tspan dy="3" font-size="8">2</tspan><tspan dy="-3">O</tspan></text><path d="M-14 9 H14" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>',
+   q_tabla:TABLA_MK,
+   q_tubos:'<rect x="-20" y="8" width="40" height="6" rx="3" fill="#8a5a2b"/><g fill="#fff" fill-opacity=".7" stroke="#6f7fa6" stroke-width="2"><path d="M-16 -16 V6 a4 4 0 0 0 8 0 V-16"/><path d="M-4 -16 V6 a4 4 0 0 0 8 0 V-16"/><path d="M8 -16 V6 a4 4 0 0 0 8 0 V-16"/></g><path d="M-14.5 -4 H-9.5 V6 a2.5 2.5 0 0 1 -5 0 Z" fill="#ff7a8a"/><path d="M-2.5 -8 H2.5 V6 a2.5 2.5 0 0 1 -5 0 Z" fill="#6fd3a8"/><path d="M9.5 0 H14.5 V6 a2.5 2.5 0 0 1 -5 0 Z" fill="#8a7bff"/>',
+   q_cristales:'<path d="M-14 16 L-18 -2 L-10 -14 L-4 -2 L-6 16 Z" fill="#b48cf5" stroke="#6a35c4" stroke-width="2" stroke-linejoin="round"/><path d="M-2 16 L-6 -12 L2 -24 L10 -10 L8 16 Z" fill="#d9c4ff" stroke="#6a35c4" stroke-width="2" stroke-linejoin="round"/><path d="M8 16 L10 2 L18 -6 L22 8 L20 16 Z" fill="#9b6bff" stroke="#6a35c4" stroke-width="2" stroke-linejoin="round"/>',
+   q_molecula:'<path d="M0 -2 L-16 10 M0 -2 L16 10" stroke="#8a95b2" stroke-width="4" stroke-linecap="round"/><circle cy="-4" r="10" fill="#e5484d" stroke="#a82d31" stroke-width="2"/><circle cx="-17" cy="11" r="6.5" fill="#fff" stroke="#8a95b2" stroke-width="2"/><circle cx="17" cy="11" r="6.5" fill="#fff" stroke="#8a95b2" stroke-width="2"/>',
+   q_vaso:'<path d="M-14 -16 V14 a4 4 0 0 0 4 4 H10 a4 4 0 0 0 4 -4 V-16" fill="#fff" fill-opacity=".6" stroke="#6f7fa6" stroke-width="2.4"/><path d="M-12 -2 H12 V14 a2 2 0 0 1 -2 2 H-10 a2 2 0 0 1 -2 -2 Z" fill="#7be0c3"/><circle cx="-4" cy="4" r="2" fill="#fff" opacity=".8"/><circle cx="4" cy="9" r="1.6" fill="#fff" opacity=".8"/><path d="M-14 -16 H-18 M14 -16 H18" stroke="#6f7fa6" stroke-width="2.4" stroke-linecap="round"/>',
+   q_balanza:'<path d="M0 -18 V14" stroke="#6f7fa6" stroke-width="3"/><rect x="-10" y="14" width="20" height="5" rx="2.5" fill="#4a5470"/><path d="M-22 -10 H22" stroke="#6f7fa6" stroke-width="3" stroke-linecap="round"/><path d="M-22 -10 L-28 4 H-16 Z M22 -10 L16 4 H28 Z" fill="#ffd166" stroke="#c99a1c" stroke-width="1.6" stroke-linejoin="round"/><circle cy="-18" r="3" fill="#e5484d"/>',
    trofeo:'<path d="M-12 -18 H12 V-6 C 12 4, 6 8, 0 8 C -6 8, -12 4, -12 -6 Z" fill="#ffc933" stroke="#e6a400" stroke-width="2"/><path d="M-12 -14 C -22 -14, -20 -2, -11 -2 M12 -14 C 22 -14, 20 -2, 11 -2" fill="none" stroke="#e6a400" stroke-width="2.4"/><rect x="-3" y="8" width="6" height="8" fill="#e6a400"/><rect x="-9" y="16" width="18" height="5" rx="2" fill="#7a5a3a"/>'
   };
   return m[id]||'';
@@ -187,20 +206,53 @@ var SLOTS = {A:[-14,58],B:[-12,146],C:[214,58],D:[212,146]};
 function paredDe(id){ return PAREDES.filter(function(x){return x.id===id;})[0]||PAREDES[0]; }
 /* colores del cuarto: de noche se oscurecen las paredes, el piso y la alfombra */
 function cuartoCol(w){
-  if(!temaNoche()) return {a:w.a,b:w.b,d:w.d,zoc:'#c9d6f3',piso:'#e4d6c0',linea:'#d3c3aa',al1:'#ff9fb8',al2:'#ffc0d2',alop:.75};
+  var m=MAT[ST.activa]||MAT.biologia, B=m.brand;
+  if(!temaNoche()) return {a:w.a,b:w.b,d:w.d,zoc:'#b9c7ea',zoc2:'#ffffff',piso:'#ecd2a8',piso2:'#e2c394',linea:'#cfae7c',al1:mezclaHex(B,'#ffffff',.38),al2:mezclaHex(B,'#ffffff',.68),alop:1,hal:B,halop:.34,band:[mezclaHex(B,'#ffffff',.25),'#ffd84d',mezclaHex(B,'#ffffff',.6),'#ff8fb1']};
   var N='#0f1330';
-  return {a:mezclaHex(w.a,N,.8),b:mezclaHex(w.b,N,.74),d:mezclaHex(w.d,N,.55),zoc:'#2d3566',piso:'#2a2440',linea:'#38304f',al1:'#b04b72',al2:'#c8668c',alop:.6};
+  return {a:mezclaHex(w.a,N,.8),b:mezclaHex(w.b,N,.74),d:mezclaHex(w.d,N,.55),zoc:'#2d3566',zoc2:'#4a548a',piso:'#2e2746',piso2:'#262040',linea:'#3a3258',al1:mezclaHex(B,N,.55),al2:mezclaHex(B,N,.35),alop:1,hal:mezclaHex(B,'#ffffff',.3),halop:.3,band:[mezclaHex(B,N,.3),'#c9a63a',mezclaHex(B,N,.5),'#b04b72']};
+}
+
+/* Ventana del cuarto: el cielo cambia con la hora real (día, tarde, noche) */
+function ventanaMk(){
+  var h=new Date().getHours(), noche=temaNoche()||h>=20||h<6, tarde=!noche&&h>=18, x=128, y=12, w=36, hh=34;
+  var c1=noche?'#1c2350':tarde?'#ffb36b':'#8fd3ff', c2=noche?'#3b3f86':tarde?'#ffd8a0':'#d8f1ff';
+  var d='<defs><linearGradient id="gCielo" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="'+c1+'"/><stop offset="1" stop-color="'+c2+'"/></linearGradient><clipPath id="cpVent"><rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+hh+'" rx="4"/></clipPath></defs>';
+  var s='<g clip-path="url(#cpVent)"><rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+hh+'" fill="url(#gCielo)"/>';
+  if(noche) s+='<circle cx="'+(x+24)+'" cy="'+(y+11)+'" r="6" fill="#fff6c9"/><circle cx="'+(x+27)+'" cy="'+(y+9)+'" r="5.2" fill="#2a3070"/><circle cx="'+(x+8)+'" cy="'+(y+8)+'" r="1" fill="#fff"/><circle cx="'+(x+14)+'" cy="'+(y+20)+'" r="1.2" fill="#fff"/><circle cx="'+(x+28)+'" cy="'+(y+24)+'" r=".9" fill="#fff"/><circle cx="'+(x+6)+'" cy="'+(y+26)+'" r=".9" fill="#fff"/>';
+  else s+='<circle cx="'+(x+(tarde?12:25))+'" cy="'+(y+(tarde?24:10))+'" r="'+(tarde?7:6)+'" fill="'+(tarde?'#ff8a3d':'#ffd84d')+'"/><ellipse cx="'+(x+14)+'" cy="'+(y+(tarde?12:20))+'" rx="8" ry="3.4" fill="#fff" opacity=".9"/><ellipse cx="'+(x+20)+'" cy="'+(y+(tarde?10:18))+'" rx="6" ry="3" fill="#fff" opacity=".9"/>';
+  s+='<rect x="'+x+'" y="'+(y+hh-7)+'" width="'+w+'" height="7" fill="'+(noche?'#20304a':'#6dbb7a')+'" opacity=".9"/></g>';
+  s+='<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+hh+'" rx="4" fill="none" stroke="#fff" stroke-width="3"/><rect x="'+(x-1.5)+'" y="'+(y-1.5)+'" width="'+(w+3)+'" height="'+(hh+3)+'" rx="5" fill="none" stroke="#c8a165" stroke-width="1.6"/><path d="M'+(x+w/2)+' '+y+' V'+(y+hh)+' M'+x+' '+(y+hh/2)+' H'+(x+w)+'" stroke="#fff" stroke-width="2"/>';
+  return d+s;
 }
 function roomMk(s){
-  var w=paredDe(s.pared), K=cuartoCol(w); w={a:K.a,b:K.b,d:K.d}; var h='<defs><linearGradient id="gWall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="'+w.a+'"/><stop offset="1" stop-color="'+w.b+'"/></linearGradient></defs>'+
-    '<rect x="-300" y="-40" width="800" height="202" fill="url(#gWall)"/><g fill="'+w.d+'" opacity=".7">';
-  for(var i=0;i<14;i++) for(var j=0;j<6;j++) h+='<circle cx="'+(-100+i*32+(j%2)*16)+'" cy="'+(6+j*28)+'" r="2.4"/>';
-  h+='</g><rect x="-300" y="150" width="800" height="12" fill="'+K.zoc+'"/><rect x="-300" y="162" width="800" height="120" fill="'+K.piso+'"/>'+
-     '<path d="M-300 178 H500 M-300 190 H500" stroke="'+K.linea+'" stroke-width="1.5"/><ellipse cx="100" cy="182" rx="78" ry="12" fill="'+K.al1+'" opacity="'+K.alop+'"/><ellipse cx="100" cy="182" rx="62" ry="8" fill="'+K.al2+'" opacity=".8"/>';
+  var w=paredDe(s.pared), K=cuartoCol(w); w={a:K.a,b:K.b,d:K.d};
+  var h='<defs><linearGradient id="gWall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="'+w.a+'"/><stop offset="1" stop-color="'+w.b+'"/></linearGradient>'+
+    '<radialGradient id="gHalo" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#fff" stop-opacity="'+(temaNoche()?.35:.9)+'"/><stop offset=".45" stop-color="'+K.hal+'" stop-opacity="'+K.halop+'"/><stop offset="1" stop-color="'+K.hal+'" stop-opacity="0"/></radialGradient>'+
+    '<linearGradient id="gSomb" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#000" stop-opacity=".12"/><stop offset="1" stop-color="#000" stop-opacity="0"/></linearGradient></defs>'+
+    '<rect x="-300" y="-40" width="800" height="202" fill="url(#gWall)"/><g fill="'+w.d+'" opacity=".55">';
+  for(var i=0;i<14;i++) for(var j=0;j<6;j++) h+='<circle cx="'+(-100+i*32+(j%2)*16)+'" cy="'+(6+j*28)+'" r="2.2"/>';
+  h+='</g>';
+  /* guirnalda de banderines: alegra el cuarto y lo distingue del fondo */
+  var bx='', n=0;
+  for(var x=-46; x<246; x+=26, n++){ var yy=3+Math.sin((x+46)/292*Math.PI)*9; bx+='<path d="M'+x+' '+(yy-2)+' L'+(x+20)+' '+(yy-2)+' L'+(x+10)+' '+(yy+17)+' Z" fill="'+K.band[n%4]+'"/>'; }
+  h+='<path d="M-46 1 Q100 26 246 1" fill="none" stroke="'+K.zoc+'" stroke-width="1.8"/>'+bx;
+  h+=ventanaMk();
+  /* resplandor detrás de la mascota */
+  h+='<circle cx="100" cy="104" r="104" fill="url(#gHalo)"/>';
+  /* zoclo y piso de duela */
+  h+='<rect x="-300" y="150" width="800" height="14" fill="'+K.zoc+'"/><rect x="-300" y="150" width="800" height="3" fill="'+K.zoc2+'" opacity=".8"/>'+
+     '<rect x="-300" y="164" width="800" height="120" fill="'+K.piso+'"/><rect x="-300" y="164" width="800" height="9" fill="url(#gSomb)"/>'+
+     '<path d="M-300 178 H500 M-300 191 H500" stroke="'+K.linea+'" stroke-width="1.6"/>';
+  var sj=''; for(var k=-8;k<12;k++){ sj+='M'+(k*34+(k%2?12:-4))+' 164 V178 M'+(k*34+(k%2?-6:14))+' 178 V191 M'+(k*34+(k%2?10:-2))+' 191 V210 '; }
+  h+='<path d="'+sj+'" stroke="'+K.linea+'" stroke-width="1.2" opacity=".8"/>';
+  /* alfombra del color de la materia, donde se para la mascota */
+  h+='<ellipse cx="100" cy="184" rx="92" ry="14.5" fill="'+K.al1+'"/><ellipse cx="100" cy="184" rx="80" ry="11.5" fill="none" stroke="#fff" stroke-width="2.4" stroke-dasharray="6 5" opacity=".85"/><ellipse cx="100" cy="184" rx="66" ry="8.5" fill="'+K.al2+'"/>';
   ['A','B','C','D'].forEach(function(k){
     var id=s.decor[k]; if(!id) return;
     var it=DECOR.filter(function(d){return d.id===id;})[0];
-    if(it && it.req && it.req.k==='etapa' && (s.vis||0)<it.req.v) return;   /* los objetos de etapa aparecen con la ceremonia */
+    if(!it) return;
+    if(it.mat && it.mat!=='todas' && it.mat!==ST.activa) return;   /* nunca objetos de otra materia */
+    if(it.req && it.req.k==='etapa' && (s.vis||0)<it.req.v) return;   /* los objetos de etapa aparecen con la ceremonia */
     var p=SLOTS[k]; h+='<g transform="translate('+p[0]+','+p[1]+')">'+decorMk(id)+'</g>';
   });
   return h;

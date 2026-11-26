@@ -5,26 +5,74 @@ function ac() {
   if (AC && AC.state === 'suspended') { try { AC.resume(); } catch (e) {} }
   return AC;
 }
-function tono(f, d, tipo, vol, delay) {
+/* Bus con un eco suave (como un cuarto pequeño) para que todo suene redondo y no seco */
+var BUS = null;
+function bus() {
+  var a = ac(); if (!a) return null;
+  if (BUS && BUS.ctx === a) return BUS.in;
+  try {
+    var ent = a.createGain(), seco = a.createGain(), eco = a.createDelay(.5), fb = a.createGain(), lp = a.createBiquadFilter(), hum = a.createGain();
+    seco.gain.value = .9; eco.delayTime.value = .17; fb.gain.value = .3; lp.type = 'lowpass'; lp.frequency.value = 2400; hum.gain.value = .35;
+    ent.connect(seco); seco.connect(a.destination);
+    ent.connect(eco); eco.connect(lp); lp.connect(fb); fb.connect(eco); lp.connect(hum); hum.connect(a.destination);
+    BUS = { ctx: a, in: ent };
+    return ent;
+  } catch (e) { return a.destination; }
+}
+/* una nota: onda suave con ataque corto y caída natural; 'campana' añade un armónico agudo que se apaga rápido */
+function tono(f, d, tipo, vol, delay, cam) {
   if (!ST || !ST.cfg.snd) return;
-  var a = ac(); if (!a) return;
+  var a = ac(); if (!a) return; var out = bus() || a.destination;
   var t = a.currentTime + (delay || 0), o = a.createOscillator(), g = a.createGain();
   o.type = tipo || 'sine'; o.frequency.setValueAtTime(f, t);
-  g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol || .1, t + .02); g.gain.exponentialRampToValueAtTime(0.0001, t + d);
-  o.connect(g); g.connect(a.destination); o.start(t); o.stop(t + d + .05);
+  g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol || .1, t + .012); g.gain.exponentialRampToValueAtTime(0.0001, t + d);
+  o.connect(g); g.connect(out); o.start(t); o.stop(t + d + .05);
+  if (cam) {
+    var o2 = a.createOscillator(), g2 = a.createGain();
+    o2.type = 'sine'; o2.frequency.setValueAtTime(f * 3.99, t);
+    g2.gain.setValueAtTime(0.0001, t); g2.gain.exponentialRampToValueAtTime((vol || .1) * .28, t + .008); g2.gain.exponentialRampToValueAtTime(0.0001, t + d * .35);
+    o2.connect(g2); g2.connect(out); o2.start(t); o2.stop(t + d * .35 + .05);
+  }
 }
+/* notas que se deslizan (burbujas, electrones) */
+function barrido(f0, f1, d, vol, delay, tipo) {
+  if (!ST || !ST.cfg.snd) return;
+  var a = ac(); if (!a) return; var out = bus() || a.destination;
+  var t = a.currentTime + (delay || 0), o = a.createOscillator(), g = a.createGain();
+  o.type = tipo || 'sine'; o.frequency.setValueAtTime(f0, t); o.frequency.exponentialRampToValueAtTime(f1, t + d * .8);
+  g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol || .1, t + .015); g.gain.exponentialRampToValueAtTime(0.0001, t + d);
+  o.connect(g); g.connect(out); o.start(t); o.stop(t + d + .05);
+}
+/* escala pentatónica (do re mi sol la): todo combina y nada suena desafinado */
+var PE = [523.25, 587.33, 659.25, 783.99, 880, 1046.5, 1174.7, 1318.5];
 var SFX = {
-  ok: function () { tono(660, .14, 'sine', .1); tono(880, .22, 'sine', .1, .09); },
-  no: function () { tono(250, .22, 'triangle', .07); tono(210, .26, 'triangle', .06, .13); },
-  pop: function () { var f = 420 + Math.random() * 260; tono(f, .12, 'sine', .1); tono(f * 1.5, .1, 'sine', .06, .05); },
-  up: function () { [523, 659, 784, 1047].forEach(function (f, i) { tono(f, .25, 'sine', .1, i * .11); }); },
-  chest: function () { [392, 523, 659, 784, 988].forEach(function (f, i) { tono(f, .2, 'triangle', .08, i * .07); }); },
-  hit: function () { tono(140, .14, 'square', .06); tono(90, .2, 'square', .05, .05); },
-  win: function () { [523, 523, 659, 784, 659, 784, 1047].forEach(function (f, i) { tono(f, .2, 'triangle', .09, i * .12); }); },
-  tick: function () { tono(520, .06, 'sine', .06); },
-  nana: function () { [392, 330, 294, 330, 392, 392, 392].forEach(function (f, i) { tono(f, .5, 'sine', .05, i * .45); }); },
-  ronca: function () { tono(150, .55, 'triangle', .05); tono(115, .75, 'triangle', .05, .65); },
-  crack: function () { tono(180, .05, 'square', .06); tono(300, .05, 'square', .05, .04); tono(120, .08, 'square', .05, .08); }
+  ok: function () { tono(PE[2], .35, 'sine', .11, 0, 1); tono(PE[4], .5, 'sine', .11, .1, 1); },
+  no: function () { tono(392, .3, 'sine', .07, 0); tono(330, .4, 'sine', .06, .16); },          /* error amable: dos notas suaves que bajan */
+  pop: function () { var k = Math.floor(Math.random() * 5); tono(PE[k], .22, 'sine', .11, 0, 1); tono(PE[k + 1] || PE[5], .2, 'sine', .07, .06, 1); },
+  up: function () { [0, 2, 3, 5].forEach(function (k, i) { tono(PE[k], .5, 'sine', .1, i * .1, 1); }); tono(PE[7], .9, 'sine', .07, .42, 1); },
+  chest: function () { [0, 1, 2, 3, 4, 5].forEach(function (k, i) { tono(PE[k], .32, 'sine', .08, i * .06, 1); }); },
+  hit: function () { barrido(260, 110, .22, .1); tono(196, .25, 'sine', .06, .03); },
+  win: function () { [0, 2, 3, 2, 3, 5, 7].forEach(function (k, i) { tono(PE[k], .38, 'sine', .1, i * .12, 1); }); },
+  tick: function () { tono(PE[3], .09, 'sine', .06, 0, 1); },
+  nana: function () { [392, 330, 294, 330, 392, 392, 392].forEach(function (f, i) { tono(f, .6, 'sine', .05, i * .45, 1); }); },
+  ronca: function () { tono(150, .55, 'sine', .05); tono(115, .75, 'sine', .05, .65); },
+  crack: function () { tono(PE[5], .08, 'sine', .07, 0, 1); tono(PE[3], .08, 'sine', .06, .05, 1); tono(PE[1], .12, 'sine', .06, .1, 1); },
+  /* comer: lengüetazo que sube, "glup" que cae y un "ñam" alegre (sonido original, hecho con código) */
+  nam: function () {
+    barrido(420, 1500, .08, .09, 0, 'triangle');
+    barrido(900, 330, .09, .12, .09, 'sine'); tono(196, .1, 'sine', .08, .1);
+    barrido(760, 280, .09, .1, .2, 'sine');
+    tono(PE[2], .12, 'triangle', .07, .3, 1); tono(PE[4], .22, 'triangle', .07, .38, 1);
+  },
+  /* un bocado chiquito (para el segundo mordisco) */
+  nam2: function () { barrido(800, 300, .08, .1, 0, 'sine'); tono(PE[3], .14, 'triangle', .06, .08, 1); },
+  /* la voz de cada criatura al tocarla */
+  voz: function (c) {
+    if (c === 'neurona') { var k = Math.floor(Math.random() * 3); tono(PE[k + 1], .16, 'sine', .11, 0, 1); tono(PE[k + 3], .22, 'sine', .1, .09, 1); }     /* chispa neuronal: dos notitas que suben */
+    else if (c === 'atomo') { barrido(500, 1250, .2, .1); tono(PE[5], .3, 'sine', .07, .17, 1); }                                                         /* electrón que salta de órbita */
+    else if (c === 'matraz') { var b = 330 + Math.random() * 90; barrido(b, b * 2, .13, .11); barrido(b * 1.3, b * 2.6, .12, .08, .09); }                  /* burbujitas */
+    else SFX.pop();
+  }
 };
 function vibra(p) { if (ST && ST.cfg.vib && navigator.vibrate) { try { navigator.vibrate(p); } catch (e) {} } }
 

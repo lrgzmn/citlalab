@@ -23,7 +23,7 @@ var ETAPAS = ['Origen', 'Brote', 'Joven', 'Sabiduría'];   // la etapa 0 de cada
    XP_DIA_MAX = tope de puntos por materia y por día (evita que se "cultive" puntos repitiendo preguntas). */
 var XP_ETAPA = [0, 15, 300, 1200];
 var XP_DIA_MAX = 150;
-var PTS = { acierto: 5, carta: 3, atomo: 10, jefe: 30, cofre: 8, lluvia: 4, lectura: 3, ruta: 10 };   // puntos por tipo de actividad
+var PTS = { acierto: 5, carta: 3, atomo: 10, jefe: 30, cofre: 8, lluvia: 4, lectura: 3, ruta: 10, plato: 2, pmenu: 4, nparte: 3, nsyn: 8, sep: 4, dis: 8, conv: 3, est: 3, tl: 3 };   // puntos por tipo de actividad
 var DOMINIO_MIN = 0.8;                  // un tema cuenta como dominado cuando se domina el 80 % de sus preguntas
 var HAMBRE_MIN = 35, FELIZ_MIN = 40;    // la mascota nunca baja de estos valores (nunca se enferma ni muere)
 var DIAS_GRACIA = 2;                    // la racha aguanta 1 día sin entrar (2 = hoy y ayer o antes de ayer)
@@ -55,18 +55,47 @@ var PAREDES = [
   { id: 'espacio', n: 'Espacio', a: '#2b3563', b: '#4a5aa6', d: '#7d8ad0', req: { k: 'dominados', v: 3, t: 'dominar 3 temas' } },
   { id: 'bosque', n: 'Bosque', a: '#d3f1d9', b: '#f1fbf3', d: '#b3dfbd', cofre: true }
 ];
+/* OBJETOS DEL CUARTO: cada materia tiene los suyos (mat). Los de mat 'todas' (el trofeo) son de cualquier materia.
+   Cada materia tiene 2 objetos por lugar (A pared izquierda, B piso izquierdo, C pared derecha, D piso derecho). */
 var DECOR = [
-  { id: 'pizarra', n: 'Pizarra', slot: 'A', req: { k: 'etapa', v: 1, t: 'que tu mascota se transforme' } },
-  { id: 'reloj', n: 'Reloj atómico', slot: 'A', req: { k: 'racha', v: 5, t: 'una racha de 5 días' } },
-  { id: 'microscopio', n: 'Microscopio', slot: 'B', req: { k: 'dominados', v: 1, t: 'dominar 1 tema' } },
-  { id: 'planta', n: 'Planta', slot: 'B', cofre: true },
-  { id: 'planeta', n: 'Planeta', slot: 'C', req: { k: 'etapa', v: 2, t: 'llegar a la etapa Joven' } },
-  { id: 'cohete', n: 'Cohete', slot: 'C', cofre: true },
-  { id: 'telescopio', n: 'Telescopio', slot: 'D', req: { k: 'dominados', v: 3, t: 'dominar 3 temas' } },
-  { id: 'trofeo', n: 'Trofeo del reto final', slot: 'D', premio: true, req: { k: 'jefe', v: 1, t: 'superar un reto final de ficha' } }
+  /* Biología */
+  { id: 'b_pizarra', n: 'Pizarra de neuronas', mat: 'biologia', slot: 'A', req: { k: 'etapa', v: 1, t: 'que tu mascota se transforme' } },
+  { id: 'b_cerebro', n: 'Modelo de cerebro', mat: 'biologia', slot: 'A', req: { k: 'racha', v: 5, t: 'una racha de 5 días' } },
+  { id: 'microscopio', n: 'Microscopio', mat: 'biologia', slot: 'B', req: { k: 'dominados', v: 1, t: 'dominar 1 tema' } },
+  { id: 'planta', n: 'Planta', mat: 'biologia', slot: 'B', cofre: true },
+  { id: 'b_manzana', n: 'Manzana', mat: 'biologia', slot: 'C', req: { k: 'etapa', v: 2, t: 'llegar a la etapa Joven' } },
+  { id: 'b_corazon', n: 'Corazón', mat: 'biologia', slot: 'C', cofre: true },
+  { id: 'b_libro', n: 'Libro de ciencias', mat: 'biologia', slot: 'D', req: { k: 'dominados', v: 3, t: 'dominar 3 temas' } },
+  /* Física */
+  { id: 'pizarra', n: 'Pizarra del átomo', mat: 'fisica', slot: 'A', req: { k: 'etapa', v: 1, t: 'que tu mascota se transforme' } },
+  { id: 'reloj', n: 'Reloj atómico', mat: 'fisica', slot: 'A', req: { k: 'racha', v: 5, t: 'una racha de 5 días' } },
+  { id: 'f_iman', n: 'Imán', mat: 'fisica', slot: 'B', req: { k: 'dominados', v: 1, t: 'dominar 1 tema' } },
+  { id: 'f_foco', n: 'Foco', mat: 'fisica', slot: 'B', cofre: true },
+  { id: 'planeta', n: 'Planeta', mat: 'fisica', slot: 'C', req: { k: 'etapa', v: 2, t: 'llegar a la etapa Joven' } },
+  { id: 'cohete', n: 'Cohete', mat: 'fisica', slot: 'C', cofre: true },
+  { id: 'telescopio', n: 'Telescopio', mat: 'fisica', slot: 'D', req: { k: 'dominados', v: 3, t: 'dominar 3 temas' } },
+  /* Química */
+  { id: 'q_pizarra', n: 'Pizarra de fórmulas', mat: 'quimica', slot: 'A', req: { k: 'etapa', v: 1, t: 'que tu mascota se transforme' } },
+  { id: 'q_tabla', n: 'Tabla periódica', mat: 'quimica', slot: 'A', req: { k: 'racha', v: 5, t: 'una racha de 5 días' } },
+  { id: 'q_tubos', n: 'Tubos de ensayo', mat: 'quimica', slot: 'B', req: { k: 'dominados', v: 1, t: 'dominar 1 tema' } },
+  { id: 'q_cristales', n: 'Cristales', mat: 'quimica', slot: 'B', cofre: true },
+  { id: 'q_molecula', n: 'Modelo de molécula', mat: 'quimica', slot: 'C', req: { k: 'etapa', v: 2, t: 'llegar a la etapa Joven' } },
+  { id: 'q_vaso', n: 'Vaso de precipitados', mat: 'quimica', slot: 'C', cofre: true },
+  { id: 'q_balanza', n: 'Balanza', mat: 'quimica', slot: 'D', req: { k: 'dominados', v: 3, t: 'dominar 3 temas' } },
+  /* De todas las materias */
+  { id: 'trofeo', n: 'Trofeo del reto final', mat: 'todas', slot: 'D', premio: true, req: { k: 'jefe', v: 1, t: 'superar un reto final de ficha' } }
 ];
 var LISTAS = { color: COLORES, ojos: OJOS, ropa: ROPA, pared: PAREDES, decor: DECOR };
-var COFRE_POOL = [['ropa', 'audifonos'], ['pared', 'bosque'], ['decor', 'planta'], ['decor', 'cohete']];
+/* Lista de objetos de una materia: lo de otras materias no se muestra ni se desbloquea. */
+function listaDe(k, mat) {
+  return LISTAS[k].filter(function (it) { return !it.mat || it.mat === 'todas' || it.mat === mat; });
+}
+/* El cofre diario da audífonos, la pared bosque y los objetos de cofre de la materia activa. */
+function cofrePool(mat) {
+  var r = [['ropa', 'audifonos'], ['pared', 'bosque']];
+  DECOR.forEach(function (it) { if (it.cofre && it.mat === mat) r.push(['decor', it.id]); });
+  return r;
+}
 
 /* CRÉDITOS (se editan aquí, en un solo lugar).
    equipo: una persona por renglón, en el orden en que aparecen.

@@ -40,6 +40,7 @@
       <g id="roomG" aria-hidden="true"></g>
       <svg id="pet" x="0" y="0" width="200" height="200" viewBox="0 0 200 200" overflow="visible" role="button" tabindex="0" aria-label="Tu mascota. Tócala para que reaccione"></svg>
     </svg>
+    <span class="etb" id="etapaB" aria-hidden="true"></span>
     <button class="zbtn" id="b-zzz" type="button" aria-pressed="false" aria-label="Poner a dormir a la mascota"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg><span>Dormir</span></button>
     <div class="night" id="night" aria-hidden="true"><i class="moon"></i><b class="zz z1">z</b><b class="zz z2">z</b><b class="zz z3">Z</b></div>
   </div>
@@ -62,8 +63,8 @@
   <section class="view" id="v-home" aria-label="Inicio">
     <div class="bars" id="bars"></div>
     <div class="actions">
-      <button class="big a" id="a-feed">Alimentar<small id="a-sub">Repasa 5 preguntas</small></button>
-      <button class="big g" id="a-play">Jugar<small id="a-play-sub">Tarjetas y más</small></button>
+      <button class="big a" id="a-feed"><svg class="bic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5.5C6 4 9 4 12 6c3-2 6-2 9-.5V19c-3-1.5-6-1.5-9 .5-3-2-6-2-9-.5z"/><path d="M12 6v13.5"/></svg><span class="lb">Alimentar</span><small id="a-sub">Repasa 5 preguntas</small></button>
+      <button class="big g" id="a-play"><svg class="bic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="7" width="19" height="11" rx="5.5"/><path d="M8 10v5M5.5 12.5h5"/><circle cx="15.5" cy="11.5" r=".8" fill="currentColor"/><circle cx="18" cy="13.5" r=".8" fill="currentColor"/></svg><span class="lb">Jugar</span><small id="a-play-sub">Tarjetas y más</small></button>
     </div>
     <div class="cards2" id="cards2"></div>
     <p class="aviso" id="guardaaviso" hidden>Este navegador no deja guardar tu avance (¿modo privado?). Ábrelo en una ventana normal para no perderlo.</p>
@@ -130,6 +131,108 @@
     <div class="atfb" id="at-fb" role="status">Toca + y − para agregar o quitar partículas.</div>
     <button class="cta" id="at-check">Comprobar</button>
     <button class="cta" id="at-next" hidden>Siguiente átomo</button>
+  </section>
+
+  <!-- Plato del Bien Comer (Biología) -->
+  <section class="view" id="v-plato" aria-label="Plato del Bien Comer">
+    <div class="qhead"><button class="link" id="pl-exit" style="margin:0;min-height:36px;font-size:.85rem">Salir</button><span class="pr"><i id="pl-pr"></i></span><span class="cnt" id="pl-cnt"></span></div>
+    <div class="qtag" id="pl-tag"></div>
+    <div class="plcard" id="pl-card"></div>
+    <div class="qtext" id="pl-q" style="font-size:1.05rem;text-align:center"></div>
+    <div class="plbins" id="pl-bins"></div>
+    <div class="fb" id="pl-fb" hidden role="status"></div>
+    <button class="cta" id="pl-next" hidden>Siguiente</button>
+  </section>
+
+  <!-- Convierte la unidad (Física) -->
+  <section class="view" id="v-conv" aria-label="Convierte la unidad">
+    <div class="qhead"><button class="link" id="conv-exit" style="margin:0;min-height:36px;font-size:.85rem">Salir</button><span class="pr"><i id="conv-pr"></i></span><span class="cnt" id="conv-cnt"></span></div>
+    <div class="qtag" id="conv-tag"></div>
+    <div class="plcard" id="conv-card"></div>
+    <div class="qtext" id="conv-q" style="font-size:1.05rem;text-align:center"></div>
+    <div class="plbins" id="conv-bins"></div>
+    <div class="fb" id="conv-fb" hidden role="status"></div>
+    <button class="cta" id="conv-next" hidden>Siguiente</button>
+  </section>
+
+  <!-- Cambios de estado (Física) -->
+  <section class="view" id="v-est" aria-label="Cambios de estado">
+    <div class="qhead"><button class="link" id="est-exit" style="margin:0;min-height:36px;font-size:.85rem">Salir</button><span class="pr"><i id="est-pr"></i></span><span class="cnt" id="est-cnt"></span></div>
+    <div class="qtag" id="est-tag"></div>
+    <div class="plcard" id="est-card"></div>
+    <div class="qtext" id="est-q" style="font-size:1.05rem;text-align:center"></div>
+    <div class="plbins" id="est-bins"></div>
+    <div class="fb" id="est-fb" hidden role="status"></div>
+    <button class="cta" id="est-next" hidden>Siguiente</button>
+  </section>
+
+  <!-- Línea del tiempo del átomo (Física) -->
+  <section class="view" id="v-tl" aria-label="Línea del tiempo del átomo">
+    <div class="qhead"><button class="link" id="tl-exit" style="margin:0;min-height:36px;font-size:.85rem">Salir</button><span class="pr"><i id="tl-pr"></i></span><span class="cnt" id="tl-cnt"></span></div>
+    <div class="qtag" id="tl-tag">Toca al científico más antiguo que falte</div>
+    <ol class="tline" id="tl-line"></ol>
+    <div class="fb" id="tl-fb" hidden role="status"></div>
+    <div class="tlhand" id="tl-hand"></div>
+  </section>
+
+  <!-- Alimentar arrastrando (idea 3) -->
+  <section class="view" id="v-dar" aria-label="Alimenta a tu mascota">
+    <div class="qhead"><button class="link" id="dar-exit" style="margin:0;min-height:36px;font-size:.85rem">Salir</button><span class="pr"><i id="dar-pr"></i></span><span class="cnt" id="dar-cnt"></span></div>
+    <div class="qtag" id="dar-tag"></div>
+    <div class="qtext" id="dar-q"></div>
+    <p class="darhint" id="dar-hint">Arrastra la respuesta hasta la boca de tu mascota (o tócala).</p>
+    <div class="darfoods" id="dar-foods"></div>
+    <div class="fb" id="dar-fb" hidden role="status"></div>
+    <button class="cta" id="dar-next" hidden>Siguiente</button>
+  </section>
+
+  <!-- Mini laboratorio (idea 4) -->
+  <section class="view" id="v-lab" aria-label="Mini laboratorio">
+    <div class="qhead"><button class="link" id="lab-exit" style="margin:0;min-height:36px;font-size:.85rem">Salir</button><span class="cnt" id="lab-tit"></span></div>
+    <div class="labbox" id="lab-box"></div>
+  </section>
+
+  <!-- Álbum de cartas (idea 5) -->
+  <section class="view" id="v-album" aria-label="Álbum de cartas">
+    <div class="h1" id="al-t">Álbum</div>
+    <p class="p" id="al-sub"></p>
+    <div class="albgrid" id="al-grid"></div>
+    <button class="link" id="al-back" style="align-self:center">Volver</button>
+  </section>
+
+  <!-- Neurona y sinapsis (Biología) -->
+  <section class="view" id="v-neuro" aria-label="Neurona y sinapsis">
+    <div class="qhead"><button class="link" id="nu-exit" style="margin:0;min-height:36px;font-size:.85rem">Salir</button><span class="pr"><i id="nu-pr"></i></span><span class="cnt" id="nu-cnt"></span></div>
+    <div class="qtag" id="nu-tag"></div>
+    <div class="qtext" id="nu-q" style="font-size:1.05rem"></div>
+    <svg class="nusvg" id="nu-svg" viewBox="0 0 320 170" role="group" aria-label="Dibujo de una neurona"></svg>
+    <div class="opts" id="nu-opts"></div>
+    <div class="fb" id="nu-fb" hidden role="status"></div>
+    <button class="cta" id="nu-next" hidden>Siguiente</button>
+  </section>
+
+  <!-- Separar la mezcla (Química) -->
+  <section class="view" id="v-sep" aria-label="Separar la mezcla">
+    <div class="qhead"><button class="link" id="sp-exit" style="margin:0;min-height:36px;font-size:.85rem">Salir</button><span class="pr"><i id="sp-pr"></i></span><span class="cnt" id="sp-cnt"></span></div>
+    <div class="qtag" id="sp-tag"></div>
+    <svg class="spsvg" id="sp-svg" viewBox="0 0 200 120" role="img" aria-label="Dibujo de la mezcla"></svg>
+    <div class="qtext" id="sp-q" style="font-size:1.1rem;text-align:center"></div>
+    <div class="opts" id="sp-opts"></div>
+    <div class="fb" id="sp-fb" hidden role="status"></div>
+    <button class="cta" id="sp-next" hidden>Siguiente</button>
+  </section>
+
+  <!-- Preparar la disolución (Química) -->
+  <section class="view" id="v-dis" aria-label="Preparar la disolución">
+    <div class="qhead"><button class="link" id="ds-exit" style="margin:0;min-height:36px;font-size:.85rem">Salir</button><span class="pr"><i id="ds-pr"></i></span><span class="cnt" id="ds-cnt"></span></div>
+    <div class="task" id="ds-task"></div>
+    <svg class="dssvg" id="ds-svg" viewBox="0 0 200 130" role="img" aria-label="Vaso con la disolución que preparas"></svg>
+    <div class="parts" id="ds-parts"></div>
+    <div class="chg" id="ds-tot"></div>
+    <div class="atfb" id="ds-fb" role="status">Mueve las barras o toca + y − para preparar la disolución.</div>
+    <button class="cta sec" id="ds-hint" type="button">Ver la fórmula</button>
+    <button class="cta" id="ds-check">Comprobar</button>
+    <button class="cta" id="ds-next" hidden>Siguiente</button>
   </section>
 
   <!-- Lluvia de respuestas -->
@@ -211,52 +314,76 @@
 
   <!-- Ajustes -->
   <section class="view" id="v-set" aria-label="Ajustes">
-    <div class="h1">Ajustes</div>
-    <div class="row2"><span>Sonidos<small>Efectos suaves al acertar</small></span><button class="tog" id="t-snd" role="switch" aria-checked="true" aria-label="Sonidos"></button></div>
-    <div class="row2"><span>Vibración<small>Solo en celulares que la tengan</small></span><button class="tog" id="t-vib" role="switch" aria-checked="true" aria-label="Vibración"></button></div>
-    <div class="row2"><span>Menos movimiento<small>Quita animaciones y confeti</small></span><button class="tog" id="t-mov" role="switch" aria-checked="false" aria-label="Menos movimiento"></button></div>
-    <div class="row2"><span>Preguntar cuánta seguridad tengo<small>Antes de ver si acertaste: lo sé, dudo o adiviné</small></span><button class="tog" id="t-conf" role="switch" aria-checked="true" aria-label="Preguntar cuánta seguridad tengo"></button></div>
-    <div class="row2"><span>Letra grande<small>Textos un poco más grandes</small></span><button class="tog" id="t-big" role="switch" aria-checked="false" aria-label="Letra grande"></button></div>
-
-    <div class="seglbl" id="th-lbl">Tema</div>
-    <div class="seg" role="radiogroup" aria-labelledby="th-lbl"><button id="th-auto" role="radio" aria-checked="true">Automático</button><button id="th-neutro" role="radio" aria-checked="false">Neutro (crema)</button><button id="th-claro" role="radio" aria-checked="false">Claro</button><button id="th-noche" role="radio" aria-checked="false">Noche</button></div>
-    <p class="hint" id="th-hint" style="margin:2px 18px 10px;text-align:left"></p>
-
-    <div class="sub" style="margin-top:14px">Accesibilidad</div>
-    <div class="row2"><span>Alto contraste<small>Colores más fuertes y bordes marcados</small></span><button class="tog" id="t-contraste" role="switch" aria-checked="false" aria-label="Alto contraste"></button></div>
-    <div class="seglbl" id="f-lbl">Tipo de letra</div>
-    <div class="seg seg3" role="radiogroup" aria-labelledby="f-lbl"><button id="f-normal" role="radio" aria-checked="true">Normal</button><button id="f-facil" role="radio" aria-checked="false">Fácil de leer</button><button id="f-dis" role="radio" aria-checked="false">Dislexia</button></div>
-    <p class="hint" id="f-hint" style="margin:8px 6px 12px;text-align:left"><b>Fácil de leer:</b> letras muy distintas entre sí (ayuda a cansarse menos al leer). <b>Dislexia:</b> letras con base más pesada para que no "bailen". Prueba las dos y quédate con la que te resulte más cómoda.</p>
-    <div class="row2"><span>Leer preguntas en voz alta<small>Las lee solas al aparecer; también hay un botón para escucharlas</small></span><button class="tog" id="t-voz" role="switch" aria-checked="false" aria-label="Leer preguntas en voz alta"></button></div>
-    <p class="hint" id="voz-nota" hidden style="margin:-2px 18px 4px;text-align:left">Este dispositivo no tiene una voz en español instalada, así que la lectura en voz alta no está disponible.</p>
-    <div class="row2"><span>Juegos tranquilos<small>Lluvia y vasos van más lento y se juegan tocando</small></span><button class="tog" id="t-lento" role="switch" aria-checked="false" aria-label="Juegos tranquilos"></button></div>
-    <div class="row2"><span>Elegir en vez de escribir<small>En "Explícalo con tus palabras" eliges ideas en lugar de teclear</small></span><button class="tog" id="t-elegir" role="switch" aria-checked="false" aria-label="Elegir en vez de escribir"></button></div>
-    <div class="row2"><span>Dibujos en las preguntas<small>Pequeñas ilustraciones que ayudan a entender</small></span><button class="tog" id="t-dib" role="switch" aria-checked="false" aria-label="Dibujos en las preguntas"></button></div>
+    <div class="sethero"><span class="setg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></span><div class="h1">Ajustes</div><p>Haz Citlalab a tu medida</p></div>
+    <section class="setc">
+      <div class="setc-h"><span class="setc-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg></span><span><b>Sonido y movimiento</b><small>Cómo se oye y se mueve la app</small></span></div>
+      <div class="row2"><span>Sonidos<small>Efectos suaves al acertar y al comer</small></span><button class="tog" id="t-snd" role="switch" aria-checked="false" aria-label="Sonidos"></button></div>
+      <div class="row2"><span>Vibración<small>Solo en celulares que la tengan</small></span><button class="tog" id="t-vib" role="switch" aria-checked="false" aria-label="Vibración"></button></div>
+      <div class="row2"><span>Menos movimiento<small>Quita animaciones y confeti</small></span><button class="tog" id="t-mov" role="switch" aria-checked="false" aria-label="Menos movimiento"></button></div>
+    </section>
+    <section class="setc">
+      <div class="setc-h"><span class="setc-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2V16h5v-.1c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z"/></svg></span><span><b>Cuando repaso</b><small>Cómo quieres que sean las preguntas</small></span></div>
+      <div class="row2"><span>Preguntar cuánta seguridad tengo<small>Antes de ver si acertaste: lo sé, dudo o adiviné</small></span><button class="tog" id="t-conf" role="switch" aria-checked="false" aria-label="Preguntar cuánta seguridad tengo"></button></div>
+      <div class="row2"><span>Juegos tranquilos<small>Lluvia y vasos van más lento y se juegan tocando</small></span><button class="tog" id="t-lento" role="switch" aria-checked="false" aria-label="Juegos tranquilos"></button></div>
+      <div class="row2"><span>Elegir en vez de escribir<small>En "Explícalo con tus palabras" eliges ideas en lugar de teclear</small></span><button class="tog" id="t-elegir" role="switch" aria-checked="false" aria-label="Elegir en vez de escribir"></button></div>
+      <div class="row2"><span>Dibujos en las preguntas<small>Pequeñas ilustraciones que ayudan a entender</small></span><button class="tog" id="t-dib" role="switch" aria-checked="false" aria-label="Dibujos en las preguntas"></button></div>
+    </section>
+    <section class="setc">
+      <div class="setc-h"><span class="setc-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="13.5" cy="6.5" r="1.5"/><circle cx="17.5" cy="10.5" r="1.5"/><circle cx="8.5" cy="7.5" r="1.5"/><circle cx="6.5" cy="12.5" r="1.5"/><path d="M12 22a10 10 0 1 1 10-10c0 2.8-2.2 3.5-4 3.5h-1.8a2 2 0 0 0-1.4 3.4c.6.8.2 3.1-2.8 3.1z"/></svg></span><span><b>Cómo se ve</b><small>Tema y letra</small></span></div>
+      <div class="seglbl" id="th-lbl">Tema</div>
+      <div class="temas" role="radiogroup" aria-labelledby="th-lbl">
+        <button id="th-auto" role="radio" aria-checked="true"><i class="sw sw-auto"></i>Automático</button>
+        <button id="th-neutro" role="radio" aria-checked="false"><i class="sw sw-neutro"></i>Crema</button>
+        <button id="th-claro" role="radio" aria-checked="false"><i class="sw sw-claro"></i>Claro</button>
+        <button id="th-noche" role="radio" aria-checked="false"><i class="sw sw-noche"></i>Noche</button>
+      </div>
+      <p class="hint" id="th-hint" style="margin:2px 16px 6px;text-align:left"></p>
+      <div class="seglbl" id="f-lbl">Tipo de letra</div>
+      <div class="temas t3" role="radiogroup" aria-labelledby="f-lbl">
+        <button id="f-normal" role="radio" aria-checked="true"><b class="fa fa-n">Aa</b>Normal</button>
+        <button id="f-facil" role="radio" aria-checked="false"><b class="fa fa-f">Aa</b>Fácil de leer</button>
+        <button id="f-dis" role="radio" aria-checked="false"><b class="fa fa-d">Aa</b>Dislexia</button>
+      </div>
+      <p class="hint" id="f-hint" style="margin:6px 16px 6px;text-align:left"><b>Fácil de leer:</b> letras muy distintas entre sí (ayuda a cansarse menos al leer). <b>Dislexia:</b> letras con base más pesada para que no "bailen". Prueba las dos y quédate con la que te resulte más cómoda.</p>
+      <div class="row2"><span>Letra grande<small>Textos un poco más grandes</small></span><button class="tog" id="t-big" role="switch" aria-checked="false" aria-label="Letra grande"></button></div>
+    </section>
+    <section class="setc">
+      <div class="setc-h"><span class="setc-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="4.5" r="2"/><path d="M5 8.5l7 1.5 7-1.5M12 10v5m0 0-3 6m3-6 3 6"/></svg></span><span><b>Accesibilidad</b><small>Para que todas y todos puedan usarla</small></span></div>
+      <div class="row2"><span>Alto contraste<small>Colores más fuertes y bordes marcados</small></span><button class="tog" id="t-contraste" role="switch" aria-checked="false" aria-label="Alto contraste"></button></div>
+      <div class="row2"><span>Leer preguntas en voz alta<small>Las lee solas al aparecer; también hay un botón para escucharlas</small></span><button class="tog" id="t-voz" role="switch" aria-checked="false" aria-label="Leer preguntas en voz alta"></button></div>
+      <p class="hint" id="voz-nota" hidden style="margin:-2px 16px 4px;text-align:left">Este dispositivo no tiene una voz en español instalada, así que la lectura en voz alta no está disponible.</p>
+    </section>
     <p class="aviso" id="set-aviso" hidden>Este navegador no deja guardar tu avance (¿modo privado?). Ábrelo en una ventana normal para no perderlo.</p>
-    <div class="sub">¿Quién está usando la app?</div>
-    <p class="p" style="text-align:left;margin-top:2px">Si compartes este celular o tablet con alguien más, cada quien puede tener su propio perfil con su avance, su mascota y su cuarto.</p>
-    <div class="perfiles" id="perfiles" role="group" aria-label="Perfiles de este dispositivo"></div>
-    <button class="cta sec" id="pf-nuevo">Agregar otro perfil</button>
-    <label class="lbl" for="al-nombre">Mi nombre (opcional)</label>
-    <input id="al-nombre" class="inp" maxlength="40" autocomplete="off" placeholder="Nombre y grupo, por ejemplo: Ana 2.º B">
-    <p class="aviso" id="and-aviso" hidden>Para no perder tu avance: abre la app en una pestaña normal (no de incógnito ni privada) y, en Chrome, toca el menú ⋮ y elige "Instalar app" o "Agregar a pantalla principal". También puedes guardar un archivo de respaldo.</p>
-    <p class="aviso" id="ios-aviso" hidden>En iPhone o iPad, Safari puede borrar el avance si no usas la app por varios días. Para evitarlo, toca el botón Compartir y elige "Agregar a pantalla de inicio". También puedes guardar tu código de respaldo.</p>
-    <div class="sub">Reporte para mi familia</div>
-    <p class="p" style="text-align:left;margin-top:2px">Copia este reporte y pásaselo a tu familia o tutores. Si tu docente lo solicita, ellos se lo mandan por WhatsApp. Solo incluye tu avance, nada más.</p>
-    <button class="cta sec" id="rs-copiar">Copiar mi reporte</button>
-    <textarea id="rs" rows="7" readonly aria-label="Reporte para mi familia" hidden></textarea>
-    <p class="hint" id="rs-msg" role="status"></p>
-    <div class="sub">Copia de seguridad</div>
-    <p class="p" style="text-align:left;margin-top:2px">Tu avance se guarda solo en este dispositivo y no se envía a ningún lado. Descarga un archivo para tenerlo a salvo, pasarlo a otro dispositivo o recuperarlo si se borra el navegador. Incluye a todos los perfiles de este dispositivo.</p>
-    <p class="hint" id="bk-ultimo" style="text-align:left;margin:0 18px 6px;min-height:0"></p>
-    <div class="frow"><button class="cta sec" id="bk-bajar">Descargar mi respaldo</button><button class="cta sec" id="bk-abrir">Restaurar desde archivo</button></div>
-    <input type="file" id="bk-arch" accept=".json,.txt,application/json,text/plain" hidden aria-label="Archivo de respaldo">
-    <div class="aviso" id="bk-conf" hidden role="alert"><span id="bk-conf-t"></span><div class="frow" style="margin:8px 0 0"><button class="cta" id="bk-si">Sí, restaurar</button><button class="cta sec" id="bk-no">No, cancelar</button></div></div>
-    <details id="bk-det" class="otra"><summary>Otra forma: copiar un código</summary>
-      <textarea id="bk" rows="3" aria-label="Código de respaldo" placeholder="Aquí aparece tu código. Para restaurar, pégalo aquí."></textarea>
-      <div class="frow"><button class="cta sec" id="bk-copiar">Copiar mi código</button><button class="cta sec" id="bk-restaurar">Restaurar con código</button></div>
-    </details>
-    <p class="hint" id="bk-msg" role="status"></p>
+    <section class="setc">
+      <div class="setc-h"><span class="setc-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3 20a6 6 0 0 1 12 0"/><path d="M16 5.2a3.2 3.2 0 0 1 0 5.6M18 14.3A6 6 0 0 1 21 20"/></svg></span><span><b>¿Quién usa la app?</b><small>Perfiles de este dispositivo</small></span></div>
+      <p class="p" style="text-align:left;margin:2px 16px 4px">Si compartes este celular o tablet con alguien más, cada quien puede tener su propio perfil con su avance, su mascota y su cuarto.</p>
+      <div class="perfiles" id="perfiles" role="group" aria-label="Perfiles de este dispositivo"></div>
+      <button class="cta sec" id="pf-nuevo">Agregar otro perfil</button>
+      <label class="lbl" for="al-nombre">Mi nombre (opcional)</label>
+      <input id="al-nombre" class="inp" maxlength="40" autocomplete="off" placeholder="Nombre y grupo, por ejemplo: Ana 2.º B">
+      <p class="aviso" id="and-aviso" hidden>Para no perder tu avance: abre la app en una pestaña normal (no de incógnito ni privada) y, en Chrome, toca el menú ⋮ y elige "Instalar app" o "Agregar a pantalla principal". También puedes guardar un archivo de respaldo.</p>
+      <p class="aviso" id="ios-aviso" hidden>En iPhone o iPad, Safari puede borrar el avance si no usas la app por varios días. Para evitarlo, toca el botón Compartir y elige "Agregar a pantalla de inicio". También puedes guardar tu código de respaldo.</p>
+    </section>
+    <section class="setc">
+      <div class="setc-h"><span class="setc-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9-9.3A4.8 4.8 0 0 1 12 7.4a4.8 4.8 0 0 1 9 3.8c-1.5 4.700-9 9.300-9 9.300z"/></svg></span><span><b>Reporte para mi familia</b><small>Solo incluye tu avance</small></span></div>
+      <p class="p" style="text-align:left;margin:2px 16px 4px">Copia este reporte y pásaselo a tu familia o tutores. Si tu docente lo solicita, ellos se lo mandan por WhatsApp. Solo incluye tu avance, nada más.</p>
+      <button class="cta sec" id="rs-copiar">Copiar mi reporte</button>
+      <textarea id="rs" rows="7" readonly aria-label="Reporte para mi familia" hidden></textarea>
+      <p class="hint" id="rs-msg" role="status"></p>
+    </section>
+    <section class="setc">
+      <div class="setc-h"><span class="setc-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 5 6v5c0 4.600 2.900 8.300 7 10 4.100-1.700 7-5.400 7-10V6z"/><path d="m9 12 2 2 4-4"/></svg></span><span><b>Copia de seguridad</b><small>Tu avance, a salvo</small></span></div>
+      <p class="p" style="text-align:left;margin:2px 16px 4px">Tu avance se guarda solo en este dispositivo y no se envía a ningún lado. Descarga un archivo para tenerlo a salvo, pasarlo a otro dispositivo o recuperarlo si se borra el navegador. Incluye a todos los perfiles de este dispositivo.</p>
+      <p class="hint" id="bk-ultimo" style="text-align:left;margin:0 18px 6px;min-height:0"></p>
+      <div class="frow"><button class="cta sec" id="bk-bajar">Descargar mi respaldo</button><button class="cta sec" id="bk-abrir">Restaurar desde archivo</button></div>
+      <input type="file" id="bk-arch" accept=".json,.txt,application/json,text/plain" hidden aria-label="Archivo de respaldo">
+      <div class="aviso" id="bk-conf" hidden role="alert"><span id="bk-conf-t"></span><div class="frow" style="margin:8px 0 0"><button class="cta" id="bk-si">Sí, restaurar</button><button class="cta sec" id="bk-no">No, cancelar</button></div></div>
+      <details id="bk-det" class="otra"><summary>Otra forma: copiar un código</summary>
+        <textarea id="bk" rows="3" aria-label="Código de respaldo" placeholder="Aquí aparece tu código. Para restaurar, pégalo aquí."></textarea>
+        <div class="frow"><button class="cta sec" id="bk-copiar">Copiar mi código</button><button class="cta sec" id="bk-restaurar">Restaurar con código</button></div>
+      </details>
+      <p class="hint" id="bk-msg" role="status"></p>
+    </section>
     <details class="otra" id="fam-det"><summary>Información para familias</summary>
       <p class="p" style="text-align:left;margin-top:8px"><b>Qué guarda la app:</b> el nombre que se escriba (puede ser un apodo), la mascota y el avance de repaso. Todo se queda únicamente en este celular o tablet.</p>
       <p class="p" style="text-align:left"><b>Qué no hace:</b> no pide cuentas, correo, teléfono, ubicación, cámara ni micrófono, y no accede a tus fotos, videos ni archivos (solo guarda o lee el respaldo cuando tú lo pides y eliges el archivo); no tiene anuncios, compras, chats ni enlaces a otros sitios; no usa rastreadores y no envía tu información a ningún servidor. La página la aloja GitHub, que, como cualquier sitio web, puede registrar visitas técnicas (por ejemplo, la dirección IP), pero no ve nombres, avance ni mascotas.</p>
@@ -276,8 +403,10 @@
     <div class="qtag" id="q-tag"></div>
     <div class="qtext" id="q-text"></div>
     <div class="opts" id="q-opts"></div>
-    <div class="fb" id="q-fb" hidden role="status"></div>
-    <button class="cta" id="q-next" hidden>Siguiente</button>
+    <div class="qsheet" id="q-sheet">
+      <div class="fb" id="q-fb" hidden role="status"></div>
+      <button class="cta" id="q-next" hidden>Siguiente</button>
+    </div>
   </section>
 
   <!-- Resultado -->
@@ -291,10 +420,10 @@
 
   </main>
   <nav class="nav" id="nav" aria-label="Secciones">
-    <button data-v="home" aria-current="page">Inicio</button>
-    <button data-v="room">Cuarto</button>
-    <button data-v="custom">Personalizar</button>
-    <button data-v="prog">Progreso</button>
+    <button data-v="home" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11 12 4l8 7v8a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z"/></svg><span>Inicio</span></button>
+    <button data-v="room"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M4 14h16M9 14v6"/></svg><span>Cuarto</span></button>
+    <button data-v="custom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l1-4L16 5l3 3L8 19z"/><path d="M14 7l3 3"/></svg><span>Personalizar</span></button>
+    <button data-v="prog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 20V11M12 20V5M18 20v-6"/></svg><span>Progreso</span></button>
   </nav>
 
   <div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Cofre diario"><div class="mbox" id="mbox"></div></div>
@@ -310,6 +439,11 @@
 <script src="js/app.js"></script>
 <script src="js/lectura.js"></script>
 <script src="js/extras.js"></script>
+<script src="js/juegos2.js"></script>
+<script src="js/juegos3.js"></script>
+<script src="js/mascota_viva.js"></script>
+<script src="js/juegos4.js"></script>
+<script src="js/album.js"></script>
 <script>
 arrancar();
 if ('serviceWorker' in navigator && location.protocol.indexOf('http') === 0) {
