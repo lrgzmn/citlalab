@@ -1285,17 +1285,18 @@ var ICO_CRED = {
   codigo: '<svg viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="6" width="26" height="20" rx="4" fill="#4a67ee"/><path d="M12 12l-4 4 4 4M20 12l4 4-4 4" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M17.5 11l-3 10" stroke="#ffd54a" stroke-width="2" stroke-linecap="round"/></svg>',
   estrella: '<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 4l3.6 7.6 8.2 1-6 5.7 1.6 8.2L16 22.4 8.6 26.5l1.6-8.2-6-5.7 8.2-1z" fill="#ffb830" stroke="#d68a00" stroke-width="1.5" stroke-linejoin="round"/></svg>'
 };
+function unir(l) { return l.length < 2 ? l.join('') : l.slice(0, -1).join(', ') + ' y ' + l[l.length - 1]; }
 function pintarCreditos() {
   var C = window.CREDITOS || {}, eq = (C.equipo || []).filter(function (p) { return p && p.nombre; });
-  var box = $('creditos'), fila = $('eq-fila'), t = $('eq-t'), q = $('quien-t');
-  if (box && fila) {
-    box.hidden = !eq.length; t.textContent = C.titulo || ''; fila.innerHTML = '';
-    eq.forEach(function (p) {
-      var r = el('div', 'eq-p'), ic = el('span', 'eq-ic'); ic.innerHTML = ICO_CRED[p.icono] || ICO_CRED.estrella;
-      var tx = el('span', 'eq-tx'); tx.appendChild(el('small', '', p.rol ? p.rol + ':' : '')); tx.appendChild(el('b', '', p.nombre));
-      r.appendChild(ic); r.appendChild(tx); fila.appendChild(r);
-    });
+  var btn = $('creditos'), q = $('quien-t'), pie = $('cr-pie'), vr = $('ver-app'); if (vr && typeof APP_VERSION !== 'undefined') vr.textContent = 'Citlalab · versión ' + APP_VERSION;
+  if (btn) {
+    btn.hidden = !eq.length; btn.innerHTML = '';
+    var ic = el('span', 'cr-mini'); ic.innerHTML = '<svg viewBox="0 0 44 16" aria-hidden="true"><line x1="9" y1="8" x2="35" y2="8" stroke="currentColor" stroke-width="1.4" stroke-dasharray="1.5 3" stroke-linecap="round"/><path d="M8 1 L9.800 6.200 L15 8 L9.800 9.800 L8 15 L6.200 9.800 L1 8 L6.200 6.200 Z" fill="#ffb830"/><path d="M36 1 L37.800 6.200 L43 8 L37.800 9.800 L36 15 L34.200 9.800 L29 8 L34.200 6.200 Z" fill="#ffb830"/></svg>';
+    var tx = el('span', 'cr-tx'); tx.appendChild(document.createTextNode((C.titulo || '').replace(/…$/, '') + ' '));
+    eq.forEach(function (p, i) { var b = el('b', '', p.nombre); tx.appendChild(b); if (p.corto) tx.appendChild(document.createTextNode(' (' + p.corto + ')')); if (i < eq.length - 2) tx.appendChild(document.createTextNode(', ')); else if (i === eq.length - 2) tx.appendChild(document.createTextNode(' y ')); });
+    btn.appendChild(ic); btn.appendChild(tx); btn.appendChild(el('span', 'cr-ch', '›')); btn.setAttribute('aria-label', 'Quiénes hicimos Citlalab: abrir');
   }
+  if (pie) { pie.hidden = !eq.length; pie.textContent = eq.length ? (C.titulo || '').replace(/…$/, '') + ' ' + unir(eq.map(function (p) { return p.nombre.split(' ')[0]; })) : ''; }
   if (q) {
     var partes = eq.map(function (p) { return (p.rol ? p.rol + ': ' : '') + (p.familias || p.nombre) + '.'; });
     q.textContent = eq.length ? partes.join(' ') + ' La app se hizo para el repaso de sus estudiantes.' : '';

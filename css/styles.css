@@ -896,3 +896,6 @@ html[data-tema=noche] .metacard.listo{background:linear-gradient(180deg,var(--su
 .cr-cap{padding:12px 14px 14px;text-align:center}.cr-cap h3{margin:0 0 8px;font-size:.9rem;font-weight:900;color:var(--brand-d)}.cr-cap p{margin:8px 0 0;font-size:.8rem;color:var(--soft);min-height:1.2em}
 .cr-dos{display:flex;gap:8px;justify-content:center}.cr-dos>div{flex:1 1 0;background:var(--surf);border:1px solid var(--brand-line);border-radius:12px;padding:8px 6px;text-align:center}
 .cr-dos small{display:block;font-size:.7rem;color:var(--soft);font-weight:700}.cr-dos b{display:block;font-size:1rem;color:var(--ink)}
+
+.upd{position:fixed;z-index:95;left:12px;right:12px;bottom:78px;display:flex;align-items:center;gap:10px;justify-content:space-between;padding:10px 12px;border-radius:14px;background:var(--ink);color:var(--surf);font-size:.85rem;box-shadow:0 8px 24px rgba(20,30,60,.3)}
+.upd button{min-height:40px;padding:4px 14px;border:0;border-radius:999px;background:var(--surf);color:var(--ink);font:inherit;font-weight:800;cursor:pointer}

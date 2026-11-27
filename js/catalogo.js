@@ -97,9 +97,12 @@ function cofrePool(mat) {
   return r;
 }
 
+var APP_VERSION = '9-14';   /* debe coincidir con VERSION de sw.js; se muestra en Ajustes para saber qué versión se está usando */
+
 /* CRÉDITOS (se editan aquí, en un solo lugar).
    equipo: una persona por renglón, en el orden en que aparecen.
-     rol     = lo que hizo (se muestra tal cual)
+     rol     = lo que hizo, en formal (sale en "Información para familias")
+     corto   = lo que hizo, en dos o tres palabras (sale en la tarjeta de Ajustes y bajo cada estrella)
      nombre  = cómo quiere aparecer (el nombre que ella o él elija)
      icono   = 'idea' | 'codigo' | 'estrella'
      familias = texto más completo que sale en "Información para familias" (opcional)
@@ -107,7 +110,7 @@ function cofrePool(mat) {
 var CREDITOS = {
   titulo: 'Hecho en el laboratorio por…',
   equipo: [
-    { rol: 'Idea y concepto', nombre: 'Soff Escalante', icono: 'idea', familias: 'Soff Escalante, biotecnóloga' },
-    { rol: 'Desarrollo', nombre: 'Uriel Lara', icono: 'codigo', familias: 'Uriel Lara Guzmán, docente de Ciencias' }
+    { rol: 'Idea y concepto', corto: 'la idea', nombre: 'Soff Escalante', icono: 'idea', familias: 'Soff Escalante, biotecnóloga' },
+    { rol: 'Desarrollo', corto: 'el código', nombre: 'Uriel Lara', icono: 'codigo', familias: 'Uriel Lara Guzmán, docente de Ciencias' }
   ]
 };

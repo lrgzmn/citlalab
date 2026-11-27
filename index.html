@@ -70,6 +70,7 @@
     <div class="cards2" id="cards2"></div>
     <p class="aviso" id="guardaaviso" hidden>Este navegador no deja guardar tu avance (¿modo privado?). Ábrelo en una ventana normal para no perderlo.</p>
     <p class="safe">Sin cuentas, sin anuncios, sin compras y sin internet. Tu avance se guarda solo en este dispositivo.</p>
+    <button type="button" class="cr-pie" id="cr-pie" hidden></button>
   </section>
 
   <!-- Juegos -->
@@ -398,7 +399,8 @@
     </details>
     <button class="cta danger" id="bk-borrar">Borrar mi progreso</button>
     <p class="safe">Esta app no tiene cuentas, anuncios ni compras. Tu mascota nunca se enferma ni muere: si pasan días, solo te espera.</p>
-    <section class="equipo creditos" id="creditos" aria-labelledby="eq-t"><h3 id="eq-t"></h3><div class="eq-fila" id="eq-fila"></div></section>
+    <button type="button" class="creditos-btn" id="creditos" hidden></button>
+    <p class="hint" id="ver-app" style="text-align:center;margin:0 18px 8px"></p>
     <button class="cta sec" id="set-back">Volver</button>
   </section>
 
@@ -489,6 +491,14 @@
     <button class="cta sec" id="cg-back" type="button">Volver al banco del grupo</button>
   </section>
 
+  <!-- Quiénes hicimos Citlalab -->
+  <section class="view" id="v-cred" aria-label="Quiénes hicimos Citlalab">
+    <div class="h1">Quiénes hicimos Citlalab</div>
+    <div class="cr-cielo" id="cr-host"></div>
+    <p class="p" id="cr-fam" style="margin-top:12px"></p>
+    <button class="cta sec" id="cr-back" type="button">Volver</button>
+  </section>
+
   <!-- Recorrido de bienvenida -->
   <section class="view" id="v-tour" aria-label="Recorrido de bienvenida">
     <div class="tour-art" id="tour-art"></div>
@@ -551,10 +561,20 @@
 <script src="js/cielo.js"></script>
 <script src="js/grupo.js"></script>
 <script src="js/recorrido.js"></script>
+<script src="js/creditos.js"></script>
 <script>
 arrancar();
 if ('serviceWorker' in navigator && location.protocol.indexOf('http') === 0) {
+  var teniaSW = !!navigator.serviceWorker.controller;
   navigator.serviceWorker.register('sw.js').catch(function () {});
+  /* cuando llega una versión nueva, se avisa con calma y se actualiza solo si la persona lo decide (así no se interrumpe un repaso) */
+  navigator.serviceWorker.addEventListener('controllerchange', function () {
+    if (!teniaSW || document.getElementById('upd')) return;
+    var d = document.createElement('div'); d.id = 'upd'; d.className = 'upd'; d.setAttribute('role', 'status');
+    var s = document.createElement('span'); s.textContent = 'Hay una versión nueva de Citlalab.'; d.appendChild(s);
+    var b = document.createElement('button'); b.type = 'button'; b.textContent = 'Actualizar'; b.onclick = function () { location.reload(); }; d.appendChild(b);
+    document.body.appendChild(d);
+  });
 }
 </script>
 </body>
