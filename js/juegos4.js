@@ -78,11 +78,12 @@ function darDa(f) {
     setTimeout(function () { setMouth('smile'); SFX.nam2(); var ch = el('div', 'chomp', '¡ñam!'); $('stage').appendChild(ch); setTimeout(function () { ch.remove(); }, 1000); }, 380);
     setTimeout(function () { f.hidden = true; darResuelve(q, !dar.fall); }, 700);
   } else {
-    dar.fall++; f.classList.add('bad', 'rech'); f.style.transform = ''; f.disabled = true; setMouth('wow'); SFX.no(); vibra(30); anim('squish');
+    dar.fall++; museoError(q, f.lastChild.textContent); f.classList.add('bad', 'rech'); f.style.transform = ''; f.disabled = true; setMouth('wow'); SFX.no(); vibra(30); anim('squish');
     say(cur().name + ': ¡Puaj! Eso no es. Prueba con otra.'); setTimeout(function () { setMouth('smile'); }, 700);
   }
 }
 function darResuelve(q, primera) {
+  if (primera) museoAcierto(q);
   var s = cur(), got = registrar(q, primera, PTS.acierto, undefined);
   if (primera) { dar.ok++; var x = premio2('dar|' + q.id, PTS.dar); dar.xp += x + got; flotar('+' + (x + got) + ' XP'); confeti(18); SFX.ok(); reaccion(); }
   cierra2(); renderPet();

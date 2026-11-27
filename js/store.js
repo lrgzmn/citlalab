@@ -27,7 +27,7 @@ function nuevoMat(id, g) {
   return { name: m.names[g] || m.names.n, gender: g, color: m.col, ojos: 'redondos', ropa: [], pared: 'cielo',
     decor: { A: null, B: null, C: null, D: null }, xp: 0, vis: 0, hamb: 75, feli: 75, t: Date.now(),
     box: {}, ult: {}, n: 0, c: 0, tm: {}, qs: {}, hab: {}, lect: {}, jefes: {}, cofre: { dia: '', ganados: [] }, desb: {}, nuevos: {},
-    due: {}, prim: {}, xpd: { d: '', n: 0 }, cal: { s: [0, 0], d: [0, 0], a: [0, 0] }, sf: {}, ruta: { d: '', veces: 0 }, sellos: {} };
+    due: {}, prim: {}, xpd: { d: '', n: 0 }, cal: { s: [0, 0], d: [0, 0], a: [0, 0] }, sf: {}, ruta: { d: '', veces: 0 }, sellos: {}, err: {} };
 }
 function normalizar(s) {
   if (!s || typeof s !== 'object' || s.v !== 1) s = { v: 1, genero: null, activa: 'fisica', racha: 0, ultimo: '', dias: [], cfg: {}, m: {} };
@@ -35,6 +35,8 @@ function normalizar(s) {
   s.cfg = Object.assign({ snd: true, vib: true, mov: reduce, grande: false, conf: true, contraste: false, fuente: 'normal', tema: 'auto', voz: false, lento: false, elegir: false, dib: true }, s.cfg || {});
   if (['normal', 'facil', 'dislexia'].indexOf(s.cfg.fuente) < 0) s.cfg.fuente = 'normal';
   if (['auto', 'neutro', 'claro', 'noche'].indexOf(s.cfg.tema) < 0) s.cfg.tema = 'auto';   /* si el dispositivo pide menos movimiento, se respeta desde el inicio */
+  var bb = (s.banco && typeof s.banco === 'object') ? s.banco : {};
+  s.banco = { id: typeof bb.id === 'string' ? bb.id.slice(0, 8) : '', mias: Array.isArray(bb.mias) ? bb.mias.slice(0, 60) : [], grupo: Array.isArray(bb.grupo) ? bb.grupo.slice(0, 120) : [], cielos: (bb.cielos && typeof bb.cielos === 'object' && !Array.isArray(bb.cielos)) ? bb.cielos : {}, sem: (bb.sem && typeof bb.sem === 'object' && typeof bb.sem.k === 'string' && bb.sem.s && typeof bb.sem.s === 'object') ? { k: bb.sem.k.slice(0, 8), s: bb.sem.s, fest: typeof bb.sem.fest === 'string' ? bb.sem.fest.slice(0, 8) : '' } : { k: '', s: {}, fest: '' } };
   s.dias = s.dias || []; s.m = s.m || {}; s.alumno = typeof s.alumno === 'string' ? s.alumno : '';
   ORDEN.forEach(function (id) {
     if (!s.m[id]) return;
@@ -45,7 +47,7 @@ function normalizar(s) {
       if (x.decor[k] && (!it || (it.mat !== 'todas' && it.mat !== id))) x.decor[k] = null;
     });
     x.cofre = Object.assign({ dia: '', ganados: [] }, x.cofre);
-    x.box = x.box || {}; x.ult = x.ult || {}; x.tm = x.tm || {}; x.qs = x.qs || {}; x.hab = x.hab || {}; x.lect = x.lect || {}; x.due = x.due || {}; x.prim = x.prim || {}; x.xpd = Object.assign({ d: '', n: 0 }, x.xpd || {}); x.sf = x.sf || {}; x.sellos = (x.sellos && typeof x.sellos === 'object') ? x.sellos : {}; x.cal = Object.assign({ s: [0, 0], d: [0, 0], a: [0, 0] }, x.cal || {}); x.ruta = Object.assign({ d: '', veces: 0 }, x.ruta || {}); x.n = x.n || 0; x.c = x.c || 0; x.jefes = x.jefes || {}; x.desb = x.desb || {}; x.nuevos = x.nuevos || {};
+    x.box = x.box || {}; x.ult = x.ult || {}; x.tm = x.tm || {}; x.qs = x.qs || {}; x.hab = x.hab || {}; x.lect = x.lect || {}; x.due = x.due || {}; x.prim = x.prim || {}; x.xpd = Object.assign({ d: '', n: 0 }, x.xpd || {}); x.sf = x.sf || {}; x.err = (x.err && typeof x.err === 'object') ? x.err : {}; x.sellos = (x.sellos && typeof x.sellos === 'object') ? x.sellos : {}; x.cal = Object.assign({ s: [0, 0], d: [0, 0], a: [0, 0] }, x.cal || {}); x.ruta = Object.assign({ d: '', veces: 0 }, x.ruta || {}); x.n = x.n || 0; x.c = x.c || 0; x.jefes = x.jefes || {}; x.desb = x.desb || {}; x.nuevos = x.nuevos || {};
     s.m[id] = x;
   });
   if (ORDEN.indexOf(s.activa) < 0) s.activa = 'fisica';

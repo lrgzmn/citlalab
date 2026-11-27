@@ -212,17 +212,40 @@ function cuartoCol(w){
   return {a:mezclaHex(w.a,N,.8),b:mezclaHex(w.b,N,.74),d:mezclaHex(w.d,N,.55),zoc:'#2d3566',zoc2:'#4a548a',piso:'#2e2746',piso2:'#262040',linea:'#3a3258',al1:mezclaHex(B,N,.55),al2:mezclaHex(B,N,.35),alop:1,hal:mezclaHex(B,'#ffffff',.3),halop:.3,band:[mezclaHex(B,N,.3),'#c9a63a',mezclaHex(B,N,.5),'#b04b72']};
 }
 
-/* Ventana del cuarto: el cielo cambia con la hora real (día, tarde, noche) */
+/* Ventana del cuarto: muestra el cielo de la hora real (día, atardecer, noche) y, de noche, la luna de hoy con su fase.
+   Ocupa la esquina superior derecha: ese lugar queda reservado para ella. Los demás lugares son de los objetos que el alumno gana. */
 function ventanaMk(){
-  var h=new Date().getHours(), noche=temaNoche()||h>=20||h<6, tarde=!noche&&h>=18, x=128, y=12, w=36, hh=34;
-  var c1=noche?'#1c2350':tarde?'#ffb36b':'#8fd3ff', c2=noche?'#3b3f86':tarde?'#ffd8a0':'#d8f1ff';
-  var d='<defs><linearGradient id="gCielo" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="'+c1+'"/><stop offset="1" stop-color="'+c2+'"/></linearGradient><clipPath id="cpVent"><rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+hh+'" rx="4"/></clipPath></defs>';
-  var s='<g clip-path="url(#cpVent)"><rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+hh+'" fill="url(#gCielo)"/>';
-  if(noche) s+='<circle cx="'+(x+24)+'" cy="'+(y+11)+'" r="6" fill="#fff6c9"/><circle cx="'+(x+27)+'" cy="'+(y+9)+'" r="5.2" fill="#2a3070"/><circle cx="'+(x+8)+'" cy="'+(y+8)+'" r="1" fill="#fff"/><circle cx="'+(x+14)+'" cy="'+(y+20)+'" r="1.2" fill="#fff"/><circle cx="'+(x+28)+'" cy="'+(y+24)+'" r=".9" fill="#fff"/><circle cx="'+(x+6)+'" cy="'+(y+26)+'" r=".9" fill="#fff"/>';
-  else s+='<circle cx="'+(x+(tarde?12:25))+'" cy="'+(y+(tarde?24:10))+'" r="'+(tarde?7:6)+'" fill="'+(tarde?'#ff8a3d':'#ffd84d')+'"/><ellipse cx="'+(x+14)+'" cy="'+(y+(tarde?12:20))+'" rx="8" ry="3.4" fill="#fff" opacity=".9"/><ellipse cx="'+(x+20)+'" cy="'+(y+(tarde?10:18))+'" rx="6" ry="3" fill="#fff" opacity=".9"/>';
-  s+='<rect x="'+x+'" y="'+(y+hh-7)+'" width="'+w+'" height="7" fill="'+(noche?'#20304a':'#6dbb7a')+'" opacity=".9"/></g>';
-  s+='<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+hh+'" rx="4" fill="none" stroke="#fff" stroke-width="3"/><rect x="'+(x-1.5)+'" y="'+(y-1.5)+'" width="'+(w+3)+'" height="'+(hh+3)+'" rx="5" fill="none" stroke="#c8a165" stroke-width="1.6"/><path d="M'+(x+w/2)+' '+y+' V'+(y+hh)+' M'+x+' '+(y+hh/2)+' H'+(x+w)+'" stroke="#fff" stroke-width="2"/>';
+  var h=new Date().getHours(), noche=temaNoche()||h>=20||h<6, tarde=!noche&&h>=18, x=136, y=26, w=52, hh=48, i;
+  var c1=noche?'#232a63':tarde?'#f2a77d':'#9fd6f5', c2=noche?'#4a4f94':tarde?'#f7d9b0':'#e3f3fb';
+  var arco='M'+x+' '+(y+hh)+' V'+(y+14)+' Q'+x+' '+y+' '+(x+14)+' '+y+' H'+(x+w-14)+' Q'+(x+w)+' '+y+' '+(x+w)+' '+(y+14)+' V'+(y+hh)+' Z';
+  var d='<defs><linearGradient id="gCielo" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="'+c1+'"/><stop offset="1" stop-color="'+c2+'"/></linearGradient><clipPath id="cpVent"><path d="'+arco+'"/></clipPath></defs>';
+  var s='<path d="'+arco+'" fill="#fff" stroke="#cdb48a" stroke-width="4"/><g clip-path="url(#cpVent)"><rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+hh+'" fill="url(#gCielo)"/>';
+  if(noche){
+    [[8,12],[18,24],[40,28],[12,36],[33,14]].forEach(function(p,k){ s+='<circle class="rm-tw" style="animation-delay:-'+(k*.7)+'s" cx="'+(x+p[0])+'" cy="'+(y+p[1])+'" r="'+(k%2?.9:1.3)+'" fill="#fff6c9"/>'; });
+    var luna=(typeof lunaSVG==='function')?lunaSVG(lunaEdad(new Date()),10).replace('<svg viewBox','<svg x="'+(x+28)+'" y="'+(y+7)+'" width="15" height="15" viewBox'):'<circle cx="'+(x+35)+'" cy="'+(y+14)+'" r="6" fill="#fff6c9"/>';
+    s+=luna;
+  } else if(tarde) s+='<circle cx="'+(x+14)+'" cy="'+(y+32)+'" r="7" fill="#ff9a5c"/>';
+  else s+='<circle cx="'+(x+36)+'" cy="'+(y+12)+'" r="6.5" fill="#ffe27a"/><ellipse cx="'+(x+16)+'" cy="'+(y+24)+'" rx="9" ry="3.4" fill="#fff" opacity=".9"/>';
+  s+='<rect x="'+x+'" y="'+(y+hh-8)+'" width="'+w+'" height="8" fill="'+(noche?'#222b4d':'#8cc99a')+'"/><path d="M'+(x+w/2)+' '+y+' V'+(y+hh)+' M'+x+' '+(y+26)+' H'+(x+w)+'" stroke="#fff" stroke-width="2" opacity=".85"/></g>';
+  s+='<rect x="'+(x-4)+'" y="'+(y+hh)+'" width="'+(w+8)+'" height="5" rx="2.5" fill="#cdb48a"/>';
   return d+s;
+}
+/* Ambientación suave de cada materia. Solo aparece en los lugares A y D cuando el alumno todavía no puso ahí un objeto suyo. */
+function suave(c){ return mezclaHex(c,'#f3f0ea',.35); }
+function ambienteMk(mat,lugar){
+  var s='', i;
+  if(mat==='biologia'){
+    if(lugar==='A'){ for(i=0;i<2;i++){ var x0=8+i*14; s+='<path d="M'+x0+' -4 C '+(x0+7)+' 16, '+(x0-5)+' 30, '+(x0+3)+' '+(46+i*8)+'" stroke="'+suave('#3f9a5c')+'" stroke-width="2.2" fill="none" stroke-linecap="round"/>';
+        for(var j=0;j<3;j++){ var lx=x0+(j%2?6:-6), ly=14+j*11; s+='<ellipse cx="'+lx+'" cy="'+ly+'" rx="5.5" ry="2.8" fill="'+suave(j%2?'#5cc47f':'#3f9a5c')+'" transform="rotate('+(j%2?30:-30)+' '+lx+' '+ly+')"/>'; } } }
+    else s+='<rect x="176" y="128" width="42" height="30" rx="4" fill="#d8f1ff" fill-opacity=".5" stroke="#a9c7dc" stroke-width="1.8"/><path d="M186 158 V142 M197 158 V136 M208 158 V144" stroke="'+suave('#3f9a5c')+'" stroke-width="2.6" stroke-linecap="round"/><ellipse cx="186" cy="140" rx="5" ry="2.6" fill="'+suave('#5cc47f')+'"/><ellipse cx="197" cy="134" rx="6" ry="2.8" fill="'+suave('#3f9a5c')+'"/><ellipse cx="208" cy="142" rx="5" ry="2.6" fill="'+suave('#5cc47f')+'"/>';
+  } else if(mat==='fisica'){
+    if(lugar==='A') s+='<path d="M18 -4 H50" stroke="#a3abc8" stroke-width="2.4" stroke-linecap="round"/><g class="rm-sway"><path d="M34 -3 V38" stroke="#a3abc8" stroke-width="1.3"/><circle cx="34" cy="44" r="7" fill="'+suave('#6c8cff')+'"/><ellipse cx="32" cy="41.500" rx="2.200" ry="1.400" fill="#fff" opacity=".6"/></g>';
+    else s+='<path d="M180 158 L224 158 L224 136 Z" fill="'+suave('#ffb347')+'" stroke="#c9a86a" stroke-width="1.6" stroke-linejoin="round"/><circle cx="206" cy="141" r="5.500" fill="'+suave('#4a67ee')+'"/>';
+  } else {
+    if(lugar==='A') s+='<g transform="translate(-26,52)"><rect x="0" y="22" width="62" height="4" rx="2" fill="#cdb48a"/><path d="M10 22 V12 H19 V22 Z" fill="#fff" fill-opacity=".55" stroke="#aebfe4" stroke-width="1.5"/><rect x="11" y="16" width="7" height="6" fill="'+suave('#ff7a6b')+'"/><path d="M42 22 L36 4 H32 V-3 H48 V4 H44 L56 22 Z" fill="#fff" fill-opacity=".55" stroke="#aebfe4" stroke-width="1.5"/><path d="M40 18 L36 10 L50 10 L53 18 Z" fill="'+suave('#9a6cff')+'"/><circle class="rm-up" cx="40" cy="2" r="2.200" fill="#fff" opacity=".8"/></g>';
+    else s+='<path d="M180 158 Q180 142 202 142 Q224 142 224 158 Z" fill="'+suave('#b9a98f')+'" stroke="#a69a85" stroke-width="1.6"/><rect x="176" y="156" width="52" height="4" rx="2" fill="#a69a85"/><path d="M200 144 L222 124" stroke="#a69a85" stroke-width="5" stroke-linecap="round"/>';
+  }
+  return s;
 }
 function roomMk(s){
   var w=paredDe(s.pared), K=cuartoCol(w); w={a:K.a,b:K.b,d:K.d};
@@ -232,10 +255,6 @@ function roomMk(s){
     '<rect x="-300" y="-40" width="800" height="202" fill="url(#gWall)"/><g fill="'+w.d+'" opacity=".55">';
   for(var i=0;i<14;i++) for(var j=0;j<6;j++) h+='<circle cx="'+(-100+i*32+(j%2)*16)+'" cy="'+(6+j*28)+'" r="2.2"/>';
   h+='</g>';
-  /* guirnalda de banderines: alegra el cuarto y lo distingue del fondo */
-  var bx='', n=0;
-  for(var x=-46; x<246; x+=26, n++){ var yy=3+Math.sin((x+46)/292*Math.PI)*9; bx+='<path d="M'+x+' '+(yy-2)+' L'+(x+20)+' '+(yy-2)+' L'+(x+10)+' '+(yy+17)+' Z" fill="'+K.band[n%4]+'"/>'; }
-  h+='<path d="M-46 1 Q100 26 246 1" fill="none" stroke="'+K.zoc+'" stroke-width="1.8"/>'+bx;
   h+=ventanaMk();
   /* resplandor detrás de la mascota */
   h+='<circle cx="100" cy="104" r="104" fill="url(#gHalo)"/>';
@@ -247,6 +266,10 @@ function roomMk(s){
   h+='<path d="'+sj+'" stroke="'+K.linea+'" stroke-width="1.2" opacity=".8"/>';
   /* alfombra del color de la materia, donde se para la mascota */
   h+='<ellipse cx="100" cy="184" rx="92" ry="14.5" fill="'+K.al1+'"/><ellipse cx="100" cy="184" rx="80" ry="11.5" fill="none" stroke="#fff" stroke-width="2.4" stroke-dasharray="6 5" opacity=".85"/><ellipse cx="100" cy="184" rx="66" ry="8.5" fill="'+K.al2+'"/>';
+  /* lugares ocupados por objetos del alumno (mismas reglas que al dibujarlos) */
+  var ocup={};
+  ['A','B','C','D'].forEach(function(k){ var id=s.decor[k], it=id&&DECOR.filter(function(d){return d.id===id;})[0]; if(!it) return; if(it.mat&&it.mat!=='todas'&&it.mat!==ST.activa) return; if(it.req&&it.req.k==='etapa'&&(s.vis||0)<it.req.v) return; ocup[k]=1; });
+  ['A','D'].forEach(function(k){ if(!ocup[k]) h+=ambienteMk(ST.activa,k); });
   ['A','B','C','D'].forEach(function(k){
     var id=s.decor[k]; if(!id) return;
     var it=DECOR.filter(function(d){return d.id===id;})[0];

@@ -28,16 +28,16 @@ var CIENCIA = {
 var sci = { on: false, raf: 0, key: '' };
 function cienciaBtn() {
   var b = el('button', 'sciBtn'); b.id = 'sciBtn'; b.type = 'button'; b.setAttribute('aria-pressed', 'false');
-  b.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg><span>Ciencia</span>';
+  b.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg><span>Por dentro</span>';
   b.onclick = function () { cienciaOn(!sci.on); };
   $('stage').appendChild(b);
 }
 cienciaBtn();
 function cienciaOn(v) {
   sci.on = v; var b = $('sciBtn'); b.setAttribute('aria-pressed', v ? 'true' : 'false'); b.classList.toggle('on', v);
-  b.querySelector('span').textContent = v ? 'Listo' : 'Ciencia';
+  b.querySelector('span').textContent = v ? 'Cerrar' : 'Por dentro';
   if (!v) { cienciaQuita(); cancelAnimationFrame(sci.raf); return; }
-  var s = cur(); if (s.vis === 0) { say(s.name + ': Cuando me transforme podrás ver mis partes. ¡Sigue repasando!'); sci.on = false; b.classList.remove('on'); b.setAttribute('aria-pressed', 'false'); b.querySelector('span').textContent = 'Ciencia'; return; }
+  var s = cur(); if (s.vis === 0) { say(s.name + ': Cuando me transforme podrás ver mis partes por dentro. ¡Sigue repasando!'); sci.on = false; b.classList.remove('on'); b.setAttribute('aria-pressed', 'false'); b.querySelector('span').textContent = 'Por dentro'; return; }
   say(s.name + ': Toca una etiqueta para saber qué hace esa parte.'); cienciaPinta(); cienciaLoop();
 }
 function cienciaQuita() { var g = $('sciG'); if (g) g.remove(); var d = $('sciDim'); if (d) d.remove(); }

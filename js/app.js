@@ -1207,14 +1207,45 @@ function origenMini(m, c) {
   return '<svg viewBox="22 28 156 156" aria-hidden="true" style="--bc:' + c + '">' + origenMk(m.creature, .5) + '</svg>';
 }
 var generoElegido = null;
+/* Vista previa viva de la mascota con la carita del personaje elegido (ids únicos para no chocar con la mascota del cuarto) */
+function miniPetVivo(m, g, sx) {
+  var suf = '-' + (sx || 'ob') + '-' + m.id, s = buildPet(m.creature, 1), ids = [];
+  s.replace(/id="([A-Za-z0-9_]+)"/g, function (x, i) { ids.push(i); return x; });
+  ids.forEach(function (i) { s = s.split('id="' + i + '"').join('id="' + i + suf + '"').split('url(#' + i + ')').join('url(#' + i + suf + ')'); });
+  var c = COLORES.filter(function (x) { return x.id === m.col; })[0], d = el('div'); d.innerHTML = '<svg viewBox="-12 8 224 190" aria-hidden="true" style="--bc:' + c.c + '">' + s + '</svg>';
+  var q = function (i) { return d.querySelector('#' + i + suf); };
+  q('gb1').setAttribute('stop-color', c.l); q('gb2').setAttribute('stop-color', c.c);
+  q('gEyes').innerHTML = ojosMarkup('redondos'); q('gLash').innerHTML = g === 'f' ? LASH : ''; q('gBrow').innerHTML = g === 'm' ? BROW : '';
+  q('gMouth').innerHTML = '<path d="M89 120 Q100 132 111 120" fill="none" stroke="#2a2f45" stroke-width="4" stroke-linecap="round"/>';
+  return d.innerHTML;
+}
+function pintaObEggs() {
+  var h = $('ob-eggs'); h.innerHTML = '';
+  ORDEN.forEach(function (id) {
+    var m = MAT[id], d = el('button', 'obegg' + (generoElegido ? ' vivo' : '')), c = COLORES.filter(function (x) { return x.id === m.col; })[0].c;
+    d.type = 'button'; d.style.setProperty('--c', m.brand);
+    d.setAttribute('aria-label', m.n + ': ' + (m.names[generoElegido || 'n']) + '. Tócala para saludarla');
+    d.innerHTML = (generoElegido ? miniPetVivo(m, generoElegido) : origenMini(m, c)) + '<b>' + m.names[generoElegido || 'n'] + '</b><small>' + m.n + ' · empieza como ' + m.orig.n.toLowerCase() + '</small>';
+    d.onclick = function () {
+      d.classList.remove('hop'); void d.offsetWidth; d.classList.add('hop'); SFX.pop();
+      var n = m.names[generoElegido || 'n'], sy = $('ob-say'); sy.hidden = false; sy.textContent = n + ': ' + m.orig.ini;
+    };
+    h.appendChild(d);
+  });
+}
 function primeraVez() {
   generoElegido = null; aplicarCfg(); go('ob0');
-  var h = $('ob-eggs'); h.innerHTML = '';
-  ORDEN.forEach(function (id) { var m = MAT[id], d = el('div', 'obegg'); d.style.setProperty('--c', m.brand); d.innerHTML = origenMini(m, COLORES.filter(function (c) { return c.id === m.col; })[0].c) + '<b>' + m.n + '</b><small>' + m.orig.n + '</small>'; h.appendChild(d); });
+  $('ob-say').hidden = true; pintaObEggs();
   var sg = $('seg0'); sg.innerHTML = '';
   [['f', 'Niña'], ['m', 'Niño']].forEach(function (p) {
     var b = el('button', '', p[1]); b.setAttribute('role', 'radio'); b.setAttribute('aria-checked', 'false');
-    b.onclick = function () { generoElegido = p[0]; sg.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-checked', x === b ? 'true' : 'false'); }); $('ob-go').disabled = false; SFX.pop(); };
+    b.onclick = function () {
+      var cambio = generoElegido !== p[0]; generoElegido = p[0];
+      sg.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-checked', x === b ? 'true' : 'false'); });
+      $('ob-go').disabled = false; SFX.pop();
+      if (cambio) { pintaObEggs(); document.querySelectorAll('#ob-eggs .obegg').forEach(function (e, i) { e.style.animationDelay = (i * 90) + 'ms'; e.classList.add('hop'); });
+        var sy = $('ob-say'); sy.hidden = false; sy.textContent = MAT[ORDEN[0]].names[p[0]] + ', ' + MAT[ORDEN[1]].names[p[0]] + ' y ' + MAT[ORDEN[2]].names[p[0]] + ' ya te esperan. Toca a cada una para saludarla.'; }
+    };
     sg.appendChild(b);
   });
   $('ob-go').disabled = true;

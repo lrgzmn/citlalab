@@ -53,7 +53,8 @@
     <div class="h1" style="margin-top:30px">Te damos la bienvenida a Citlalab</div>
     <p class="p">Tienes tres mascotas, una por materia: un átomo, una célula madre y un matraz con un cristal. Son personajes de juego. Repasa para que se transformen, crezcan y llenen su cuarto de cosas nuevas.</p>
     <div class="obeggs" id="ob-eggs"></div>
-    <div class="seglbl">Quiero un personaje de</div>
+    <p class="obsay" id="ob-say" role="status" aria-live="polite" hidden></p>
+    <div class="seglbl">Elige tu personaje para empezar</div>
     <div class="seg" role="radiogroup" aria-label="Personaje" id="seg0"></div>
     <button class="cta" id="ob-go" disabled>Empezar</button>
     <p class="safe">Sin cuentas, sin anuncios, sin compras y sin internet. Tu avance se guarda solo en este dispositivo.</p>
@@ -372,6 +373,10 @@
       <p class="hint" id="rs-msg" role="status"></p>
     </section>
     <section class="setc">
+      <div class="setc-h"><span class="setc-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.500 9.500a2.500 2.500 0 1 1 3.500 2.300c-.7.400-1 .9-1 1.700M12 17h.01"/></svg></span><span><b>Ayuda</b><small>Si quieres recordar cómo funciona</small></span></div>
+      <div class="frow"><button class="cta sec" id="set-tour" type="button">Ver el recorrido de bienvenida</button></div>
+    </section>
+    <section class="setc">
       <div class="setc-h"><span class="setc-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 5 6v5c0 4.600 2.900 8.300 7 10 4.100-1.700 7-5.400 7-10V6z"/><path d="m9 12 2 2 4-4"/></svg></span><span><b>Copia de seguridad</b><small>Tu avance, a salvo</small></span></div>
       <p class="p" style="text-align:left;margin:2px 16px 4px">Tu avance se guarda solo en este dispositivo y no se envía a ningún lado. Descarga un archivo para tenerlo a salvo, pasarlo a otro dispositivo o recuperarlo si se borra el navegador. Incluye a todos los perfiles de este dispositivo.</p>
       <p class="hint" id="bk-ultimo" style="text-align:left;margin:0 18px 6px;min-height:0"></p>
@@ -397,6 +402,103 @@
     <button class="cta sec" id="set-back">Volver</button>
   </section>
 
+  <!-- Cielo -->
+  <section class="view" id="v-cielo" aria-label="Mi cielo">
+    <div class="h1" id="ci-t">Tu cielo</div>
+    <p class="p ci-sub" id="ci-sub" role="status"></p>
+    <div class="cielo">
+      <svg id="ci-svg" viewBox="0 0 300 240" role="group" aria-label="Constelación: una estrella por ficha"></svg>
+    </div>
+    <div class="stcard" id="ci-star" aria-live="polite"></div>
+    <p class="constxt" id="ci-const"></p>
+    <div class="lunacard" id="ci-luna"></div>
+    <div class="sub">Más para explorar</div>
+    <div class="cards2" id="ci-hub"></div>
+  </section>
+
+  <!-- Museo de errores -->
+  <section class="view" id="v-museo" aria-label="Museo de errores">
+    <div class="h1">Museo de errores</div>
+    <p class="p" style="text-align:center">Cada error es una hipótesis puesta a prueba. Aquí se guardan, y cuando las superas, se quedan como pruebas de lo que aprendiste.</p>
+    <div class="mukpi" id="mu-kpi"></div>
+    <div id="mu-lista" class="mulista"></div>
+    <div class="sub">Errores famosos de la ciencia</div>
+    <div id="mu-fam" class="mufam"></div>
+    <button class="cta sec" id="mu-back" type="button">Volver al cielo</button>
+  </section>
+
+  <!-- Cuaderno de la mascota -->
+  <section class="view" id="v-cuaderno" aria-label="Cuaderno de la mascota">
+    <div class="h1" id="cu-t">Cuaderno</div>
+    <p class="p ci-sub" id="cu-sub" role="status"></p>
+    <div class="cubar"><span class="t"><i id="cu-pr"></i></span><small id="cu-prt"></small></div>
+    <div class="sub">Antes creía... ahora sé</div>
+    <div id="cu-corr"></div>
+    <div class="sub">Gracias a ti ya sé sobre</div>
+    <div id="cu-temas" class="chipst"></div>
+    <button class="cta" id="cu-go" type="button">Corrígeme otra vez</button>
+    <button class="cta sec" id="cu-back" type="button">Volver al cielo</button>
+  </section>
+
+  <!-- Banco del grupo -->
+  <section class="view" id="v-grupo" aria-label="Banco del grupo">
+    <div class="h1">Banco del grupo</div>
+    <p class="p ci-sub">Escribe preguntas para tus compañeras y compañeros. Se comparten con un código de texto: no se envía nada por internet.</p>
+    <section id="gr-meta" class="metacard"></section>
+    <section class="gcard">
+      <h3>Escribe una pregunta</h3>
+      <label class="lbl" for="gr-f">Ficha</label><select id="gr-f" class="inp"></select>
+      <label class="lbl" for="gr-q">Pregunta</label><textarea id="gr-q" class="inp" rows="2" maxlength="160" placeholder="Por ejemplo: ¿Qué hace el axón de una neurona?"></textarea>
+      <label class="lbl" for="gr-o0">Respuesta correcta</label><input id="gr-o0" class="inp" maxlength="80" autocomplete="off">
+      <label class="lbl" for="gr-o1">Tres respuestas incorrectas que parezcan posibles</label>
+      <input id="gr-o1" class="inp" maxlength="80" autocomplete="off" aria-label="Respuesta incorrecta 1"><input id="gr-o2" class="inp" maxlength="80" autocomplete="off" aria-label="Respuesta incorrecta 2"><input id="gr-o3" class="inp" maxlength="80" autocomplete="off" aria-label="Respuesta incorrecta 3">
+      <label class="lbl" for="gr-e">¿Por qué es esa la respuesta? (opcional)</label><input id="gr-e" class="inp" maxlength="180" autocomplete="off">
+      <p class="hint" style="text-align:left;margin:2px 16px 6px">Tu pregunta saldrá con tu apodo (la primera palabra de tu nombre en Ajustes). Escribe con respeto: tu docente puede quitar lo que no sirva.</p>
+      <button class="cta" id="gr-save" type="button">Guardar mi pregunta</button>
+      <p class="hint" id="gr-msg1" role="status"></p>
+    </section>
+    <section class="gcard">
+      <h3 id="gr-mt">Mis preguntas</h3>
+      <div id="gr-mias" class="grlist"></div>
+      <div class="frow"><button class="cta sec" id="gr-jm" type="button">Jugar las mías</button><button class="cta sec" id="gr-cm" type="button">Copiar para compartir</button></div>
+    </section>
+    <section class="gcard">
+      <h3>Preguntas y cielos del grupo</h3>
+      <label class="lbl" for="gr-in">Pega aquí un código que te hayan compartido</label>
+      <textarea id="gr-in" class="inp" rows="3" placeholder="CTL:..."></textarea>
+      <button class="cta sec" id="gr-add" type="button">Agregar al grupo</button>
+      <p class="hint" id="gr-msg" role="status"></p>
+      <div id="gr-grupo" class="grlist"></div>
+      <div class="frow"><button class="cta sec" id="gr-jg" type="button">Jugar las del grupo</button><button class="cta sec" id="gr-cg" type="button">Copiar el banco</button></div>
+      <textarea id="gr-out" class="inp" rows="3" readonly hidden aria-label="Código para copiar"></textarea>
+    </section>
+    <section class="gcard">
+      <h3>Cielo del grupo</h3>
+      <p class="p" style="text-align:left;margin:2px 16px 6px">Cada quien comparte el código de su cielo. Entre todas y todos iluminan el cielo del grupo, sin tablas de posiciones: solo se ve cuánto brilla en conjunto.</p>
+      <div class="frow"><button class="cta sec" id="gr-cc" type="button">Copiar mi cielo</button><button class="cta" id="gr-vc" type="button">Ver el cielo del grupo</button></div>
+    </section>
+    <button class="cta sec" id="gr-back" type="button">Volver al cielo</button>
+  </section>
+
+  <!-- Cielo del grupo -->
+  <section class="view" id="v-cgrupo" aria-label="Cielo del grupo">
+    <div class="h1">Cielo del grupo</div>
+    <section id="cg-meta" class="metacard"></section>
+    <p class="p ci-sub" id="cg-sub" role="status"></p>
+    <div id="cg-skies"></div>
+    <button class="cta sec" id="cg-back" type="button">Volver al banco del grupo</button>
+  </section>
+
+  <!-- Recorrido de bienvenida -->
+  <section class="view" id="v-tour" aria-label="Recorrido de bienvenida">
+    <div class="tour-art" id="tour-art"></div>
+    <div class="h1" id="tour-t" role="status" aria-live="polite"></div>
+    <p class="p" id="tour-p"></p>
+    <div class="tour-dots" id="tour-dots" aria-hidden="true"></div>
+    <button class="cta" id="tour-sig" type="button">Siguiente</button>
+    <button class="link" id="tour-skip" type="button" style="display:block;margin:6px auto 0;min-height:44px">Saltar</button>
+  </section>
+
   <!-- Repaso -->
   <section class="view" id="v-quiz" aria-label="Repaso">
     <div class="qhead"><button class="link" id="q-exit" style="margin:0;min-height:36px;font-size:.85rem">Salir</button><span class="pr"><i id="q-pr"></i></span><span class="cnt" id="q-cnt"></span></div>
@@ -415,12 +517,14 @@
     <div class="res-list" id="r-list"></div>
     <div class="unl" id="r-unl" hidden></div>
     <button class="cta" id="r-custom" hidden>Estrenar lo nuevo</button>
+    <button class="cta sec" id="r-museo" type="button" hidden>Ver mi Museo de errores</button>
     <button class="cta sec" id="r-home">Volver al inicio</button>
   </section>
 
   </main>
   <nav class="nav" id="nav" aria-label="Secciones">
     <button data-v="home" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11 12 4l8 7v8a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z"/></svg><span>Inicio</span></button>
+    <button data-v="cielo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.4 5.6L20 11l-5.6 2.4L12 19l-2.4-5.6L4 11l5.6-2.4z"/></svg><span>Cielo</span></button>
     <button data-v="room"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M4 14h16M9 14v6"/></svg><span>Cuarto</span></button>
     <button data-v="custom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l1-4L16 5l3 3L8 19z"/><path d="M14 7l3 3"/></svg><span>Personalizar</span></button>
     <button data-v="prog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 20V11M12 20V5M18 20v-6"/></svg><span>Progreso</span></button>
@@ -444,6 +548,9 @@
 <script src="js/mascota_viva.js"></script>
 <script src="js/juegos4.js"></script>
 <script src="js/album.js"></script>
+<script src="js/cielo.js"></script>
+<script src="js/grupo.js"></script>
+<script src="js/recorrido.js"></script>
 <script>
 arrancar();
 if ('serviceWorker' in navigator && location.protocol.indexOf('http') === 0) {
