@@ -1288,15 +1288,14 @@ var ICO_CRED = {
 function unir(l) { return l.length < 2 ? l.join('') : l.slice(0, -1).join(', ') + ' y ' + l[l.length - 1]; }
 function pintarCreditos() {
   var C = window.CREDITOS || {}, eq = (C.equipo || []).filter(function (p) { return p && p.nombre; });
-  var btn = $('creditos'), q = $('quien-t'), pie = $('cr-pie'), vr = $('ver-app'); if (vr && typeof APP_VERSION !== 'undefined') vr.textContent = 'Citlalab · versión ' + APP_VERSION;
+  var btn = $('creditos'), q = $('quien-t'), vr = $('ver-app'); if (vr && typeof APP_VERSION !== 'undefined') vr.textContent = 'Citlalab · versión ' + APP_VERSION;
   if (btn) {
     btn.hidden = !eq.length; btn.innerHTML = '';
     var ic = el('span', 'cr-mini'); ic.innerHTML = '<svg viewBox="0 0 44 16" aria-hidden="true"><line x1="9" y1="8" x2="35" y2="8" stroke="currentColor" stroke-width="1.4" stroke-dasharray="1.5 3" stroke-linecap="round"/><path d="M8 1 L9.800 6.200 L15 8 L9.800 9.800 L8 15 L6.200 9.800 L1 8 L6.200 6.200 Z" fill="#ffb830"/><path d="M36 1 L37.800 6.200 L43 8 L37.800 9.800 L36 15 L34.200 9.800 L29 8 L34.200 6.200 Z" fill="#ffb830"/></svg>';
-    var tx = el('span', 'cr-tx'); tx.appendChild(document.createTextNode((C.titulo || '').replace(/…$/, '') + ' '));
-    eq.forEach(function (p, i) { var b = el('b', '', p.nombre); tx.appendChild(b); if (p.corto) tx.appendChild(document.createTextNode(' (' + p.corto + ')')); if (i < eq.length - 2) tx.appendChild(document.createTextNode(', ')); else if (i === eq.length - 2) tx.appendChild(document.createTextNode(' y ')); });
+    var tx = el('span', 'cr-tx'); tx.appendChild(document.createTextNode((C.titulo || '').replace(/…$/, '').trim())); tx.appendChild(document.createElement('br'));
+    eq.forEach(function (p, i) { var b = el('b', '', p.nombre.replace(/ /g, '\u00a0')); tx.appendChild(b); if (p.corto) tx.appendChild(document.createTextNode(' (' + p.corto.replace(/ /g, '\u00a0') + ')')); if (i < eq.length - 2) tx.appendChild(document.createTextNode(', ')); else if (i === eq.length - 2) tx.appendChild(document.createTextNode(' y ')); });
     btn.appendChild(ic); btn.appendChild(tx); btn.appendChild(el('span', 'cr-ch', '›')); btn.setAttribute('aria-label', 'Quiénes hicimos Citlalab: abrir');
   }
-  if (pie) { pie.hidden = !eq.length; pie.textContent = eq.length ? (C.titulo || '').replace(/…$/, '') + ' ' + unir(eq.map(function (p) { return p.nombre.split(' ')[0]; })) : ''; }
   if (q) {
     var partes = eq.map(function (p) { return (p.rol ? p.rol + ': ' : '') + (p.familias || p.nombre) + '.'; });
     q.textContent = eq.length ? partes.join(' ') + ' La app se hizo para el repaso de sus estudiantes.' : '';

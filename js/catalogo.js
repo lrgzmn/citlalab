@@ -97,7 +97,7 @@ function cofrePool(mat) {
   return r;
 }
 
-var APP_VERSION = '9-14';   /* debe coincidir con VERSION de sw.js; se muestra en Ajustes para saber qué versión se está usando */
+var APP_VERSION = '9-15';   /* debe coincidir con VERSION de sw.js; se muestra en Ajustes para saber qué versión se está usando */
 
 /* CRÉDITOS (se editan aquí, en un solo lugar).
    equipo: una persona por renglón, en el orden en que aparecen.

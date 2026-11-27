@@ -1,9 +1,8 @@
 /* =========================================================
    QUIÉNES HICIMOS CITLALAB
    Pantalla completa de los créditos: dos estrellas del mismo tamaño unidas por una línea. Ninguna nombre va por encima de la otra.
-   Se abre al tocar la tarjeta de Ajustes o el pie del Inicio. Los datos se editan en js/catalogo.js (objeto CREDITOS).
+   Se abre al tocar la tarjeta de créditos, al final de Ajustes. No aparece en el Inicio. Los datos se editan en js/catalogo.js (objeto CREDITOS).
    ========================================================= */
-var credDesde = 'set';
 function pintaCred() {
   var C = window.CREDITOS || {}, eq = (C.equipo || []).filter(function (p) { return p && p.nombre; }).slice(0, 2), host = $('cr-host'), i, fondo = '';
   if (!host) return;
@@ -25,7 +24,7 @@ function pintaCred() {
 }
 (function () {
   VISTAS.cred = { rt: 1 };
-  var g0 = go; go = function (v) { if (v === 'cred' && vistaActual !== 'cred') credDesde = vistaActual === 'home' ? 'home' : 'set'; g0(v); if (v === 'cred') pintaCred(); };
-  $('creditos').onclick = function () { go('cred'); }; $('cr-pie').onclick = function () { go('cred'); };
-  $('cr-back').onclick = function () { go(credDesde); };
+  var g0 = go; go = function (v) { g0(v); if (v === 'cred') pintaCred(); };
+  $('creditos').onclick = function () { go('cred'); };
+  $('cr-back').onclick = function () { go('set'); };
 })();
